@@ -1,0 +1,33 @@
+zaglavie
+snimki
+glavna snika
+avtor na review-to
+review-to
+vote up,vote down
+koga e napisano
+komentari kum statiite
+
+login
+newsfeed za igri i reviewta
+statii na purviq page
+vtori ekran spisuk s igri, pri natiskane vijdame reviewtata kum tazi igra
+komentari kum igrata
+
+potrebitelq moje da ima lubimi igri, sus surchice se otbelqzva
+
+ekran za potrebitelq, da moje da si smeni parolata, da moje da si vuvedesh imeto, kartinka, 
+spisuk s poslednite deinosti vuv saita
+
+potrebiteli i admnistratori
+potrebiteli suzdavat review-ta
+
+single page
+
+DISIGN PATTERN
+observer pattern : interface observer update in every viewmodel
+
+other option: propertyObserveer
+behavior
+repository pattern
+
+moje kum factory da dobavish object params i da gi castnesh vuv factory build kato argumenti 

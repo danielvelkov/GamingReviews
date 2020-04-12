@@ -1,0 +1,6 @@
+﻿create an interface that will wrap around the fields of the article and the list of comments that 
+go with it, that interface model will be used and passed as the data template in the review page
+and article page list respectively
+
+that way you can pass that interface and wrapboth objects in one so you cant be limited
+to only 1 object 
