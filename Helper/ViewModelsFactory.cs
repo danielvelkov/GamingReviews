@@ -8,18 +8,20 @@ namespace GamingReviews.Helper
 
     public static class ViewModelsFactory
     {
+
         public static BaseViewModel ViewModelType(ViewModelTypes currentType)
         {
             IView currentView;
             BaseViewModel currentViewModel;
+
             switch (currentType)
             {
                 case ViewModelTypes.LoginPageViewModel:
                     {
                         currentView = new LoginPageView();
-                        currentViewModel = new LoginPageViewModel();
+                        currentViewModel = new LoginPageViewModel(null);
                         currentView.DataContext = currentViewModel;
-                        currentViewModel.View = currentView;
+                       
 
                         return currentViewModel;
                     }
@@ -28,7 +30,7 @@ namespace GamingReviews.Helper
                         currentView = new HomePageView();
                         currentViewModel = new HomePageViewModel();
                         currentView.DataContext = currentViewModel;
-                        currentViewModel.View = currentView;
+                        
 
                         return currentViewModel;
                     }
@@ -37,7 +39,7 @@ namespace GamingReviews.Helper
                         currentView = new GamePageView();
                         currentViewModel = new GamePageViewModel();
                         currentView.DataContext = currentViewModel;
-                        currentViewModel.View = currentView;
+                        
 
                         return currentViewModel;
                     }
@@ -46,7 +48,7 @@ namespace GamingReviews.Helper
                         currentView = new UserPageView();
                         currentViewModel = new Testuser();
                         currentView.DataContext = currentViewModel;
-                        currentViewModel.View = currentView;
+                        
 
                         return currentViewModel;
                     }
@@ -55,16 +57,16 @@ namespace GamingReviews.Helper
                         currentView = new RegisterPageView();
                         currentViewModel = new RegisterPageViewModel();
                         currentView.DataContext = currentViewModel;
-                        currentViewModel.View = currentView;
+                       
 
-                        return currentViewModel;
+                        return  (RegisterPageViewModel)currentView.DataContext;
                     }
                 case ViewModelTypes.ArticleViewModel:
                     {
                         currentView = new ArticleView();
                         currentViewModel = new ArticleViewModel();
                         currentView.DataContext = currentViewModel;
-                        currentViewModel.View = currentView;
+                        
 
                         return currentViewModel;
                     }

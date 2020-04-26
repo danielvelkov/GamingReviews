@@ -18,7 +18,7 @@ namespace GamingReviews.ViewModels
             {
                 if (articles == null)
                 {
-                    using (var unitOfWork = new UnitOfWork(new DBContext()))
+                    using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                     {
                         articles = unitOfWork.Articles.GetAll() as List<Articles>;
                         if (articles.Count==0)

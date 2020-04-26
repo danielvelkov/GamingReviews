@@ -8,8 +8,6 @@ namespace GamingReviews.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
-        public IView View { get; set; }
-        
 
         static Users currentUser;
         static Articles selectedArticle;
@@ -38,9 +36,10 @@ namespace GamingReviews.ViewModels
 
         protected void NotifyPropertyChanged(string propertyName)
         {
-            if (PropertyChanged != null)
+            var handler = PropertyChanged;
+            if (handler != null)
             {
-                PropertyChanged(null, new PropertyChangedEventArgs(nameof(propertyName)));
+                handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
         

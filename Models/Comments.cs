@@ -16,7 +16,7 @@ namespace GamingReviews.Models
         public string Content { get; set; }
 
         public int User_id { get; set; }
-
+        
         public virtual Articles Articles { get; set; }
 
         public virtual Users Users { get; set; }

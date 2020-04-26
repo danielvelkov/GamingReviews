@@ -18,7 +18,7 @@ namespace GamingReviews.ViewModels
             {
                 if (games == null)
                 {
-                    using(var unitOfWork = new UnitOfWork(new DBContext()))
+                    using(var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                     {
                         
                         if (!unitOfWork.Games.Any())

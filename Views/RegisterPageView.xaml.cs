@@ -37,5 +37,7 @@ namespace GamingReviews.Views
             if (this.DataContext != null)
             { ((dynamic)this.DataContext).ConfirmPassword = ((PasswordBox)sender).Password; }
         }
+
+        
     }
 }

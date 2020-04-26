@@ -10,11 +10,19 @@ namespace GamingReviews.ViewModels
 {
     class LoginPageViewModel:BaseViewModel
     {
+
+        MainViewModel  _model;
         private string userName;
         //private User user;
 
         ICommand loginCommand;
         ICommand registerCommand;
+
+        public LoginPageViewModel(MainViewModel vm)
+        {
+            _model = vm;
+            
+        }
 
         public string UserName
         {
@@ -37,11 +45,23 @@ namespace GamingReviews.ViewModels
         {
             get
             {
-                if (loginCommand == null)
-                {
-                    loginCommand = new RelayCommand<Object>(LoginUser);
-                }
-                return loginCommand;
+                return loginCommand ?? (loginCommand =
+                  new RelayCommand<Object>(x =>
+                  {
+                      using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                      {
+                          Users user = unitOfWork.Users.SingleOrDefault(u => u.UserName == UserName && u.password == Password);
+                          if (user == null)
+                          {
+                              //err message that the user doesnt exist
+                              return;
+                          }
+                          // sets the current user
+                          this.SetCurrentUser(user);
+                      }
+                      Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
+                  }));
+               
             }
         }
 
@@ -49,11 +69,11 @@ namespace GamingReviews.ViewModels
         {
             get
             {
-                if (registerCommand == null)
-                {
-                    registerCommand = new RelayCommand<Object>(GoToRegisterScreen);
-                }
-                return registerCommand;
+                return registerCommand ?? (registerCommand =
+                 new RelayCommand<Object>(x =>
+                 {
+                     Mediator.NotifyColleagues("ChangeView", ViewModelTypes.RegisterPageViewModel);
+                 }));
             }
         }
 
@@ -61,7 +81,7 @@ namespace GamingReviews.ViewModels
         {
             // call service to get user
             
-           using (var unitOfWork = new UnitOfWork(new DBContext()))
+           using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
            {
                 Users user=unitOfWork.Users.SingleOrDefault(u => u.UserName == UserName && u.password == Password);
                 if (user == null)
@@ -77,10 +97,6 @@ namespace GamingReviews.ViewModels
             
         }
 
-        private void GoToRegisterScreen()
-        {
-            // change to register screen and viewmodel
-            App.Current.MainWindow.Content = ViewModelsFactory.ViewModelType(ViewModelTypes.RegisterPageViewModel);
-        }
+        
     }
 }

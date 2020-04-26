@@ -24,9 +24,7 @@ namespace GamingReviews.Views
     public partial class HomePageView : UserControl,IView
     {
         public HomePageView() { 
-
-
-
+            
             InitializeComponent();
         }
     }

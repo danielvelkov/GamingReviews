@@ -4,8 +4,10 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GamingReviews"
+             xmlns:diag="clr-namespace:System.Diagnostics;assembly=WindowsBase"
+             x:Name="RegisterControl"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="440" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -22,11 +24,12 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
 
         <Grid.Background>
-            <ImageBrush ImageSource="C:\Users\Administrator\Desktop\Project\GamingReviews\res\Images\games.png" Opacity="0.8"/>
+            <ImageBrush ImageSource="/res/Images/games.png" Opacity="0.8"/>
         </Grid.Background>
 
         <Label Content="Register" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" Foreground="Black"/>
@@ -38,6 +41,7 @@
         <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" Grid.Column="1" Grid.Row="6" Height="40" Width="200" Background="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"/>
         <Label Content="Confirm password:" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="Black"/>
         <PasswordBox PasswordChanged="PasswordBox_ConfirmPasswordChanged" Grid.Column="1" Grid.Row="8" Height="40" Width="200" Background="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"/>
-        <Button Command="{Binding RegisterUser}" x:Name="register" Grid.Column="1" Grid.Row="9" Content="Register" FontSize="25" Margin="10" Background="Black" Foreground="Red"/>
+        <Label Content="{Binding ErrorMsg,Mode=TwoWay}" Grid.Row="9" Grid.Column="1" Height="40" Foreground="Red" ></Label>
+        <Button Command="{Binding RegisterUser}" Grid.Column="1" Grid.Row="10" Content="Register" FontSize="25" Margin="10" Background="Black" Foreground="Red"/>
     </Grid>
 </UserControl>

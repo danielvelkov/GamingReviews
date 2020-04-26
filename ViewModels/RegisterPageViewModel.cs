@@ -2,11 +2,13 @@
 using GamingReviews.Interfaces;
 using GamingReviews.Models;
 using GamingReviews.Persistance;
+using GamingReviews.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace GamingReviews.ViewModels
@@ -19,6 +21,7 @@ namespace GamingReviews.ViewModels
         string password;
         string confirmPassword;
         string email;
+        string errorMsg;
 
         #endregion
 
@@ -76,6 +79,28 @@ namespace GamingReviews.ViewModels
             }
         }
 
+        public string ErrorMsg
+        {
+            get
+            {
+                if (errorMsg == null)
+                {
+                    errorMsg = "Password empty";
+                }
+                return errorMsg;
+            }
+            set
+            {
+                if (errorMsg != value)
+                {
+                    errorMsg = value;
+                    
+                    NotifyPropertyChanged("ErrorMsg");
+                }
+            }
+        }
+
+
         #endregion
 
         #region commands
@@ -96,15 +121,15 @@ namespace GamingReviews.ViewModels
 
         public void RegisterUserToDB()
         {
-
+            
             // first check if the username exists 
             // then check if the password match
 
             // register user service
             if (Password == ConfirmPassword) 
             {
-                Users newUser = new Users(UserName, "ADMIN", Password, new byte[0],Email);
-                using (var unitOfWork = new UnitOfWork(new DBContext()))
+                Users newUser = new Users(UserName, "USER", Password, new byte[0],Email);
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                 {
                     if (!unitOfWork.Users.DoesUserExist(UserName))
                     {
@@ -115,6 +140,7 @@ namespace GamingReviews.ViewModels
                     else
                     {
                         // set the error message to "user already exists"
+                        
                     }
                     unitOfWork.Complete();
                 }
@@ -122,9 +148,10 @@ namespace GamingReviews.ViewModels
             else
             {
                 // set the error message to "passwords dont match"
+                ErrorMsg = "Passwords dont match";
             }
-
-            App.Current.MainWindow.Content = ViewModelsFactory.ViewModelType(ViewModelTypes.LoginPageViewModel);
+            
+            //App.Current.MainWindow.Content = ViewModelsFactory.ViewModelType(ViewModelTypes.LoginPageViewModel);
         }
     }
 }

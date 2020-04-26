@@ -9,7 +9,7 @@
     <StackPanel Orientation="Vertical">
 
         <StackPanel.Background>
-            <ImageBrush ImageSource="C:\Users\Administrator\Desktop\Project\GamingReviews\res\Images\games.png" Opacity="0.5"/>
+            <ImageBrush ImageSource="/res/Images/games.png" Opacity="0.5"/>
         </StackPanel.Background>
 
         <Button Command="{Binding GoToUserProfile}" Content="Profile" Margin="10" FontSize="25" Width="100" Background="Black" Foreground="Red"/>

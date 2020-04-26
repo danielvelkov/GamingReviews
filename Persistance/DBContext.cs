@@ -1,29 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Entity;
+using System.Data.Entity;       //   <------
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GamingReviews.Models
 {
-    public class DBContext : DbContext
+
+    // needs nuget package of entity framework to work 
+    public class GameNewsLetterContext : DbContext
     {
 
         // for this to work we add the refference Configuration.dll in refferences
         // also in the ConnectionStrings[ <Insert connection string name here > ]
-        public DBContext()
+        public GameNewsLetterContext()
             : base("name=GamesNewsLetter")
         {
 
         }
 
+        // these are all tables in the database
         public virtual DbSet<Articles> Articles { get; set; }
         public virtual DbSet<Comments> Comments { get; set; }
         public virtual DbSet<Games> Games { get; set; }
         public virtual DbSet<Reviews> Reviews { get; set; }
         public virtual DbSet<Users> Users { get; set; }
 
+        // set their properties and relations here 
+        // NOTE: you need to change the model classes first
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Articles>()

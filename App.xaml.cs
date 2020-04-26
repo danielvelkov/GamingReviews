@@ -32,10 +32,7 @@ namespace GamingReviews
             // set it to the main window
             MainWindowView view = new MainWindowView();
             MainViewModel viewModel = new MainViewModel();
-
             view.DataContext = viewModel;
-            viewModel.View = view;
-            
             view.Show();
 
             base.OnStartup(e);

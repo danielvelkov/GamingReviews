@@ -46,15 +46,23 @@ namespace GamingReviews.Models
 
         public byte[] Image { get; set; }
 
+
+        // these two navigation properties are there
+        // because of the lazy loading feature of entity framework
+        /// <summary>
+        /// Lazy Loading means that the contents of these properties will be automatically loaded from the database when you try to access them.
+        /// </summary>
+
         public virtual Games Games { get; set; }
 
         public virtual Users Users { get; set; }
 
+        // article has only 1 author and 1 game name 
         public string Author
         {
             get
             {
-                using (var unitOfWork = new UnitOfWork(new DBContext()))
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                 {
                     var author = unitOfWork.Users.Get(User_id).UserName;
                     return author;
@@ -66,7 +74,7 @@ namespace GamingReviews.Models
         {
             get
             {
-                using (var unitOfWork = new UnitOfWork(new DBContext()))
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                 {
                     var gameName = unitOfWork.Games.Get(game_id).name;
                     return gameName;
@@ -78,6 +86,7 @@ namespace GamingReviews.Models
         {
             get
             {
+                // wtf is going on here lmao
                 var imageData = Image;
                 if (imageData == null || imageData.Length < 20)
                 {

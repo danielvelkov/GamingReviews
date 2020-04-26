@@ -10,11 +10,11 @@ namespace GamingReviews.Persistance.Repositories
 {
     class CommentsRepository:Repository<Comments>, ICommentsRepository
     {
-        public CommentsRepository(DBContext context) : base(context) { }
+        public CommentsRepository(GameNewsLetterContext context) : base(context) { }
 
-        public DBContext PlutoContext
+        public GameNewsLetterContext PlutoContext
         {
-            get { return Context as DBContext; }
+            get { return Context as GameNewsLetterContext; }
         }
 
         // implement the methods from the used interface

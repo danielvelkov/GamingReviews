@@ -15,9 +15,9 @@ namespace GamingReviews.Persistance
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly DBContext _context;
+        private readonly GameNewsLetterContext _context;
 
-        public UnitOfWork(DBContext context)
+        public UnitOfWork(GameNewsLetterContext context)
         {
             _context = context;
             Users = new UserRepository(_context);

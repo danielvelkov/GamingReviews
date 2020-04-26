@@ -20,7 +20,7 @@ namespace GamingReviews.Models
 
         public TEntity Get(int id)
         {
-            // Here we are working with a DbContext, not DBContext. So we don’t have DbSets
+            // Here we are working with a DbContext, not GameNewsLetterContext. So we don’t have DbSets
             // such as Courses or Authors, and we need to use the generic Set() method to access them.
             return Context.Set<TEntity>().Find(id);
         }

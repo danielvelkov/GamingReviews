@@ -11,11 +11,11 @@ namespace GamingReviews.Persistance.Repositories
     class GamesRepository: Repository<Games>, IGamesRepository
     {
 
-        public GamesRepository(DBContext context) : base(context) { }
+        public GamesRepository(GameNewsLetterContext context) : base(context) { }
 
-        public DBContext PlutoContext
+        public GameNewsLetterContext PlutoContext
         {
-            get { return Context as DBContext; }
+            get { return Context as GameNewsLetterContext; }
         }
 
         public bool Any()

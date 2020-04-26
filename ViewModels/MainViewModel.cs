@@ -6,46 +6,50 @@ using GamingReviews.Interfaces;
 
 namespace GamingReviews.ViewModels
 {
-    class MainViewModel:BaseViewModel
+    public class MainViewModel : BaseViewModel
     {
-        private ICommand changeContentCommand;
-        private BaseViewModel currentContent;
+        private ICommand updateViewCommand;
+        private BaseViewModel _currentContent;
 
-        public ICommand ChangeContentCommand
+        public MainViewModel()
         {
+            Mediator.Register("ChangeView", ChangeContent);
+
+            
+        }
+
+        public ICommand UpdateViewCommand {
             get
             {
-                if (changeContentCommand == null)
-                    changeContentCommand = new RelayCommand<Object>(ChangeContent);
-
-                return changeContentCommand;
+                return updateViewCommand ?? (updateViewCommand = new RelayCommand<Object>(x =>
+                   {
+                       Mediator.NotifyColleagues("ChangeView", x);
+                   }));
             }
         }
 
-        public void ChangeContent(object param)
+        void ChangeContent(object ViewModel )
         {
-            var currentType = (ViewModelTypes)param;
-
-            CurrentContent = ViewModelsFactory.ViewModelType(currentType);
+            CurrentContent = ViewModelsFactory.ViewModelType((ViewModelTypes)ViewModel);
         }
 
         public BaseViewModel CurrentContent
         {
             get
             {
-                if (currentContent == null)
-                    ChangeContent(ViewModelTypes.LoginPageViewModel);
-                return currentContent;
+                if (_currentContent == null)
+                    _currentContent = new LoginPageViewModel(this);
+                return _currentContent;
             }
             set
             {
-                if (currentContent == value)
+                if (_currentContent == value)
                     return;
 
-                currentContent = value;
-                
-                NotifyPropertyChanged(nameof(CurrentContent));
+                _currentContent = value;
+                NotifyPropertyChanged("CurrentContent");
             }
         }
+        
     }
 }

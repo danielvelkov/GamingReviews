@@ -14,18 +14,17 @@ namespace GamingReviews.ViewModels
 {
     class ArticleViewModel:BaseViewModel
     {
-        
         public string Author
         {
             get
             {
-                using (var unitOfWork = new UnitOfWork(new DBContext()))
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                 {
                     Articles currentArticle = GetSelectedArticle();
                    Users user =unitOfWork.Users.Find(u => u.Id == currentArticle.User_id).FirstOrDefault();
                     if (user == null)
                     {
-                        return "anonymouse";
+                        return "anonymous";
                     }
                     else
                         return user.UserName;
@@ -64,7 +63,9 @@ namespace GamingReviews.ViewModels
                 var imageData = GetSelectedArticle().Image;
                 if(imageData==null || imageData.Length < 20)
                 {
-                    return new BitmapImage(new Uri("C:\\Users\\Administrator\\Desktop\\Project\\GamingReviews\\res\\Images\\no image.png"));
+                    // taken from here: https://stackoverflow.com/questions/350027/setting-wpf-image-source-in-code
+
+                    return new BitmapImage(new Uri(@"/GamingReviews;component/res/Images/no image.png",UriKind.Relative));
                 }
                 var image = new BitmapImage();
                 using(var mem= new MemoryStream(imageData))

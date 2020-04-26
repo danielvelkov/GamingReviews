@@ -31,3 +31,7 @@ behavior
 repository pattern
 
 moje kum factory da dobavish object params i da gi castnesh vuv factory build kato argumenti 
+
+
+
+

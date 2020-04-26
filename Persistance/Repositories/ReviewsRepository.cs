@@ -9,11 +9,11 @@ namespace GamingReviews.Models
 {
     class ReviewsRepository:Repository<Reviews>, IReviewsRepository
     {
-        public ReviewsRepository(DBContext context) : base(context) { }
+        public ReviewsRepository(GameNewsLetterContext context) : base(context) { }
 
-        public DBContext PlutoContext
+        public GameNewsLetterContext PlutoContext
         {
-            get { return Context as DBContext; }
+            get { return Context as GameNewsLetterContext; }
         }
 
         // implement the methods from the used interface
