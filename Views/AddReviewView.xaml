@@ -13,9 +13,14 @@
         </StackPanel.Background>
         <TextBlock Text="Game:" FontSize="15" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red"/>
         <TextBox Text="{Binding Game}" Background="WhiteSmoke" Width="300" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Text="Add review" FontSize="20" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red"/>
+        <TextBlock Text="Add review:" FontSize="20" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red"/>
 
         <TextBox Text="{Binding Review}" Width="500" Height="250" Background="WhiteSmoke" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Foreground="Black"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Content="Preview article" Width="150" Margin="10" Background="Black" Foreground="Red" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+            <Button Content="Add" Width="100" Margin="10" Background="Black" Foreground="Red" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+
+        </StackPanel>
         <Button Content="Add" Width="100" Margin="10" Background="Black" Foreground="Red" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
     </StackPanel>
 </UserControl>

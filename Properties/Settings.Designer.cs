@@ -26,8 +26,8 @@ namespace GamingReviews.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=THINKPAD-PC\\SQLEXPRESS;Initial Catalog=GamesNewsLetter2DB;Integrated " +
-            "Security=True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=LENOVO-PC;Initial Catalog=GamesNewsLetter2DB;Integrated Security=True" +
+            "")]
         public string jsjsjsjsj {
             get {
                 return ((string)(this["jsjsjsjsj"]));

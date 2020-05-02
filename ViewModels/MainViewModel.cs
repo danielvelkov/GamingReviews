@@ -30,7 +30,7 @@ namespace GamingReviews.ViewModels
 
         void ChangeContent(object ViewModel )
         {
-            CurrentContent = ViewModelsFactory.ViewModelType((ViewModelTypes)ViewModel);
+            CurrentContent = ViewModelsFactory.ViewModelType((ViewModelTypes)Enum.Parse(typeof(ViewModelTypes),ViewModel.ToString()));
         }
 
         public BaseViewModel CurrentContent

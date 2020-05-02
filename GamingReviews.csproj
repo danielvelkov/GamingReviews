@@ -97,6 +97,7 @@
     <Compile Include="Persistance\Repositories\UserRepository.cs" />
     <Compile Include="Models\UserTest.cs" />
     <Compile Include="Persistance\UnitOfWork.cs" />
+    <Compile Include="ViewModels\AddReviewViewModel.cs" />
     <Compile Include="ViewModels\ArticleViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\GamePageViewModel.cs" />
@@ -211,6 +212,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="res\Images\no image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\Icons\previous_page.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\Icons\next_page.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -28,9 +28,8 @@ observer pattern : interface observer update in every viewmodel
 
 other option: propertyObserveer
 behavior
-repository pattern
+repository pattern (DONE)
 
-moje kum factory da dobavish object params i da gi castnesh vuv factory build kato argumenti 
 
 
 
