@@ -4,26 +4,28 @@ using GamingReviews.Models;
 using GamingReviews.Persistance;
 using GamingReviews.Views;
 using System;
+using System.Globalization;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 
 namespace GamingReviews.ViewModels
 {
     class LoginPageViewModel:BaseViewModel
     {
-
-        MainViewModel  _model;
-        private string userName;
-        //private User user;
-
+        #region fields
+        string userName;
+        string errorMsg;
         ICommand loginCommand;
         ICommand registerCommand;
+        #endregion
 
         public LoginPageViewModel(MainViewModel vm)
         {
-            _model = vm;
+            
             
         }
 
+        #region Parameters
         public string UserName
         {
             get { return userName; }
@@ -38,8 +40,23 @@ namespace GamingReviews.ViewModels
             }
         }
 
+        public string ErrorMsg
+        {
+            get { return errorMsg; }
+            set
+            {
+                // probably needs some validation here
+                if (errorMsg != value)
+                {
+                    errorMsg = value;
+                    NotifyPropertyChanged("ErrorMsg");
+                }
+            }
+        }
+
         // you get the password at the password changed event. SEE  the codebehind-> LoginPageView.xaml.cs 
         public string Password { private get; set; }
+        #endregion
 
         public ICommand LoginCommand
         {
@@ -50,16 +67,27 @@ namespace GamingReviews.ViewModels
                   {
                       using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                       {
-                          Users user = unitOfWork.Users.SingleOrDefault(u => u.UserName == UserName && u.password == Password);
+                          Users user = unitOfWork.Users.SingleOrDefault(u => u.UserName == UserName);
                           if (user == null)
                           {
                               //err message that the user doesnt exist
+                              ErrorMsg = "User does not exist";
                               return;
                           }
-                          // sets the current user
-                          this.SetCurrentUser(user);
+                          //cuz it returns password from sql with whitespaces in the end
+                          user.password=Regex.Replace(user.password, @"\s+", "");
+                          if (user.password==Password)
+                          {
+                              // sets the current user
+                              this.SetCurrentUser(user);
+                              // change to home screen
+                              Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
+                          }
+                          ErrorMsg = "password doesnt match";
+                          return;
+                         
                       }
-                      Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
+                     
                   }));
                
             }
@@ -75,26 +103,6 @@ namespace GamingReviews.ViewModels
                      Mediator.NotifyColleagues("ChangeView", ViewModelTypes.RegisterPageViewModel);
                  }));
             }
-        }
-
-        private void LoginUser()
-        {
-            // call service to get user
-            
-           using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
-           {
-                Users user=unitOfWork.Users.SingleOrDefault(u => u.UserName == UserName && u.password == Password);
-                if (user == null)
-                {
-                    //err message that the user doesnt exist
-                    return;
-                }
-                // sets the current user
-                this.SetCurrentUser(user);
-           }
-            // change to login screen and viewmodel
-             App.Current.MainWindow.Content = ViewModelsFactory.ViewModelType(ViewModelTypes.HomePageViewModel);
-            
         }
 
         

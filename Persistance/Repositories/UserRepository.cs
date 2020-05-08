@@ -26,6 +26,15 @@ namespace GamingReviews.Models
             }
             return true;
         }
+        public bool DoesEmailExist(string Email)
+        {
+            Users user = PlutoContext.Users.SingleOrDefault(a => a.Email == Email);
+            if (user == null)
+            {
+                return false;
+            }
+            return true;
+        }
         
     }
 }

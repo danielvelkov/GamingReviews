@@ -12,5 +12,6 @@ namespace GamingReviews.Core.Repositories
     {
         // methods concerning 
         bool DoesUserExist(string Username);
+        bool DoesEmailExist(string Email);
     }
 }

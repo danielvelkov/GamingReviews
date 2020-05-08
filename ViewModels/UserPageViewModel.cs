@@ -2,10 +2,11 @@
 using GamingReviews.Models;
 using System;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace GamingReviews.ViewModels
 {
-    class Testuser : BaseViewModel
+    class UserPageViewModel : BaseViewModel
     {
         #region fields
 
@@ -13,6 +14,8 @@ namespace GamingReviews.ViewModels
         string password;
         string confirmPassword;
         string email;
+        string type;
+        BitmapImage profilePic; 
 
         #endregion
 
@@ -68,7 +71,45 @@ namespace GamingReviews.ViewModels
             }
         }
 
+        public string Type
+        {
+            get { return type; }
+            set
+            {
+                if (type != value)
+                {
+                    type = value;
+                    NotifyPropertyChanged("Type");
+                }
+            }
+        }
+
+        public BitmapImage ProfilePic
+        {
+            get { return profilePic; }
+            set
+            {
+                if (profilePic != value)
+                {
+                    profilePic = value;
+                    NotifyPropertyChanged("ProfilePic");
+                }
+            }
+        }
+
         ICommand saveChanges;
+
+        public UserPageViewModel()
+        {
+            Users CurrentUser = base.GetCurrentUser();
+            UserName = CurrentUser.UserName;
+            Email = CurrentUser.Email;
+            UserName = CurrentUser.UserName;
+            Type = CurrentUser.UserType;
+
+            ByteArrayToBitmapImageConverter converter = new ByteArrayToBitmapImageConverter();
+            ProfilePic = (BitmapImage)converter.Convert(CurrentUser.image, null, null, null);
+        }
 
         public ICommand SaveChanges
         {
@@ -85,7 +126,7 @@ namespace GamingReviews.ViewModels
             // first check if the username exists 
             // then check if the password match
             if (Password == ConfirmPassword) //do something
-                ;
+                Password=Password;
             // then check if its an valid email
 
             // find where the current user is

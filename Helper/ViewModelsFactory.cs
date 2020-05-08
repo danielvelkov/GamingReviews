@@ -46,7 +46,7 @@ namespace GamingReviews.Helper
                 case ViewModelTypes.UserPageViewModel:
                     {
                         currentView = new UserPageView();
-                        currentViewModel = new Testuser();
+                        currentViewModel = new UserPageViewModel();
                         currentView.DataContext = currentViewModel;
                         
 

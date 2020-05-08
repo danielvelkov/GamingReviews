@@ -12,21 +12,23 @@
         xmlns:v="clr-namespace:GamingReviews.Views"
         
         mc:Ignorable="d"
-        Title="MainWindow" Height="490" Width="800"
+        Title="MainWindow" Height="690" Width="900"
         ResizeMode="CanResize">
-    <ScrollViewer>
         <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
-        
-            <ContentControl Grid.Row="1" Content="{Binding CurrentContent}"/>
-        
+        <ScrollViewer Grid.Row="1">
+
+            <ContentControl Content="{Binding CurrentContent}"/>
+       </ScrollViewer>
+
             <Menu Grid.Row="0">
                 <MenuItem Header="Go to.." >
                      <MenuItem Header="User page" Command="{Binding UpdateViewCommand}" CommandParameter="UserPageViewModel"></MenuItem>
                      <MenuItem Header="Home" Command="{Binding UpdateViewCommand}" CommandParameter="HomePageViewModel"></MenuItem>
+                     <MenuItem Header="Games page" Command="{Binding UpdateViewCommand}" CommandParameter="GamePageViewModel"></MenuItem>
                 </MenuItem>
                 
                 <MenuItem Width="30" Height="30">
@@ -39,12 +41,12 @@
                         <Image Source="/res/Icons/next_page.png"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                
+                <MenuItem   Header="Sign out" Command="{Binding UpdateViewCommand}" CommandParameter="LoginPageViewModel"></MenuItem>
             </Menu>
         
     </Grid>
     
-</ScrollViewer>
+
     
     
 </Window>

@@ -14,6 +14,7 @@ namespace GamingReviews.Helper
 
         public RelayCommand(Action<T> methodToExecute)
         {
+            
             this.method = methodToExecute;
         }
 

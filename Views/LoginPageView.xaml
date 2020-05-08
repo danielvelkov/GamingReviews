@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GamingReviews"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="550" d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -19,6 +19,8 @@
             <RowDefinition Height="auto"/>
             <RowDefinition/>
             <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <Grid.Background>
@@ -30,9 +32,10 @@
         <TextBox x:Name="username" Text="{Binding UserName}" Grid.Column="1" Grid.Row="2" Height="40" Width="200" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <Label Content="Password:" Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20" Foreground="Black"/>
         <PasswordBox x:Name="password" PasswordChanged="PasswordBox_PasswordChanged" Grid.Column="1" Grid.Row="4" Height="40" Width="200" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Button x:Name="login"  Command="{Binding LoginCommand}" Grid.Column="1" Grid.Row="5" Content="LOGIN" FontSize="20" Margin="20" Background="Black" Foreground="Red"/>
+        <Button Command="{Binding LoginCommand}" Grid.Column="1" Grid.Row="6" Content="LOGIN" FontSize="20" Margin="20" Background="Red" Foreground="Black"/>
+        <Label Content="{Binding ErrorMsg,Mode=TwoWay}" Grid.Row="5" Grid.Column="1" Height="40" Foreground="Red" ></Label>
         <Label Content="Not a member?" Grid.Column="2" Grid.Row="4" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20"/>
-        <Button x:Name="signup" Command="{Binding RegisterCommand}" Grid.Column="2" Grid.Row="5" Content="SIGN UP" Margin="20" FontSize="20" Foreground="Black" Background="Red"/>
+        <Button Command="{Binding RegisterCommand}" Grid.Column="2" Grid.Row="5" Content="SIGN UP" Margin="20" FontSize="20" Foreground="Black" Background="Red"/>
     </Grid>
 </UserControl>
 

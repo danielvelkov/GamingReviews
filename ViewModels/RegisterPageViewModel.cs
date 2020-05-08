@@ -3,6 +3,7 @@ using GamingReviews.Interfaces;
 using GamingReviews.Models;
 using GamingReviews.Persistance;
 using GamingReviews.Views;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Imaging;
 
 namespace GamingReviews.ViewModels
 {
@@ -22,7 +24,8 @@ namespace GamingReviews.ViewModels
         string confirmPassword;
         string email;
         string errorMsg;
-
+        string fileName;
+        BitmapImage displayedImage;
         #endregion
 
         #region parameters
@@ -100,12 +103,44 @@ namespace GamingReviews.ViewModels
             }
         }
 
+        public BitmapImage DisplayedImage
+        {
+            get
+            {
+                
+                if (!string.IsNullOrEmpty(fileName))
+                {
+                    displayedImage = new BitmapImage();
+                    displayedImage.BeginInit();
+                    displayedImage.CacheOption = BitmapCacheOption.OnLoad;
+                    displayedImage.CreateOptions = BitmapCreateOptions.IgnoreImageCache;
+                    displayedImage.UriSource = new Uri(fileName);
+                    displayedImage.DecodePixelWidth = 200;
+                    displayedImage.EndInit();
+                }
+                else
+                {
+                    return displayedImage= new BitmapImage(new Uri(@"/GamingReviews;component/res/Images/no image.png", UriKind.Relative));
+                }
+                return displayedImage;
+            }
+            set
+            {
+                if (displayedImage != value)
+                {
+                    displayedImage = value;
+                    NotifyPropertyChanged("DisplayedImage");
+                }
+            }
+        }
+
 
         #endregion
 
         #region commands
 
         ICommand registerUser;
+        ICommand selectImage;
 
         public ICommand RegisterUser
         {
@@ -114,6 +149,37 @@ namespace GamingReviews.ViewModels
                 if (registerUser == null)
                     registerUser = new RelayCommand<Object>(RegisterUserToDB);
                 return registerUser;
+            }
+        }
+
+        public ICommand SelectImage
+        {
+            get
+            {
+                if (selectImage == null)
+                {
+                    selectImage = new RelayCommand<Object>(x =>
+                     {
+                         OpenFileDialog FileSelectDialog = new OpenFileDialog();
+                         FileSelectDialog.Filter= "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) |" +
+                         " *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
+                         FileSelectDialog.Multiselect = false;
+                         FileSelectDialog.Title = "Select your profile pic...";
+                         if (FileSelectDialog.ShowDialog() == true)
+                         {
+                             fileName = FileSelectDialog.FileName;
+                             //checks if image is 500x500 and under 256kb
+                             if (
+                             CheckImageSize(new Uri(fileName))
+                             == true)
+                             {
+                                 DisplayedImage = new BitmapImage(new Uri(fileName));
+                             }
+                             else ErrorMsg = "wrong picture size!";
+                         }
+                     });
+                }
+                return selectImage;
             }
         }
 
@@ -128,19 +194,28 @@ namespace GamingReviews.ViewModels
             // register user service
             if (Password == ConfirmPassword) 
             {
-                Users newUser = new Users(UserName, "USER", Password, new byte[0],Email);
+               
                 using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                 {
                     if (!unitOfWork.Users.DoesUserExist(UserName))
                     {
-                        // then check if its an valid email
-                        // then check if image is null  (not sure)
-                        unitOfWork.Users.Add(newUser);
+                        if (!unitOfWork.Users.DoesEmailExist(Email))
+                        {
+                            // Image conversion
+                            byte[] imageData = BitMapToByteArray.Convert(DisplayedImage);
+                            Users newUser = new Users(UserName,
+                                "USER", Password, imageData, Email);
+                            unitOfWork.Users.Add(newUser);
+                            MessageBox.Show("Registration complete. Congratulations!"
+                                , "success", MessageBoxButton.OK);
+                        }
+                          
+                        else ErrorMsg = "email already in use";
                     }
                     else
                     {
                         // set the error message to "user already exists"
-                        
+                        ErrorMsg = "User already exists";
                     }
                     unitOfWork.Complete();
                 }
@@ -151,7 +226,22 @@ namespace GamingReviews.ViewModels
                 ErrorMsg = "Passwords dont match";
             }
             
-            //App.Current.MainWindow.Content = ViewModelsFactory.ViewModelType(ViewModelTypes.LoginPageViewModel);
+            
         }
+
+        #region methods
+
+        bool CheckImageSize(Uri filePath)
+        {
+            BitmapImage image = new BitmapImage(filePath);
+            if(image.PixelWidth==500 && image.PixelHeight==500)
+            {
+                return true;
+            }
+            return false;
+        }
+        #endregion
+
     }
+
 }
