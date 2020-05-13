@@ -3,6 +3,7 @@ using System;
 using System.Windows.Input;
 using GamingReviews.Views;
 using GamingReviews.Interfaces;
+using System.Collections.Generic;
 
 namespace GamingReviews.ViewModels
 {
@@ -10,12 +11,11 @@ namespace GamingReviews.ViewModels
     {
         private ICommand updateViewCommand;
         private BaseViewModel _currentContent;
-
+        private List<BaseViewModel> history;
+        
         public MainViewModel()
         {
             Mediator.Register("ChangeView", ChangeContent);
-
-            
         }
 
         public ICommand UpdateViewCommand {
@@ -27,7 +27,7 @@ namespace GamingReviews.ViewModels
                    }));
             }
         }
-
+        
         void ChangeContent(object ViewModel )
         {
             CurrentContent = ViewModelsFactory.ViewModelType((ViewModelTypes)Enum.Parse(typeof(ViewModelTypes),ViewModel.ToString()));
@@ -45,7 +45,6 @@ namespace GamingReviews.ViewModels
             {
                 if (_currentContent == value)
                     return;
-
                 _currentContent = value;
                 NotifyPropertyChanged("CurrentContent");
             }

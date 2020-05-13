@@ -35,6 +35,18 @@ namespace GamingReviews.Models
             }
             return true;
         }
-        
+        public void UpdatePassword(int id,string newPassword)
+        {
+            Users user = PlutoContext.Users.SingleOrDefault(a => a.Id == id);
+            user.password = newPassword;
+            PlutoContext.SaveChanges();
+        }
+
+        public void UpdateImage(int id, byte[] image)
+        {
+            Users user = PlutoContext.Users.SingleOrDefault(a => a.Id == id);
+            user.image = image.ToArray();
+            PlutoContext.SaveChanges();
+        }
     }
 }

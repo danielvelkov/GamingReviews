@@ -6,3 +6,6 @@ that way you can pass that interface and wrapboth objects in one so you cant be 
 to only 1 object 
 
 add drop down menu that enable after you login 
+
+error msg could be a property in the MainWindowVM and every user control could change it or we could
+inherit it from the baseviewmodel class for 

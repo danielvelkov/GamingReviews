@@ -28,9 +28,6 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        <Grid.Background>
-            <ImageBrush ImageSource="/res/Images/games.png" Opacity="0.8"/>
-        </Grid.Background>
 
         <Label Content="Register" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" Foreground="Black"/>
         <Label Content="Email:" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="Red"/>

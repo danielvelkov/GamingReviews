@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 
 namespace GamingReviews.Helper
 {
+    [ValueConversion(typeof(byte[]), typeof(BitmapImage))]
     public class ByteArrayToBitmapImageConverter:IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -19,7 +20,7 @@ namespace GamingReviews.Helper
             if (rawImageData == null)
                 return null;
 
-            var bitmapImage = new System.Windows.Media.Imaging.BitmapImage();
+            var bitmapImage = new BitmapImage();
             using (var stream = new MemoryStream(rawImageData))
             {
                 try
@@ -32,8 +33,7 @@ namespace GamingReviews.Helper
                 }
                 catch(Exception e)
                 {
-                    MessageBox.Show("No image available at all","wtf", MessageBoxButton.OK);
-                    return null;
+                    return new BitmapImage(new Uri(@"/GamingReviews;component/res/Images/no image.png", UriKind.Relative));
                 }
             }
             return bitmapImage;

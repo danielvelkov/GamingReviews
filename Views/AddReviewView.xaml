@@ -8,9 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <StackPanel Orientation="Vertical">
 
-        <StackPanel.Background>
-            <ImageBrush ImageSource="/res/Images/games.png" Opacity="0.3"/>
-        </StackPanel.Background>
+        
         <TextBlock Text="Game:" FontSize="15" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red"/>
         <TextBox Text="{Binding Game}" Background="WhiteSmoke" Width="300" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
         <TextBlock Text="Add review:" FontSize="20" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red"/>

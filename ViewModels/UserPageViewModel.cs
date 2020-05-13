@@ -1,13 +1,29 @@
 ﻿using GamingReviews.Helper;
 using GamingReviews.Models;
+using GamingReviews.Persistance;
+using Microsoft.Win32;
 using System;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace GamingReviews.ViewModels
 {
     class UserPageViewModel : BaseViewModel
     {
+        public UserPageViewModel()
+        {
+            Users CurrentUser = base.GetCurrentUser();
+            UserName = CurrentUser.UserName;
+            Email = CurrentUser.Email;
+            UserName = CurrentUser.UserName;
+            Type = CurrentUser.UserType;
+            ProfilePic = CurrentUser.image;
+        }
+
         #region fields
 
         string userName;
@@ -15,10 +31,12 @@ namespace GamingReviews.ViewModels
         string confirmPassword;
         string email;
         string type;
-        BitmapImage profilePic; 
+        byte[] profilePic;
+        string errorMsg;
 
         #endregion
 
+        #region parameters
         public string UserName
         {
             get { return userName; }
@@ -84,32 +102,37 @@ namespace GamingReviews.ViewModels
             }
         }
 
-        public BitmapImage ProfilePic
+        public byte[] ProfilePic
         {
             get { return profilePic; }
             set
             {
                 if (profilePic != value)
                 {
-                    profilePic = value;
+                    profilePic = value.ToArray();
                     NotifyPropertyChanged("ProfilePic");
                 }
             }
         }
 
-        ICommand saveChanges;
-
-        public UserPageViewModel()
+        public string ErrorMsg
         {
-            Users CurrentUser = base.GetCurrentUser();
-            UserName = CurrentUser.UserName;
-            Email = CurrentUser.Email;
-            UserName = CurrentUser.UserName;
-            Type = CurrentUser.UserType;
-
-            ByteArrayToBitmapImageConverter converter = new ByteArrayToBitmapImageConverter();
-            ProfilePic = (BitmapImage)converter.Convert(CurrentUser.image, null, null, null);
+            get { return errorMsg; }
+            set
+            {
+                if (errorMsg != value)
+                {
+                    errorMsg = value;
+                    NotifyPropertyChanged("ErrorMsg");
+                }
+            }
         }
+        #endregion
+
+        ICommand saveChanges;
+        ICommand selectPicture;
+
+        
 
         public ICommand SaveChanges
         {
@@ -121,21 +144,82 @@ namespace GamingReviews.ViewModels
             }
         }
 
-        public void SaveChangesToDB()
+        public ICommand SelectPicture
         {
-            // first check if the username exists 
-            // then check if the password match
-            if (Password == ConfirmPassword) //do something
-                Password=Password;
-            // then check if its an valid email
-
-            // find where the current user is
-            // we will probably need to pass it to this viewmodel before hand
-            // when we have the current user update his values with the new ones
-            Users t=this.GetCurrentUser();
-            t.UserName = UserName;
-            App.Current.MainWindow.Content = ViewModelsFactory.ViewModelType(ViewModelTypes.HomePageViewModel);
+            get
+            {
+                if (selectPicture == null)
+                {
+                    selectPicture = new RelayCommand<Object>(x =>
+                     {
+                         OpenFileDialog FileSelectDialog = new OpenFileDialog
+                         {
+                             Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) |" +
+                         " *.jpg; *.jpeg; *.jpe; *.jfif; *.png",
+                             Multiselect = false,
+                             Title = "Select your profile pic..."
+                         };
+                         if (FileSelectDialog.ShowDialog() == true)
+                         {
+                             var fileName = FileSelectDialog.FileName;
+                             //checks if image is 500x500 and under 256kb
+                             var img = new BitmapImage(new Uri(fileName));
+                             if (img.PixelWidth > 500)
+                             {
+                                 ErrorMsg = "wrong picture size!";
+                             }
+                             else
+                             {
+                                 BitMapToByteArray conv = new BitMapToByteArray();
+                                 ProfilePic = conv.Convert(img);
+                             }
+                         }
+                         
+                     });
+                    
+                }
+                return selectPicture;
+            }
         }
 
+        public void SaveChangesToDB()
+        {
+            if (Password == ConfirmPassword)
+            {
+                if(Password.Length>=8 && Password.Length<15)
+                {
+                    using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                    {
+                        unitOfWork.Users.UpdatePassword(this.GetCurrentUser().Id, Password);
+                        this.GetCurrentUser().password = Password;
+                    }
+                    MessageBox.Show("Password changed", "Success", MessageBoxButton.OK);
+                }
+                else
+                {
+                    ErrorMsg = "Password should be between 8 and 14 symbols! ";
+                }
+            }
+            else
+            {
+                ErrorMsg = "new password doesnt match";
+            }
+            if (!ByteArrayCompare(ProfilePic, this.GetCurrentUser().image))
+            {
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                {
+                    unitOfWork.Users.UpdateImage(this.GetCurrentUser().Id, ProfilePic);
+                    this.GetCurrentUser().image = ProfilePic.ToArray();
+                }
+                MessageBox.Show("Picture Changed", "Success", MessageBoxButton.OK);
+            }
+            Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
+        }
+
+        static bool ByteArrayCompare(byte[] a1, byte[] a2)
+        {
+            return a1.SequenceEqual(a2);
+        }
     }
+
 }

@@ -107,7 +107,6 @@ namespace GamingReviews.ViewModels
         {
             get
             {
-                
                 if (!string.IsNullOrEmpty(fileName))
                 {
                     displayedImage = new BitmapImage();
@@ -160,11 +159,13 @@ namespace GamingReviews.ViewModels
                 {
                     selectImage = new RelayCommand<Object>(x =>
                      {
-                         OpenFileDialog FileSelectDialog = new OpenFileDialog();
-                         FileSelectDialog.Filter= "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) |" +
-                         " *.jpg; *.jpeg; *.jpe; *.jfif; *.png";
-                         FileSelectDialog.Multiselect = false;
-                         FileSelectDialog.Title = "Select your profile pic...";
+                         OpenFileDialog FileSelectDialog = new OpenFileDialog
+                         {
+                             Filter = "Image files (*.jpg, *.jpeg, *.jpe, *.jfif, *.png) |" +
+                         " *.jpg; *.jpeg; *.jpe; *.jfif; *.png",
+                             Multiselect = false,
+                             Title = "Select your profile pic..."
+                         };
                          if (FileSelectDialog.ShowDialog() == true)
                          {
                              fileName = FileSelectDialog.FileName;
@@ -188,9 +189,6 @@ namespace GamingReviews.ViewModels
         public void RegisterUserToDB()
         {
             
-            // first check if the username exists 
-            // then check if the password match
-
             // register user service
             if (Password == ConfirmPassword) 
             {
@@ -202,12 +200,14 @@ namespace GamingReviews.ViewModels
                         if (!unitOfWork.Users.DoesEmailExist(Email))
                         {
                             // Image conversion
-                            byte[] imageData = BitMapToByteArray.Convert(DisplayedImage);
+                            BitMapToByteArray converter = new BitMapToByteArray();
+                            byte[] imageData = converter.Convert(DisplayedImage);
                             Users newUser = new Users(UserName,
                                 "USER", Password, imageData, Email);
                             unitOfWork.Users.Add(newUser);
                             MessageBox.Show("Registration complete. Congratulations!"
                                 , "success", MessageBoxButton.OK);
+                            
                         }
                           
                         else ErrorMsg = "email already in use";

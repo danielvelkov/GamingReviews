@@ -35,9 +35,6 @@
     </UserControl.Resources>
 
     <StackPanel Orientation="Vertical">
-        <StackPanel.Background>
-            <ImageBrush ImageSource="/res/Images/games.png" Opacity="0.5"/>
-        </StackPanel.Background>
 
         <Button Command="{Binding GoToUserProfile}" Content="Profile" Margin="5" FontSize="25" Width="100" Background="Black" Foreground="Red"/>
         <Button Command="{Binding GoToGamePage}" Content="Check out Games" Margin="5" FontSize="25" Width="250" Background="Black" Foreground="Red"/>

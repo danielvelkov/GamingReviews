@@ -49,7 +49,12 @@ namespace GamingReviews.ViewModels
             get
             {
                 if (goToUserProfile == null)
-                    goToUserProfile = new RelayCommand<Object>(ChangeToUserPage);
+                    goToUserProfile = new RelayCommand<Object>
+                        (x=> 
+                        {
+                            Mediator.NotifyColleagues("ChangeView",
+                                ViewModelTypes.UserPageViewModel);
+                        });
                 return goToUserProfile;
             }
         }
@@ -59,7 +64,12 @@ namespace GamingReviews.ViewModels
             get
             {
                 if (readArticle == null)
-                    readArticle = new RelayCommand<Articles>(ChangeToArticlePage);
+                    readArticle = new RelayCommand<Articles>(x => 
+                    {
+                        this.SetSelectedArticle(x);
+                        Mediator.NotifyColleagues("ChangeView",
+                            ViewModelTypes.ArticleViewModel);
+                    });
                 return readArticle;
             }
         }
@@ -69,33 +79,15 @@ namespace GamingReviews.ViewModels
             get
             {
                 if (goToGamePage == null)
-                    goToGamePage = new RelayCommand<Object>(ChangeToGamePage);
+                    goToGamePage = new RelayCommand<Object>(x =>
+                    {
+                        Mediator.NotifyColleagues("ChangeView",
+                            ViewModelTypes.GamePageViewModel);
+                    }); ;
                 return goToGamePage;
             }
         }
 
-        private void ChangeToUserPage()
-        {
-
-            // probably pass the current user too
-            App.Current.MainWindow.Content = ViewModelsFactory.ViewModelType(ViewModelTypes.UserPageViewModel);
-        }
-
-        private void ChangeToArticlePage(Articles article)
-        {
-            App.Current.MainWindow.Content = ViewModelsFactory.ViewModelType(ViewModelTypes.ArticleViewModel);
-            this.SetSelectedArticle(article);
-
-        }
-
-        private void ChangeToGamePage()
-        {
-            App.Current.MainWindow.Content = ViewModelsFactory.ViewModelType(ViewModelTypes.GamePageViewModel);
-        }
-
-        public override string ToString()
-        {
-            return "HomePageViewModel";
-        }
+        
     }
 }

@@ -13,5 +13,7 @@ namespace GamingReviews.Core.Repositories
         // methods concerning 
         bool DoesUserExist(string Username);
         bool DoesEmailExist(string Email);
+        void UpdatePassword(int id, string Password);
+        void UpdateImage(int id, byte[] Image);
     }
 }

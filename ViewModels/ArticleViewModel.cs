@@ -12,8 +12,9 @@ using System.Windows.Media.Imaging;
 
 namespace GamingReviews.ViewModels
 {
-    class ArticleViewModel:BaseViewModel
+    public class ArticleViewModel:BaseViewModel
     {
+        #region parameters
         public string Author
         {
             get
@@ -82,47 +83,39 @@ namespace GamingReviews.ViewModels
                 return image;
             }
         }
+        #endregion
 
-        #region change to user page
+        #region commands
 
         ICommand goToUserProfile;
+        ICommand goToHomePage;
 
         public ICommand GoToUserProfile
         {
             get
             {
                 if (goToUserProfile == null)
-                    goToUserProfile = new RelayCommand<Object>(ChangeToUserPage);
+                    goToUserProfile = new RelayCommand<Object>(x=>
+                    {
+                        Mediator.NotifyColleagues("ChangeView", ViewModelTypes.UserPageViewModel);
+                    
+                    });
                 return goToUserProfile;
             }
         }
-        private void ChangeToUserPage()
-        {
-
-            // probably pass the current user too
-            App.Current.MainWindow.Content = ViewModelsFactory.ViewModelType(ViewModelTypes.UserPageViewModel);
-        }
-
-        #endregion
-
-        #region go to home page
-
-        ICommand goToHomePage;
 
         public ICommand GoToHomePage
         {
             get
             {
                 if (goToHomePage == null)
-                    goToHomePage = new RelayCommand<Object>(ChangeToHomePage);
+                    goToHomePage = new RelayCommand<Object>(x =>
+                    {
+                        Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
+
+                    });
                 return goToHomePage;
             }
-        }
-        private void ChangeToHomePage()
-        {
-
-            // probably pass the current user too
-            App.Current.MainWindow.Content = ViewModelsFactory.ViewModelType(ViewModelTypes.HomePageViewModel);
         }
 
         #endregion

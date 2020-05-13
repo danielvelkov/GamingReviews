@@ -17,7 +17,6 @@ namespace GamingReviews.Models
         public GameNewsLetterContext()
             : base("name=GamesNewsLetter")
         {
-
         }
 
         // these are all tables in the database

@@ -79,7 +79,6 @@
     <Compile Include="Helper\FormattedDbEntityValidationException.cs" />
     <Compile Include="Helper\Mediator.cs" />
     <Compile Include="Helper\RelayCommand.cs" />
-    <Compile Include="Helper\UpdateViewCommand.cs" />
     <Compile Include="Helper\ViewModelsFactory.cs" />
     <Compile Include="Core\IRepositories\IRepository.cs" />
     <Compile Include="Interfaces\IView.cs" />

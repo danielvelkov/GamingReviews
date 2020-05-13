@@ -11,19 +11,19 @@ namespace GamingReviews.ViewModels
     class GamePageViewModel : BaseViewModel
     {
         List<Games> games;
-        
+
         public List<Games> Games
         {
             get
             {
                 if (games == null)
                 {
-                    using(var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                    using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                     {
-                        
+
                         if (!unitOfWork.Games.Any())
                         {
-                            unitOfWork.Games.Add(new Games("Bethesda", "Fallout", 1,new byte[2]));
+                            unitOfWork.Games.Add(new Games("Bethesda", "Fallout", 1, new byte[2]));
 
                             unitOfWork.Complete();
 
@@ -42,39 +42,32 @@ namespace GamingReviews.ViewModels
         ICommand goToHomePage;
         ICommand goToUserPage;
 
-        public ICommand GoToHomePage
-        {
-            get
-            {
-                if (goToHomePage == null)
-                {
-                    goToHomePage = new RelayCommand<Object>(GoToHomeScreen);
-                }
-                return goToHomePage;
-            }
-        }
-
         public ICommand GoToUserPage
         {
             get
             {
                 if (goToUserPage == null)
-                {
-                    goToUserPage = new RelayCommand<Object>(GoToUserScreen);
-                }
+                    goToUserPage = new RelayCommand<Object>(x =>
+                    {
+                        Mediator.NotifyColleagues("ChangeView", ViewModelTypes.UserPageViewModel);
+
+                    });
                 return goToUserPage;
             }
         }
 
-        private void GoToHomeScreen()
+        public ICommand GoToHomePage
         {
-            App.Current.MainWindow.Content = ViewModelsFactory.ViewModelType(ViewModelTypes.HomePageViewModel);
-        }
+            get
+            {
+                if (goToHomePage == null)
+                    goToHomePage = new RelayCommand<Object>(x =>
+                    {
+                        Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
 
-        private void GoToUserScreen()
-        {
-            App.Current.MainWindow.Content = ViewModelsFactory.ViewModelType(ViewModelTypes.UserPageViewModel);
+                    });
+                return goToHomePage;
+            }
         }
-
     }
 }
