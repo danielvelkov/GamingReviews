@@ -3,6 +3,7 @@ using GamingReviews.Models;
 using GamingReviews.Persistance;
 using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,7 +22,8 @@ namespace GamingReviews.ViewModels
             Email = CurrentUser.Email;
             UserName = CurrentUser.UserName;
             Type = CurrentUser.UserType;
-            ProfilePic = CurrentUser.image;
+            ProfilePic = CurrentUser.Image;
+            
         }
 
         #region fields
@@ -30,9 +32,11 @@ namespace GamingReviews.ViewModels
         string password;
         string confirmPassword;
         string email;
-        string type;
+        UserType type;
         byte[] profilePic;
         string errorMsg;
+        List<Logs> logs;
+        
 
         #endregion
 
@@ -89,7 +93,7 @@ namespace GamingReviews.ViewModels
             }
         }
 
-        public string Type
+        public UserType Type
         {
             get { return type; }
             set
@@ -127,6 +131,22 @@ namespace GamingReviews.ViewModels
                 }
             }
         }
+
+        public List<Logs> Logs
+        {
+            get
+            {
+                return logs;
+            }
+            set
+            {
+                if (logs != value)
+                {
+                    logs = value;
+                    NotifyPropertyChanged("Logs");
+                }
+            }
+        }
         #endregion
 
         ICommand saveChanges;
@@ -139,7 +159,42 @@ namespace GamingReviews.ViewModels
             get
             {
                 if (saveChanges == null)
-                    saveChanges = new RelayCommand<Object>(SaveChangesToDB);
+                    saveChanges = new RelayCommand<Object>(x =>
+                    {
+                        if (Password == ConfirmPassword)
+                        {
+                            if (Password.Length >= 8 && Password.Length < 11)
+                            {
+                                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                                {
+                                    unitOfWork.Users.UpdatePassword(this.GetCurrentUser().Id, Password);
+                                    this.GetCurrentUser().Password = Password;
+                                }
+                                MessageBox.Show("Password changed", "Success", MessageBoxButton.OK);
+                            }
+                            else
+                            {
+                                ErrorMsg = "Password should be between 8 and 10 symbols! ";
+                            }
+                        }
+                        else
+                        {
+                            ErrorMsg = "new password doesnt match";
+                        }
+                        if (!ByteArrayCompare(ProfilePic, this.GetCurrentUser().Image))
+                        {
+                            using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                            {
+                                unitOfWork.Users.UpdateImage(this.GetCurrentUser().Id, ProfilePic);
+                                this.GetCurrentUser().Image = ProfilePic.ToArray();
+                            }
+                            MessageBox.Show("Picture Changed", "Success", MessageBoxButton.OK);
+                        }
+                        Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
+                    
+
+                    }
+                    ,()=> { return true; });
                 return saveChanges;
             }
         }
@@ -175,45 +230,11 @@ namespace GamingReviews.ViewModels
                              }
                          }
                          
-                     });
+                     },()=> { return true; });
                     
                 }
                 return selectPicture;
             }
-        }
-
-        public void SaveChangesToDB()
-        {
-            if (Password == ConfirmPassword)
-            {
-                if(Password.Length>=8 && Password.Length<15)
-                {
-                    using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
-                    {
-                        unitOfWork.Users.UpdatePassword(this.GetCurrentUser().Id, Password);
-                        this.GetCurrentUser().password = Password;
-                    }
-                    MessageBox.Show("Password changed", "Success", MessageBoxButton.OK);
-                }
-                else
-                {
-                    ErrorMsg = "Password should be between 8 and 14 symbols! ";
-                }
-            }
-            else
-            {
-                ErrorMsg = "new password doesnt match";
-            }
-            if (!ByteArrayCompare(ProfilePic, this.GetCurrentUser().image))
-            {
-                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
-                {
-                    unitOfWork.Users.UpdateImage(this.GetCurrentUser().Id, ProfilePic);
-                    this.GetCurrentUser().image = ProfilePic.ToArray();
-                }
-                MessageBox.Show("Picture Changed", "Success", MessageBoxButton.OK);
-            }
-            Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
         }
 
         static bool ByteArrayCompare(byte[] a1, byte[] a2)

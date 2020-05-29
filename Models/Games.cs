@@ -15,33 +15,43 @@ namespace GamingReviews.Models
             Reviews = new HashSet<Reviews>();
         }
 
-        public Games(string summary, string name, int user_id, byte[] image)
+        public Games(int id,string summary, string name,
+            int user_id, byte[] image)
         {
-            this.summary = summary;
-            this.name = name;
+            this.Entity_id = id;
+            this.Summary = summary;
+            this.Name = name;
             this.User_id = user_id;
             Image = image;
+            Date = DateTime.Now;
         }
 
-        public int Id { get; set; }
+        [Required]
+        [Key,ForeignKey("Entity")]
+        public int Entity_id { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string summary { get; set; }
+        public string Summary { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
+        [ForeignKey("User")]
         public int User_id { get; set; }
 
         [Required]
         public byte[] Image { get; set; }
 
+        public DateTime Date { get; set; }
+
+        public virtual Entities Entity { get; set; }
+
+        public virtual Users User { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Articles> Articles { get; set; }
-
-        public virtual Users Users { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reviews> Reviews { get; set; }

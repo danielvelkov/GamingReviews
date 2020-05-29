@@ -1,4 +1,5 @@
-﻿using GamingReviews.Core.Repositories;
+﻿using GamingReviews.Core.IRepositories;
+using GamingReviews.Core.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace GamingReviews.Core
         IReviewsRepository Reviews { get; }
         IUserRepository Users { get; }
         IArticlesRepository Articles { get; }
+        
         int Complete();
     }
 }

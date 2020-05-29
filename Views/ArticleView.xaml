@@ -4,20 +4,68 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GamingReviews.Views"
+             xmlns:models="clr-namespace:GamingReviews.Models"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel Orientation="Vertical">
+    
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
-        <Button Command="{Binding GoToUserProfile}" Content="Profile" Margin="10" FontSize="25" Width="100" Background="Black" Foreground="Red"/>
-        <Button Command="{Binding GoToHomePage}" Content="News Feed" FontSize="25" Width="150" Background="Black" Foreground="Red"/>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Button Command="{Binding GoToUserProfile}" Content="Profile" Grid.Row="0" Grid.Column="1" Margin="10" FontSize="25" Width="100" Background="Black" Foreground="Red"/>
+        <Button Command="{Binding GoToHomePage}" Content="News Feed"  Grid.Row="0" Grid.Column="0" FontSize="25" Width="150" Background="Black" Foreground="Red"/>
 
-        <Label Content="Review" HorizontalAlignment="Center" FontSize="20" Foreground="Black"/>
+        <Label Content="Article" Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Center" FontSize="20" Foreground="Black"/>
+        <TextBlock Text="{Binding Name}" Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" FontSize="20" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        <TextBlock Text="{Binding GameName}" Grid.Row="2" Grid.Column="0" FontSize="15" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding Date}" Grid.Row="2" Grid.Column="0" FontSize="15" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
 
-        <TextBlock Text="{Binding Author}"  FontSize="20" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <Image Source="{Binding Image}" Width="100" Height="100"/>
-        <TextBlock Text="{Binding Name}" TextWrapping="Wrap" FontSize="20" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Text="{Binding GameName}" FontSize="15" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Text="{Binding Content}" FontSize="15" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <TextBlock Text="{Binding Author}" Grid.Row="2" Grid.Column="0" FontSize="20" Foreground="Black" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+        <Image Grid.Row="1" Grid.Column="1" Grid.RowSpan="3" Source="{Binding Image}" Width="100" Height="100"/>
+         <TextBlock Text="{Binding Content}" Grid.Row="3" Grid.RowSpan="3" FontSize="15" Foreground="Black"/>
 
-    </StackPanel>
+        <StackPanel Grid.Row="6" Orientation="Horizontal">
+
+            <TextBox Text="{Binding CommentText}" Width="200"></TextBox>
+            <Button Command="{Binding AddComment}" Content="Post"></Button>
+        </StackPanel>
+        
+        <TreeView Grid.Row="7" ItemsSource="{Binding CommentSection}" >
+            <TreeView.ItemTemplate>
+                <DataTemplate DataType="{x:Type  models:Comments }">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition></RowDefinition>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Text="{Binding User_id}" Grid.Row="0" Grid.Column="0" ></TextBlock>
+                        <TextBlock Text="{Binding Date}"  Grid.Row="0" Grid.Column="1" ></TextBlock>
+                        <TextBlock Text="{Binding Content}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"></TextBlock>
+                        <Button Grid.Row="2" Grid.Column="1">
+                            <TextBlock Text="Add Comment"></TextBlock>
+                        </Button>
+                    </Grid>
+                </DataTemplate>
+            </TreeView.ItemTemplate>
+        </TreeView>
+    </Grid>
 </UserControl>

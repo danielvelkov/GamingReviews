@@ -20,7 +20,7 @@ namespace GamingReviews.Persistance.Repositories
 
         public bool Any()
         {
-            Games game = PlutoContext.Games.SingleOrDefault(g => g.Id > 0);
+            Games game = PlutoContext.Games.SingleOrDefault(g => g.Entity_id > 0);
             if (game == null)
             {
                 return false;

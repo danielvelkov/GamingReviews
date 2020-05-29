@@ -11,51 +11,56 @@ namespace GamingReviews.Models
 
     public partial class Articles
     {
+        public Articles() { }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Articles()
+        public Articles(int EntityId,string name, int user_id, 
+            int game_id, string content,
+            string header, byte[] image)
         {
-            Comments = new HashSet<Comments>();
-        }
-
-        public Articles(string name, int user_id, int game_id, string content, string header, byte[] image)
-        {
-            this.name = name;
+            Entity_Id = Entity_Id;
+            this.Name = name;
             User_id = user_id;
-            this.game_id = game_id;
-            this.content = content;
+            this.Game_id = game_id;
+            this.Content = content;
             Header = header;
             Image = image;
+            Date = DateTime.Now;
         }
-
-        public int Id { get; set; }
+        
+        [Key,ForeignKey("Entity")]
+        public int Entity_Id { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         public int User_id { get; set; }
 
-        public int game_id { get; set; }
+        public int Game_id { get; set; }
 
         [Required]
-        public string content { get; set; }
+        public string Content { get; set; }
 
         [Required]
         public string Header { get; set; }
 
         public byte[] Image { get; set; }
 
-
+        public DateTime Date { get; set; }
         // these two navigation properties are there
         // because of the lazy loading feature of entity framework
         /// <summary>
         /// Lazy Loading means that the contents of these properties will be automatically loaded from the database when you try to access them.
         /// </summary>
 
-        public virtual Games Games { get; set; }
+        public virtual Entities Entity { get; set; }
 
-        public virtual Users Users { get; set; }
+        [ForeignKey("User_id")]
+        public virtual Users User { get; set; }
+
+        [ForeignKey("Game_id")]
+        public virtual Games Game { get; set; }
+
 
         // article has only 1 author and 1 game name 
         public string Author
@@ -76,7 +81,7 @@ namespace GamingReviews.Models
             {
                 using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                 {
-                    var gameName = unitOfWork.Games.Get(game_id).name;
+                    var gameName = unitOfWork.Games.Get(Game_id).Name;
                     return gameName;
                 }
             }
@@ -107,9 +112,5 @@ namespace GamingReviews.Models
                 return image;
             }
         }
-
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Comments> Comments { get; set; }
     }
 }

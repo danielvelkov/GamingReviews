@@ -8,20 +8,25 @@ using System.Threading.Tasks;
 
 namespace GamingReviews.Persistance.Repositories
 {
-    class CommentsRepository:Repository<Comments>, ICommentsRepository
+    class LogsRepository:Repository<Logs>,ILogsRepository
     {
-        public CommentsRepository(GameNewsLetterContext context) : base(context) { }
-
+        public LogsRepository(GameNewsLetterContext context) : base(context)
+        {
+        }
         public GameNewsLetterContext PlutoContext
         {
             get { return Context as GameNewsLetterContext; }
         }
-        
-        public List<Comments> FindAllComments(int Entity_id)
+
+        public List<Logs> GetUserLogs(int user_id)
         {
-            return PlutoContext.Comments.Select(x => x.TargetEntity_Id == Entity_id) as List<Comments>;
+            using (var unit=new UnitOfWork(PlutoContext))
+            {
+                return unit.Logs.GetAll().ToList<Logs>();
+            }
         }
 
         // implement the methods from the used interface
+
     }
 }

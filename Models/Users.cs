@@ -6,6 +6,12 @@ namespace GamingReviews.Models
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
+    public enum UserType
+    {
+        ADMIN,
+        USER
+    }
+
     public partial class Users
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -15,16 +21,19 @@ namespace GamingReviews.Models
             Comments = new HashSet<Comments>();
             Games = new HashSet<Games>();
             Reviews = new HashSet<Reviews>();
+            Logs = new HashSet<Logs>();
+            Votes = new HashSet<Votes>();
         }
 
-        public Users(string username, string usertype, string password, byte[] image, string email)
+        public Users(string username, UserType usertype,
+            string password,
+            byte[] image, string email)
         {
             UserName = username;
             UserType = usertype;
-            this.password = password;
-            this.image = image;
+            this.Password = password;
+            this.Image = image;
             Email = email;
-
         }
 
         public int Id { get; set; }
@@ -32,14 +41,13 @@ namespace GamingReviews.Models
         [Required]
         [StringLength(255)]
         public string UserName { get; set; }
-
-        [StringLength(255)]
-        public string UserType { get; set; }
+        
+        public UserType UserType { get; set; }
 
         [StringLength(10)]
-        public string password { get; set; }
+        public string Password { get; set; }
 
-        public byte[] image { get; set; }
+        public byte[] Image { get; set; }
 
         [Required]
         public string Email { get; set; }
@@ -55,5 +63,10 @@ namespace GamingReviews.Models
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Reviews> Reviews { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Logs> Logs { get; set; }
+
+        public virtual ICollection<Votes> Votes { get; set; }
     }
 }

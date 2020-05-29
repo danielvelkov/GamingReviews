@@ -10,5 +10,6 @@ namespace GamingReviews.Core.IRepositories
 {
     public interface ICommentsRepository:IRepository<Comments>
     {
+         List<Comments> FindAllComments(int Entity_id);
     }
 }

@@ -16,7 +16,7 @@ namespace GamingReviews.Helper
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var rawImageData = value as byte[];
+            byte[] rawImageData = value as byte[];
             if (rawImageData == null)
                 return null;
 
@@ -33,6 +33,7 @@ namespace GamingReviews.Helper
                 }
                 catch(Exception e)
                 {
+                    Console.WriteLine(e.Message);
                     return new BitmapImage(new Uri(@"/GamingReviews;component/res/Images/no image.png", UriKind.Relative));
                 }
             }

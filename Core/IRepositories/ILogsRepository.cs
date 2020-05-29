@@ -6,11 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GamingReviews.Core.Repositories
+namespace GamingReviews.Core.IRepositories
 {
-    public interface IArticlesRepository:IRepository<Articles>
+    public interface ILogsRepository: IRepository<Logs>
     {
-        // methods concerning Articles
-        List<Articles> GetLatestArticles();
+        List<Logs> GetUserLogs(int user_id);
     }
 }

@@ -11,7 +11,7 @@ namespace GamingReviews.ViewModels
     {
         private ICommand updateViewCommand;
         private BaseViewModel _currentContent;
-        private List<BaseViewModel> history;
+        //private List<BaseViewModel> history;
         
         public MainViewModel()
         {
@@ -24,7 +24,8 @@ namespace GamingReviews.ViewModels
                 return updateViewCommand ?? (updateViewCommand = new RelayCommand<Object>(x =>
                    {
                        Mediator.NotifyColleagues("ChangeView", x);
-                   }));
+                   }, () => { if (this.GetCurrentUser() != null) return true; else return false; }
+                ));
             }
         }
         
@@ -38,13 +39,21 @@ namespace GamingReviews.ViewModels
             get
             {
                 if (_currentContent == null)
+                {
                     _currentContent = new LoginPageViewModel(this);
+                }
                 return _currentContent;
             }
             set
             {
                 if (_currentContent == value)
                     return;
+
+                // enables the menu items after you log in
+                if((_currentContent is LoginPageViewModel)&&(value is HomePageViewModel))
+                {
+                    (UpdateViewCommand as RelayCommand<Object>).RaiseCanExecuteChanged();
+                }
                 _currentContent = value;
                 NotifyPropertyChanged("CurrentContent");
             }

@@ -38,14 +38,14 @@ namespace GamingReviews.Models
         public void UpdatePassword(int id,string newPassword)
         {
             Users user = PlutoContext.Users.SingleOrDefault(a => a.Id == id);
-            user.password = newPassword;
+            user.Password = newPassword;
             PlutoContext.SaveChanges();
         }
 
         public void UpdateImage(int id, byte[] image)
         {
             Users user = PlutoContext.Users.SingleOrDefault(a => a.Id == id);
-            user.image = image.ToArray();
+            user.Image = image.ToArray();
             PlutoContext.SaveChanges();
         }
     }

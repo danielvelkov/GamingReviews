@@ -146,7 +146,47 @@ namespace GamingReviews.ViewModels
             get
             {
                 if (registerUser == null)
-                    registerUser = new RelayCommand<Object>(RegisterUserToDB);
+                    registerUser = new RelayCommand<Object>(x=>
+                    {// register user service
+                        if ((Password == ConfirmPassword) && Password.Length < 11)
+                        {
+
+                            using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                            {
+                                if (!unitOfWork.Users.DoesUserExist(UserName))
+                                {
+                                    if (!unitOfWork.Users.DoesEmailExist(Email))
+                                    {
+                                        // Image conversion
+                                        BitMapToByteArray converter = new BitMapToByteArray();
+                                        byte[] imageData = converter.Convert(DisplayedImage);
+                                        Users newUser = new Users(UserName,
+                                            UserType.ADMIN, Password, imageData, Email);
+                                        unitOfWork.Users.Add(newUser);
+                                        MessageBox.Show("Registration complete. Congratulations!"
+                                            , "success", MessageBoxButton.OK);
+
+                                    }
+
+                                    else ErrorMsg = "email already in use";
+                                }
+                                else
+                                {
+                                    // set the error message to "user already exists"
+                                    ErrorMsg = "User already exists";
+                                }
+                                unitOfWork.Complete();
+                            }
+                        }
+                        else
+                        {
+                            if (Password.Length < 10 && Password.Length > 8)
+                                ErrorMsg = "Passwords dont match";
+                            ErrorMsg = "Password must be between 8 and 10 chars";
+                        }
+
+                    }
+                    , () => { return true; });
                 return registerUser;
             }
         }
@@ -178,7 +218,7 @@ namespace GamingReviews.ViewModels
                              }
                              else ErrorMsg = "wrong picture size!";
                          }
-                     });
+                     },()=> { return true; });
                 }
                 return selectImage;
             }
@@ -186,49 +226,7 @@ namespace GamingReviews.ViewModels
 
         #endregion
 
-        public void RegisterUserToDB()
-        {
-            
-            // register user service
-            if (Password == ConfirmPassword) 
-            {
-               
-                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
-                {
-                    if (!unitOfWork.Users.DoesUserExist(UserName))
-                    {
-                        if (!unitOfWork.Users.DoesEmailExist(Email))
-                        {
-                            // Image conversion
-                            BitMapToByteArray converter = new BitMapToByteArray();
-                            byte[] imageData = converter.Convert(DisplayedImage);
-                            Users newUser = new Users(UserName,
-                                "USER", Password, imageData, Email);
-                            unitOfWork.Users.Add(newUser);
-                            MessageBox.Show("Registration complete. Congratulations!"
-                                , "success", MessageBoxButton.OK);
-                            
-                        }
-                          
-                        else ErrorMsg = "email already in use";
-                    }
-                    else
-                    {
-                        // set the error message to "user already exists"
-                        ErrorMsg = "User already exists";
-                    }
-                    unitOfWork.Complete();
-                }
-            }
-            else
-            {
-                // set the error message to "passwords dont match"
-                ErrorMsg = "Passwords dont match";
-            }
-            
-            
-        }
-
+        
         #region methods
 
         bool CheckImageSize(Uri filePath)

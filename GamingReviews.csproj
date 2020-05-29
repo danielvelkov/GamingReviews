@@ -14,6 +14,8 @@
     <WarningLevel>4</WarningLevel>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -69,7 +71,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Core\IRepositories\ICommentsRepository.cs" />
+    <Compile Include="Core\IRepositories\IEntityRepository.cs" />
     <Compile Include="Core\IRepositories\IGamesRepository.cs" />
+    <Compile Include="Core\IRepositories\ILogsRepository.cs" />
+    <Compile Include="Core\IRepositories\IVotesRepository.cs" />
     <Compile Include="Core\IUnitOfWork.cs" />
     <Compile Include="Core\IRepositories\IArticlesRepository.cs" />
     <Compile Include="Core\IRepositories\IReviewsRepository.cs" />
@@ -81,21 +86,31 @@
     <Compile Include="Helper\RelayCommand.cs" />
     <Compile Include="Helper\ViewModelsFactory.cs" />
     <Compile Include="Core\IRepositories\IRepository.cs" />
+    <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IView.cs" />
+    <Compile Include="Migrations\202005262216536_Initialise.cs" />
+    <Compile Include="Migrations\202005262216536_Initialise.Designer.cs">
+      <DependentUpon>202005262216536_Initialise.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Articles.cs" />
     <Compile Include="Models\Comments.cs" />
+    <Compile Include="Models\Entities.cs" />
     <Compile Include="Models\Games.cs" />
-    <Compile Include="Models\GamesNewsLetter.cs" />
+    <Compile Include="Models\Logs.cs" />
     <Compile Include="Models\Reviews.cs" />
     <Compile Include="Models\Users.cs" />
+    <Compile Include="Models\Votes.cs" />
     <Compile Include="Persistance\Repositories\ArticlesRepository.cs" />
-    <Compile Include="Persistance\DBContext.cs" />
+    <Compile Include="Persistance\GameNewsLetterContext.cs" />
     <Compile Include="Persistance\Repositories\CommentsRepository.cs" />
+    <Compile Include="Persistance\Repositories\EntitiesRepository.cs" />
     <Compile Include="Persistance\Repositories\GamesRepository.cs" />
+    <Compile Include="Persistance\Repositories\LogsRepository.cs" />
     <Compile Include="Persistance\Repositories\Repository.cs" />
     <Compile Include="Persistance\Repositories\ReviewsRepository.cs" />
-    <Compile Include="Models\ReviewTest.cs" />
     <Compile Include="Persistance\Repositories\UserRepository.cs" />
+    <Compile Include="Persistance\Repositories\VotesRepository.cs" />
     <Compile Include="Persistance\UnitOfWork.cs" />
     <Compile Include="ViewModels\AddReviewViewModel.cs" />
     <Compile Include="ViewModels\ArticleViewModel.cs" />
@@ -181,6 +196,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <EmbeddedResource Include="Migrations\202005262216536_Initialise.resx">
+      <DependentUpon>202005262216536_Initialise.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -218,6 +236,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="res\Icons\next_page.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Helper\bazata.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Helper\Migrations tutorial.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

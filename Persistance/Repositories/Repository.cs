@@ -53,6 +53,8 @@ namespace GamingReviews.Models
 
         public void Add(TEntity entity)
         {
+            //make it so when it adds, it adds the entity number first
+            //maybe as another method so you dont confuse them
             Context.Set<TEntity>().Add(entity);
         }
 

@@ -63,7 +63,7 @@ namespace GamingReviews.ViewModels
             get
             {
                 return loginCommand ?? (loginCommand =
-                  new RelayCommand<Object>(x =>
+                  new RelayCommand<Object>((x =>
                   {
                       using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                       {
@@ -75,8 +75,8 @@ namespace GamingReviews.ViewModels
                               return;
                           }
                           //cuz it returns password from sql with whitespaces in the end
-                          user.password=Regex.Replace(user.password, @"\s+", "");
-                          if (user.password==Password)
+                          user.Password=Regex.Replace(user.Password, @"\s+", "");
+                          if (user.Password==Password)
                           {
                               // sets the current user
                               this.SetCurrentUser(user);
@@ -88,7 +88,8 @@ namespace GamingReviews.ViewModels
                          
                       }
                      
-                  }));
+                  }), () => { return true; }
+                ));
                
             }
         }
@@ -101,7 +102,9 @@ namespace GamingReviews.ViewModels
                  new RelayCommand<Object>(x =>
                  {
                      Mediator.NotifyColleagues("ChangeView", ViewModelTypes.RegisterPageViewModel);
-                 }));
+                 }
+                 , () => { return true; }
+                ));
             }
         }
 

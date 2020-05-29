@@ -23,7 +23,7 @@ namespace GamingReviews.ViewModels
 
                         if (!unitOfWork.Games.Any())
                         {
-                            unitOfWork.Games.Add(new Games("Bethesda", "Fallout", 1, new byte[2]));
+                            unitOfWork.Games.Add(new Games(1,"Bethesda", "Fallout", 1, new byte[2]));
 
                             unitOfWork.Complete();
 
@@ -51,7 +51,7 @@ namespace GamingReviews.ViewModels
                     {
                         Mediator.NotifyColleagues("ChangeView", ViewModelTypes.UserPageViewModel);
 
-                    });
+                    }, () => { if (this.GetCurrentUser() != null) return true; else return false; });
                 return goToUserPage;
             }
         }
@@ -65,7 +65,9 @@ namespace GamingReviews.ViewModels
                     {
                         Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
 
-                    });
+                    },
+                    ()=> { return true;
+            });
                 return goToHomePage;
             }
         }

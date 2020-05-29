@@ -8,30 +8,42 @@ namespace GamingReviews.Models
 
     public partial class Reviews
     {
-        public int Id { get; set; }
 
-        public int User_id { get; set; }
-
-        public Reviews(int user_id, string name, string content, int game_id)
+        public Reviews(int EntityId,int user_id, string name, 
+            string content, int game_id)
         {
+            Entity_id = EntityId;
             this.User_id = user_id;
-            this.name = name;
+            this.Name = name;
             this.Content = content;
             this.Game_id = game_id;
+            this.Date = DateTime.Now;
         }
 
+        [Required]
+        [Key, ForeignKey("Entity")]
+        public int Entity_id { get; set; }
+
+        [ForeignKey("User")]
+        public int User_id { get; set; }
 
         [Required]
         [StringLength(255)]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         [Required]
         public string Content { get; set; }
 
+        [ForeignKey("Game")]
         public int Game_id { get; set; }
 
-        public virtual Games Games { get; set; }
+        public DateTime Date { get; set; }
 
-        public virtual Users Users { get; set; }
+        public Entities Entity { get; set; }
+
+        public virtual Users User { get; set; }
+
+        public virtual Games Game { get; set; }
+
     }
 }

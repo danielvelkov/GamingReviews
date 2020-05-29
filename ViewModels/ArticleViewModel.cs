@@ -3,6 +3,7 @@ using GamingReviews.Models;
 using GamingReviews.Persistance;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,9 @@ namespace GamingReviews.ViewModels
 {
     public class ArticleViewModel:BaseViewModel
     {
+
+        string commentText;
+
         #region parameters
         public string Author
         {
@@ -37,7 +41,7 @@ namespace GamingReviews.ViewModels
         {
             get
             {
-                return this.GetSelectedArticle().name;
+                return this.GetSelectedArticle().Name;
             }
         }
 
@@ -45,7 +49,7 @@ namespace GamingReviews.ViewModels
         {
             get
             {
-                return this.GetSelectedArticle().content;
+                return this.GetSelectedArticle().Content;
             }
         }
 
@@ -57,6 +61,26 @@ namespace GamingReviews.ViewModels
             }
         }
 
+        public List<byte[]> Images
+        {
+            get
+            {
+                return new List<byte[]>();
+            }
+        }
+
+        public List<Comments> CommentSection
+        {
+            get
+            {
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                {
+                    List<Comments> ArticleComments = unitOfWork.Comments.FindAllComments(this.GetSelectedArticle().Entity_Id);
+                    return ArticleComments;
+                }
+            }
+        }
+
         public BitmapImage Image
         {
             get
@@ -64,8 +88,7 @@ namespace GamingReviews.ViewModels
                 var imageData = GetSelectedArticle().Image;
                 if(imageData==null || imageData.Length < 20)
                 {
-                    // taken from here: https://stackoverflow.com/questions/350027/setting-wpf-image-source-in-code
-
+                   
                     return new BitmapImage(new Uri(@"/GamingReviews;component/res/Images/no image.png",UriKind.Relative));
                 }
                 var image = new BitmapImage();
@@ -83,12 +106,31 @@ namespace GamingReviews.ViewModels
                 return image;
             }
         }
+
+        public string CommentText
+        {
+            get
+            {
+                if (commentText == null)
+                    commentText = "Add comment...";
+                return commentText;
+            }
+            set
+            {
+                if (commentText != value)
+                {
+                    commentText = value;
+                    NotifyPropertyChanged("CommentText");
+                }
+            }
+        }
         #endregion
 
         #region commands
 
         ICommand goToUserProfile;
         ICommand goToHomePage;
+        ICommand addComment;
 
         public ICommand GoToUserProfile
         {
@@ -99,7 +141,7 @@ namespace GamingReviews.ViewModels
                     {
                         Mediator.NotifyColleagues("ChangeView", ViewModelTypes.UserPageViewModel);
                     
-                    });
+                    }, () => { return true; });
                 return goToUserProfile;
             }
         }
@@ -113,11 +155,36 @@ namespace GamingReviews.ViewModels
                     {
                         Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
 
-                    });
+                    },()=> { return true; });
                 return goToHomePage;
             }
         }
 
+        public ICommand AddComment
+        {
+            get
+            {
+                if (addComment == null)
+                    addComment = new RelayCommand<Object>(x =>
+                      {
+                          using (var unitofwork = new UnitOfWork(new GameNewsLetterContext()))
+                          {
+                              var Entity = new Entities();
+                              unitofwork.Entities.Add(Entity);
+                              unitofwork.Complete();
+                              var Comment = new Comments(GetSelectedArticle().Entity_Id,
+                                  CommentText, GetCurrentUser().Id);
+                              unitofwork.Comments.Add(Comment);
+                              Comment.Entity = Entity;
+                              unitofwork.Complete();
+                              Debug.WriteLine(Entity.Entity_Id);
+                              Debug.WriteLine(Comment.Entity_Id);
+
+                          }
+                      }, () => { return true; });
+                return addComment;
+            }
+        }
         #endregion
 
     }

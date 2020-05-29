@@ -10,22 +10,24 @@ namespace GamingReviews.Helper
 
 
         private Action<T> method;
-        private Action methodNoParams;
+        private Func<bool> methodNoParams;
 
-        public RelayCommand(Action<T> methodToExecute)
+        public RelayCommand(Action<T> methodToExecute,Func<bool> func)
         {
             
             this.method = methodToExecute;
+            this.methodNoParams = func;
         }
 
-        public RelayCommand(Action methodToExecute)
+        public void RaiseCanExecuteChanged()
         {
-            this.methodNoParams = methodToExecute;
+            CanExecuteChanged?.Invoke(this, new EventArgs());
         }
         
-
         public bool CanExecute(object parameter)
         {
+            if (methodNoParams != null)
+                return methodNoParams();
             return true;
         }
 

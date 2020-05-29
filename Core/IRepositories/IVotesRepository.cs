@@ -6,11 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GamingReviews.Core.Repositories
+namespace GamingReviews.Core.IRepositories
 {
-    public interface IArticlesRepository:IRepository<Articles>
+    public interface IVotesRepository:IRepository<Votes>
     {
-        // methods concerning Articles
-        List<Articles> GetLatestArticles();
     }
 }

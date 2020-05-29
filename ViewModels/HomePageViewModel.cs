@@ -20,20 +20,20 @@ namespace GamingReviews.ViewModels
                 {
                     using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                     {
-                        articles = unitOfWork.Articles.GetAll() as List<Articles>;
-                        if (articles.Count==0)
+                        
+                        articles = unitOfWork.Articles.GetLatestArticles();
+                        if (articles.Count == 0)
                         {
-                            unitOfWork.Articles.Add(new Articles("is gamer dead",1,1,"this is the article text","HEADER",new byte[0]));
-
-                            unitOfWork.Complete();
-
-                            articles = unitOfWork.Articles.GetAll() as List<Articles>;
-
+                            
+                            // add a dummy article
+                           
                         }
                         else
-                            articles = unitOfWork.Articles.GetAll() as List<Articles>;
                         NotifyPropertyChanged("Articles");
+                        unitOfWork.Complete();
+                        
                     }
+                    
                 }
                 
                 return articles;
@@ -54,7 +54,7 @@ namespace GamingReviews.ViewModels
                         {
                             Mediator.NotifyColleagues("ChangeView",
                                 ViewModelTypes.UserPageViewModel);
-                        });
+                        }, () => { return true; });
                 return goToUserProfile;
             }
         }
@@ -69,7 +69,7 @@ namespace GamingReviews.ViewModels
                         this.SetSelectedArticle(x);
                         Mediator.NotifyColleagues("ChangeView",
                             ViewModelTypes.ArticleViewModel);
-                    });
+                    },()=> { return true; });
                 return readArticle;
             }
         }
@@ -83,7 +83,7 @@ namespace GamingReviews.ViewModels
                     {
                         Mediator.NotifyColleagues("ChangeView",
                             ViewModelTypes.GamePageViewModel);
-                    }); ;
+                    }, () => { return true; });
                 return goToGamePage;
             }
         }

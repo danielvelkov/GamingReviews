@@ -5,7 +5,14 @@ and article page list respectively
 that way you can pass that interface and wrapboth objects in one so you cant be limited
 to only 1 object 
 
-add drop down menu that enable after you login 
+add drop down menu that enable after you login (Done)
 
 error msg could be a property in the MainWindowVM and every user control could change it or we could
 inherit it from the baseviewmodel class for 
+
+have a "Logs" model which tracks people on the program
+it shoupd have user_id, string activity and datetime
+
+entity and liked entity
+
+the above idea was super bad, try "nested set model", instead

@@ -12,13 +12,17 @@ namespace GamingReviews.Models
         public ArticlesRepository(GameNewsLetterContext context): base(context)
         {
         }
-        public GameNewsLetterContext PlutoContext
+        public GameNewsLetterContext ArticlesContext
         {
-            get { return Context as GameNewsLetterContext; }
+            get { return base.Context as GameNewsLetterContext; }
         }
 
         // implement the methods from the used interface
 
+        public List<Articles> GetLatestArticles()
+        {
+           return ArticlesContext.Articles.OrderBy(a => a.Date).Take(1).ToList();
+        }
 
     }
 }

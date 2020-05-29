@@ -25,6 +25,9 @@ namespace GamingReviews.Persistance
             Articles = new ArticlesRepository(_context);
             Games = new GamesRepository(_context);
             Comments = new CommentsRepository(_context);
+            Logs = new LogsRepository(_context);
+            Entities = new EntitiesRepository(_context);
+            Votes = new VotesRepository(_context);
         }
 
         public IUserRepository Users{ get; private set; }
@@ -32,6 +35,9 @@ namespace GamingReviews.Persistance
         public IArticlesRepository Articles { get; private set; }
         public IGamesRepository Games { get; private set; }
         public ICommentsRepository Comments { get; private set; }
+        public ILogsRepository Logs { get; private set; }
+        public IEntityRepository Entities { get; private set; }
+        public IVotesRepository Votes { get; private set; }
 
         // basically save changes for the actions
         public int Complete()
@@ -58,6 +64,32 @@ namespace GamingReviews.Persistance
                 throw;
             }
             
+        }
+
+        public Task<int> CompleteAsync()
+        {
+            try
+            {
+                // Your code...
+                // Could also be before try if you know the exception occurs in SaveChanges
+
+                return _context.SaveChangesAsync();
+            }
+            catch (DbEntityValidationException e)
+            {
+                foreach (var eve in e.EntityValidationErrors)
+                {
+                    Debug.WriteLine("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:",
+                        eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                    foreach (var ve in eve.ValidationErrors)
+                    {
+                        Debug.WriteLine("- Property: \"{0}\", Error: \"{1}\"",
+                            ve.PropertyName, ve.ErrorMessage);
+                    }
+                }
+                throw;
+            }
+
         }
 
         public void Dispose()
