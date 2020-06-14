@@ -6,6 +6,9 @@
              xmlns:local="clr-namespace:GamingReviews"
              mc:Ignorable="d" 
              d:DesignHeight="550" d:DesignWidth="800">
+    <UserControl.InputBindings>
+        <KeyBinding Command="{Binding LoginCommand}" Key="Enter"></KeyBinding>
+    </UserControl.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -23,12 +26,10 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
 
-        
-
         <Label Content="LOGIN" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25" Foreground="Red"/>
-        <Label Content="Username:" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20" Foreground="Red"/>
+        <Label Content="_Username:" Target="{Binding ElementName=username}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20" Foreground="Red"/>
         <TextBox x:Name="username" Text="{Binding UserName}" Grid.Column="1" Grid.Row="2" Height="40" Width="200" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-        <Label Content="Password:" Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20" Foreground="Black"/>
+        <Label Content="_Password:" Target="{Binding ElementName=password}" Grid.Column="1" Grid.Row="3" VerticalAlignment="Bottom" HorizontalAlignment="Center" FontSize="20" Foreground="Black"/>
         <PasswordBox x:Name="password" PasswordChanged="PasswordBox_PasswordChanged" Grid.Column="1" Grid.Row="4" Height="40" Width="200" FontSize="25" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <Button Command="{Binding LoginCommand}" Grid.Column="1" Grid.Row="6" Content="LOGIN" FontSize="20" Margin="20" Background="Red" Foreground="Black"/>
         <Label Content="{Binding ErrorMsg,Mode=TwoWay}" Grid.Row="5" Grid.Column="1" Height="40" Foreground="Red" ></Label>

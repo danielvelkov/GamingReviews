@@ -11,8 +11,11 @@ error msg could be a property in the MainWindowVM and every user control could c
 inherit it from the baseviewmodel class for 
 
 have a "Logs" model which tracks people on the program
-it shoupd have user_id, string activity and datetime
+it shoupd have user_id, string activity and datetime (Done)
 
-entity and liked entity
+entity and liked entity (Done )
+
+passwordboxes could use binding if you use attached property
+search wpf passwordboxes and binding
 
 the above idea was super bad, try "nested set model", instead

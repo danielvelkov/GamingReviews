@@ -63,6 +63,7 @@ namespace GamingReviews.Models
 
 
         // article has only 1 author and 1 game name 
+        [NotMapped]
         public string Author
         {
             get
@@ -74,7 +75,7 @@ namespace GamingReviews.Models
                 }
             }
         }
-
+        [NotMapped]
         public string GameName
         {
             get
@@ -86,7 +87,7 @@ namespace GamingReviews.Models
                 }
             }
         }
-
+        [NotMapped]
         public BitmapImage ImageSource
         {
             get
@@ -95,7 +96,7 @@ namespace GamingReviews.Models
                 var imageData = Image;
                 if (imageData == null || imageData.Length < 20)
                 {
-                    return new BitmapImage(new Uri("res/Images/no image.png", UriKind.Relative));
+                    return new BitmapImage(new Uri(@"/GamingReviews;component/res/Images/no image.png", UriKind.Relative));
                 }
                 var image = new BitmapImage();
                 using (var mem = new MemoryStream(imageData))

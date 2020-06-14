@@ -86,7 +86,6 @@
     <Compile Include="Helper\RelayCommand.cs" />
     <Compile Include="Helper\ViewModelsFactory.cs" />
     <Compile Include="Core\IRepositories\IRepository.cs" />
-    <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IView.cs" />
     <Compile Include="Migrations\202005262216536_Initialise.cs" />
     <Compile Include="Migrations\202005262216536_Initialise.Designer.cs">
@@ -120,6 +119,7 @@
     <Compile Include="ViewModels\LoginPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RegisterPageViewModel.cs" />
+    <Compile Include="ViewModels\ReviewViewModel.cs" />
     <Compile Include="ViewModels\UserPageViewModel.cs" />
     <Compile Include="Views\AddReviewView.xaml.cs">
       <DependentUpon>AddReviewView.xaml</DependentUpon>

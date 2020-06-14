@@ -226,7 +226,6 @@ namespace GamingReviews.ViewModels
 
         #endregion
 
-        
         #region methods
 
         bool CheckImageSize(Uri filePath)

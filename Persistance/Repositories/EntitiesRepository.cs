@@ -12,12 +12,11 @@ namespace GamingReviews.Persistance.Repositories
     class EntitiesRepository : Repository<Entities>, IEntityRepository
     {
         public EntitiesRepository(GameNewsLetterContext context) : base(context)
-
         {
 
         }
 
-        public GameNewsLetterContext PlutoContext
+        public GameNewsLetterContext EntityContext
         {
             get { return Context as GameNewsLetterContext; }
         }

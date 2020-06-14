@@ -13,14 +13,14 @@ namespace GamingReviews.Persistance.Repositories
         public LogsRepository(GameNewsLetterContext context) : base(context)
         {
         }
-        public GameNewsLetterContext PlutoContext
+        public GameNewsLetterContext LogsContext
         {
             get { return Context as GameNewsLetterContext; }
         }
 
         public List<Logs> GetUserLogs(int user_id)
         {
-            using (var unit=new UnitOfWork(PlutoContext))
+            using (var unit=new UnitOfWork(LogsContext))
             {
                 return unit.Logs.GetAll().ToList<Logs>();
             }

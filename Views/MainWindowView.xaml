@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GamingReviews.Views"
-                     xmlns:enum="clr-namespace:GamingReviews"
+        xmlns:enum="clr-namespace:GamingReviews"
 
         
         xmlns:vm="clr-namespace:GamingReviews.ViewModels"
@@ -12,9 +12,10 @@
         xmlns:v="clr-namespace:GamingReviews.Views"
         
         mc:Ignorable="d"
-        Title="MainWindow" Height="690" Width="900"
-        ResizeMode="CanResize">
-        <Grid>
+        Title="Gaming Newsletter" Height="690" Width="900"
+        ResizeMode="CanResize"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
@@ -26,31 +27,27 @@
         <ScrollViewer Grid.Row="1">
 
             <ContentControl Content="{Binding CurrentContent}"/>
-       </ScrollViewer>
+        </ScrollViewer>
 
-            <Menu Grid.Row="0">
-                <MenuItem Header="Go to.." >
-                     <MenuItem Header="User page" Command="{Binding UpdateViewCommand}" CommandParameter="UserPageViewModel"></MenuItem>
-                     <MenuItem Header="Home" Command="{Binding UpdateViewCommand}" CommandParameter="HomePageViewModel"></MenuItem>
-                     <MenuItem Header="Games page" Command="{Binding UpdateViewCommand}" CommandParameter="GamePageViewModel"></MenuItem>
-                </MenuItem>
+        <Menu Grid.Row="0">
+            <MenuItem Header="Go to.." >
+                <MenuItem Header="User page" Command="{Binding UpdateViewCommand}" CommandParameter="UserPageViewModel"></MenuItem>
+                <MenuItem Header="Home" Command="{Binding UpdateViewCommand}" CommandParameter="HomePageViewModel"></MenuItem>
+                <MenuItem Header="Games page" Command="{Binding UpdateViewCommand}" CommandParameter="GamePageViewModel"></MenuItem>
+            </MenuItem>
 
             <MenuItem Command="{Binding GoBack}" IsEnabled="True" Width="30" Height="30"  >
-                    <MenuItem.Icon>
-                        <Image Source="/res/Icons/previous_page.png"/>
-                    </MenuItem.Icon>
-                </MenuItem>
+                <MenuItem.Icon>
+                    <Image Source="/res/Icons/previous_page.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
             <MenuItem Command="{Binding GoBack}" IsEnabled="True" Height="30" Width="30">
-                    <MenuItem.Icon>
-                        <Image Source="/res/Icons/next_page.png"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem   Header="Sign out" Command="{Binding UpdateViewCommand}" CommandParameter="LoginPageViewModel"></MenuItem>
-            </Menu>
-        
-    </Grid>
-    
+                <MenuItem.Icon>
+                    <Image Source="/res/Icons/next_page.png"/>
+                </MenuItem.Icon>
+            </MenuItem>
+            <MenuItem   Header="Sign out" Command="{Binding SignOut}" CommandParameter="LoginPageViewModel"></MenuItem>
+        </Menu>
 
-    
-    
+    </Grid>
 </Window>

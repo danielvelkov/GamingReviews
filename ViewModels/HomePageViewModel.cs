@@ -12,6 +12,7 @@ namespace GamingReviews.ViewModels
     {
         List<Articles> articles;
 
+        #region parameters
         public List<Articles> Articles
         {
             get
@@ -39,25 +40,11 @@ namespace GamingReviews.ViewModels
                 return articles;
             }
         }
+        #endregion
 
-        ICommand goToUserProfile;
+        #region commands
+
         ICommand readArticle;
-        ICommand goToGamePage;
-
-        public ICommand GoToUserProfile
-        {
-            get
-            {
-                if (goToUserProfile == null)
-                    goToUserProfile = new RelayCommand<Object>
-                        (x=> 
-                        {
-                            Mediator.NotifyColleagues("ChangeView",
-                                ViewModelTypes.UserPageViewModel);
-                        }, () => { return true; });
-                return goToUserProfile;
-            }
-        }
 
         public ICommand ReadArticle
         {
@@ -74,20 +61,6 @@ namespace GamingReviews.ViewModels
             }
         }
 
-        public ICommand GoToGamePage
-        {
-            get
-            {
-                if (goToGamePage == null)
-                    goToGamePage = new RelayCommand<Object>(x =>
-                    {
-                        Mediator.NotifyColleagues("ChangeView",
-                            ViewModelTypes.GamePageViewModel);
-                    }, () => { return true; });
-                return goToGamePage;
-            }
-        }
-
-        
+        #endregion
     }
 }

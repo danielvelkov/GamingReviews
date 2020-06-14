@@ -23,6 +23,6 @@ namespace GamingReviews.Models
         {
            return ArticlesContext.Articles.OrderBy(a => a.Date).Take(1).ToList();
         }
-
+        
     }
 }

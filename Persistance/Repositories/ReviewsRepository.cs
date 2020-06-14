@@ -11,13 +11,12 @@ namespace GamingReviews.Models
     {
         public ReviewsRepository(GameNewsLetterContext context) : base(context) { }
 
-        public GameNewsLetterContext PlutoContext
+        public GameNewsLetterContext ReviewsContext
         {
             get { return Context as GameNewsLetterContext; }
         }
 
         // implement the methods from the used interface
-
-
+        
     }
 }

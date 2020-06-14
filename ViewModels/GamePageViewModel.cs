@@ -20,56 +20,16 @@ namespace GamingReviews.ViewModels
                 {
                     using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                     {
-
-                        if (!unitOfWork.Games.Any())
-                        {
-                            unitOfWork.Games.Add(new Games(1,"Bethesda", "Fallout", 1, new byte[2]));
-
-                            unitOfWork.Complete();
-
-                            games = unitOfWork.Games.GetAll() as List<Games>;
-
-                        }
-                        else
-                            games = unitOfWork.Games.GetAll() as List<Games>;
-                        NotifyPropertyChanged("Games");
+                        games = new List<Games>();
+                        games.AddRange(unitOfWork.Games.GetAll());
                     }
                 }
                 return games;
             }
         }
 
-        ICommand goToHomePage;
-        ICommand goToUserPage;
-
-        public ICommand GoToUserPage
-        {
-            get
-            {
-                if (goToUserPage == null)
-                    goToUserPage = new RelayCommand<Object>(x =>
-                    {
-                        Mediator.NotifyColleagues("ChangeView", ViewModelTypes.UserPageViewModel);
-
-                    }, () => { if (this.GetCurrentUser() != null) return true; else return false; });
-                return goToUserPage;
-            }
-        }
-
-        public ICommand GoToHomePage
-        {
-            get
-            {
-                if (goToHomePage == null)
-                    goToHomePage = new RelayCommand<Object>(x =>
-                    {
-                        Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
-
-                    },
-                    ()=> { return true;
-            });
-                return goToHomePage;
-            }
-        }
+        #region commands
+        
+        #endregion
     }
 }

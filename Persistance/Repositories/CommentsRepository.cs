@@ -12,14 +12,14 @@ namespace GamingReviews.Persistance.Repositories
     {
         public CommentsRepository(GameNewsLetterContext context) : base(context) { }
 
-        public GameNewsLetterContext PlutoContext
+        public GameNewsLetterContext CommentContext
         {
             get { return Context as GameNewsLetterContext; }
         }
         
         public List<Comments> FindAllComments(int Entity_id)
         {
-            return PlutoContext.Comments.Select(x => x.TargetEntity_Id == Entity_id) as List<Comments>;
+            return CommentContext.Comments.Where(x => x.TargetEntity_Id == Entity_id).ToList();
         }
 
         // implement the methods from the used interface

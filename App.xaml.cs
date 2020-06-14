@@ -37,5 +37,11 @@ namespace GamingReviews
 
             base.OnStartup(e);
         }
+
+        private void Application_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+        {
+            MessageBox.Show("An unhandled exception just occured" + e.Exception.Message, "exception", MessageBoxButton.OK);
+            e.Handled = true;
+        }
     }
 }

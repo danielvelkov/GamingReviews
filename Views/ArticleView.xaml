@@ -7,48 +7,85 @@
              xmlns:models="clr-namespace:GamingReviews.Models"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="0.5*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="0.7*" ></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition ></RowDefinition>
         </Grid.RowDefinitions>
+        
         <Button Command="{Binding GoToUserProfile}" Content="Profile" Grid.Row="0" Grid.Column="1" Margin="10" FontSize="25" Width="100" Background="Black" Foreground="Red"/>
         <Button Command="{Binding GoToHomePage}" Content="News Feed"  Grid.Row="0" Grid.Column="0" FontSize="25" Width="150" Background="Black" Foreground="Red"/>
 
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <TextBlock Text="Game: " Margin="10"  FontSize="20" Foreground="Black" />
+            <TextBlock Text="{Binding Article.GameName}" Margin="10"  FontSize="20" Foreground="Black" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <TextBlock Text="Author: " Margin="10"  FontSize="20" Foreground="Black" />
+            <TextBlock Text="{Binding Article.Author}" Margin="10"  FontSize="20" Foreground="Black" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+            <TextBlock Text="Date created: " Margin="10" FontSize="20" Foreground="Black"></TextBlock>
+            <TextBlock Text="{Binding Article.Date}" Margin="10" FontSize="20" Foreground="Black" />
+        </StackPanel>
+        
         <Label Content="Article" Grid.Row="1" Grid.Column="0"  HorizontalAlignment="Center" FontSize="20" Foreground="Black"/>
-        <TextBlock Text="{Binding Name}" Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" FontSize="20" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
-        <TextBlock Text="{Binding GameName}" Grid.Row="2" Grid.Column="0" FontSize="15" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-        <TextBlock Text="{Binding Date}" Grid.Row="2" Grid.Column="0" FontSize="15" Foreground="Black" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
-
-        <TextBlock Text="{Binding Author}" Grid.Row="2" Grid.Column="0" FontSize="20" Foreground="Black" HorizontalAlignment="Right" VerticalAlignment="Center"/>
-        <Image Grid.Row="1" Grid.Column="1" Grid.RowSpan="3" Source="{Binding Image}" Width="100" Height="100"/>
-         <TextBlock Text="{Binding Content}" Grid.Row="3" Grid.RowSpan="3" FontSize="15" Foreground="Black"/>
+        <TextBlock Text="{Binding Article.Name}" Margin="10" Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" FontSize="30" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+        
+        <Image Source="{Binding Article.ImageSource}" Stretch="Uniform" Grid.Row="1" Grid.Column="1" Grid.RowSpan="2" />
+        <Border Grid.Row="3" Grid.RowSpan="3" Grid.ColumnSpan="2" MinHeight="250" BorderBrush="Black" BorderThickness="4">
+            <TextBlock Text="{Binding Article.Content}"  FontSize="15" Foreground="Black"/>
+        </Border>
+        
 
         <StackPanel Grid.Row="6" Orientation="Horizontal">
 
-            <TextBox Text="{Binding CommentText}" Width="200"></TextBox>
-            <Button Command="{Binding AddComment}" Content="Post"></Button>
+            <TextBox Text="{Binding CommentText}"  MaxLength="1000" SpellCheck.IsEnabled="True" Language="en-US" AcceptsReturn="True" TextWrapping="Wrap" Width="200" MaxHeight="140" MinHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+            <Button Command="{Binding AddComment}" ToolTip="Remember: don't be toxic!" ToolTipService.ShowDuration="5000" Content="Post" Foreground="Black" Background="Red"></Button>
         </StackPanel>
-        
-        <TreeView Grid.Row="7" ItemsSource="{Binding CommentSection}" >
+
+        <TreeView Grid.Row="7" ItemsSource="{Binding CommentSection}">
             <TreeView.ItemTemplate>
-                <DataTemplate DataType="{x:Type  models:Comments }">
-                    <Grid>
+                <HierarchicalDataTemplate DataType="{x:Type  models:Comments }" ItemsSource="{Binding CommentDiscussion}" >
+                    
+                    <HierarchicalDataTemplate.ItemContainerStyle>
+                        <Style TargetType="{x:Type TreeViewItem}">
+                            <Setter Property="IsExpanded" Value="False"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=toggleButton,Path=IsChecked}" Value="True">
+                                    <Setter Property="Foreground" Value="Red"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </HierarchicalDataTemplate.ItemContainerStyle>
+                    
+                    <Border BorderBrush="Red" BorderThickness="1" CornerRadius="8,8,3,3">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Color="WhiteSmoke" Offset="0.0" />
+                                <GradientStop Color="DarkRed" Offset="0.5" />
+                                <GradientStop Color="Red" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
+                            <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
+                            <ColumnDefinition Width="150"></ColumnDefinition>
                         </Grid.ColumnDefinitions>
 
                         <Grid.RowDefinitions>
@@ -56,16 +93,26 @@
                             <RowDefinition></RowDefinition>
                             <RowDefinition></RowDefinition>
                         </Grid.RowDefinitions>
-
-                        <TextBlock Text="{Binding User_id}" Grid.Row="0" Grid.Column="0" ></TextBlock>
-                        <TextBlock Text="{Binding Date}"  Grid.Row="0" Grid.Column="1" ></TextBlock>
-                        <TextBlock Text="{Binding Content}" Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2"></TextBlock>
-                        <Button Grid.Row="2" Grid.Column="1">
-                            <TextBlock Text="Add Comment"></TextBlock>
-                        </Button>
+                        
+                        <Ellipse Grid.RowSpan="2" Width="80" Height="80">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{Binding ProfilePic}"></ImageBrush>
+                            </Ellipse.Fill>
+                        </Ellipse>
+                        <TextBlock Text="{Binding Author}" Grid.Row="0" Grid.Column="1" ></TextBlock>
+                       
+                        <TextBlock Text="{Binding Date}"  Grid.Row="0" Grid.Column="2" ></TextBlock>
+                            
+                        <TextBlock Text="{Binding Content}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" ></TextBlock>
+                          
+                        <ToggleButton x:Name="toggleButton" Grid.Row="2" Grid.Column="1" Foreground="Black" Background="Red" IsChecked="False">
+                            <TextBlock Text="View replies"></TextBlock>
+                        </ToggleButton>
                     </Grid>
-                </DataTemplate>
+                    </Border>
+                </HierarchicalDataTemplate>
             </TreeView.ItemTemplate>
+            
         </TreeView>
     </Grid>
 </UserControl>

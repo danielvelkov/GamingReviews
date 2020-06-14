@@ -17,6 +17,7 @@ namespace GamingReviews.Persistance
     {
         private readonly GameNewsLetterContext _context;
 
+        // TODO: could be made for specific repositories so its not that bulky
         public UnitOfWork(GameNewsLetterContext context)
         {
             _context = context;
@@ -66,6 +67,8 @@ namespace GamingReviews.Persistance
             
         }
 
+
+        // for simultanious entry if needed
         public Task<int> CompleteAsync()
         {
             try

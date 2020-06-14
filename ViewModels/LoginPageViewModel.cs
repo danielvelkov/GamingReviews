@@ -83,7 +83,7 @@ namespace GamingReviews.ViewModels
                               // change to home screen
                               Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
                           }
-                          ErrorMsg = "password doesnt match";
+                          ErrorMsg = "Passwords dont match";
                           return;
                          
                       }

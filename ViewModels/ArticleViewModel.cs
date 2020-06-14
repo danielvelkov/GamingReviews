@@ -3,6 +3,7 @@ using GamingReviews.Models;
 using GamingReviews.Persistance;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -15,52 +16,20 @@ namespace GamingReviews.ViewModels
 {
     public class ArticleViewModel:BaseViewModel
     {
-
         string commentText;
+        ObservableCollection<Comments> commentSection;
 
         #region parameters
-        public string Author
+       
+        public Articles Article
         {
             get
             {
-                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
-                {
-                    Articles currentArticle = GetSelectedArticle();
-                   Users user =unitOfWork.Users.Find(u => u.Id == currentArticle.User_id).FirstOrDefault();
-                    if (user == null)
-                    {
-                        return "anonymous";
-                    }
-                    else
-                        return user.UserName;
-                }
+                return this.GetSelectedArticle();
             }
         }
 
-        public string Name
-        {
-            get
-            {
-                return this.GetSelectedArticle().Name;
-            }
-        }
-
-        public string Content
-        {
-            get
-            {
-                return this.GetSelectedArticle().Content;
-            }
-        }
-
-        public string GameName
-        {
-            get
-            {
-                return this.GetSelectedArticle().GameName;
-            }
-        }
-
+        // TODO: image changing? multiple images per article?
         public List<byte[]> Images
         {
             get
@@ -69,44 +38,40 @@ namespace GamingReviews.ViewModels
             }
         }
 
-        public List<Comments> CommentSection
+        public ObservableCollection<Comments> CommentSection
         {
             get
             {
-                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                if (commentSection == null)
                 {
-                    List<Comments> ArticleComments = unitOfWork.Comments.FindAllComments(this.GetSelectedArticle().Entity_Id);
-                    return ArticleComments;
-                }
-            }
-        }
+                    using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                    {
+                        Entities entity = unitOfWork.Entities.Get(GetSelectedArticle().Entity_Id);
 
-        public BitmapImage Image
-        {
-            get
+                        //with lazy loading
+                        commentSection = new ObservableCollection<Comments>();
+                        foreach (var comment in entity.Target_Comment)
+                        {
+                            commentSection.Add(comment);
+                        }
+
+                        
+                        //without
+                        //commentSection.AddRange(unitOfWork.Comments.FindAllComments(this.GetSelectedArticle().Entity_Id));
+                    }
+                }
+                return commentSection;
+            }
+            set
             {
-                var imageData = GetSelectedArticle().Image;
-                if(imageData==null || imageData.Length < 20)
+                if (commentSection != value)
                 {
-                   
-                    return new BitmapImage(new Uri(@"/GamingReviews;component/res/Images/no image.png",UriKind.Relative));
+                    commentSection = value;
+                    NotifyPropertyChanged("CommentSection");
                 }
-                var image = new BitmapImage();
-                using(var mem= new MemoryStream(imageData))
-                {
-                    mem.Position = 0;
-                    image.BeginInit();
-                    image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
-                    image.CacheOption = BitmapCacheOption.OnLoad;
-                    image.UriSource = null;
-                    image.StreamSource = mem;
-                    image.EndInit();
-                }
-                image.Freeze();
-                return image;
             }
         }
-
+        
         public string CommentText
         {
             get
@@ -127,39 +92,10 @@ namespace GamingReviews.ViewModels
         #endregion
 
         #region commands
-
-        ICommand goToUserProfile;
-        ICommand goToHomePage;
+        
         ICommand addComment;
-
-        public ICommand GoToUserProfile
-        {
-            get
-            {
-                if (goToUserProfile == null)
-                    goToUserProfile = new RelayCommand<Object>(x=>
-                    {
-                        Mediator.NotifyColleagues("ChangeView", ViewModelTypes.UserPageViewModel);
-                    
-                    }, () => { return true; });
-                return goToUserProfile;
-            }
-        }
-
-        public ICommand GoToHomePage
-        {
-            get
-            {
-                if (goToHomePage == null)
-                    goToHomePage = new RelayCommand<Object>(x =>
-                    {
-                        Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
-
-                    },()=> { return true; });
-                return goToHomePage;
-            }
-        }
-
+        ICommand viewReplies;
+        
         public ICommand AddComment
         {
             get
@@ -179,10 +115,26 @@ namespace GamingReviews.ViewModels
                               unitofwork.Complete();
                               Debug.WriteLine(Entity.Entity_Id);
                               Debug.WriteLine(Comment.Entity_Id);
-
+                              CommentSection.Add(Comment);
                           }
                       }, () => { return true; });
                 return addComment;
+            }
+        }
+        public ICommand ViewReplies
+        {
+            get
+            {
+                if (viewReplies == null)
+                    viewReplies = new RelayCommand<Comments>(x =>
+                    {
+                        using (var unitofwork = new UnitOfWork(new GameNewsLetterContext()))
+                        {
+
+                        }
+
+                    }, () => { return true; });
+                return viewReplies;
             }
         }
         #endregion

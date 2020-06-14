@@ -9,30 +9,16 @@ namespace GamingReviews.ViewModels
 {
     public class MainViewModel : BaseViewModel
     {
+        #region variables
+
         private ICommand updateViewCommand;
+        private ICommand signOut;
         private BaseViewModel _currentContent;
         //private List<BaseViewModel> history;
-        
-        public MainViewModel()
-        {
-            Mediator.Register("ChangeView", ChangeContent);
-        }
 
-        public ICommand UpdateViewCommand {
-            get
-            {
-                return updateViewCommand ?? (updateViewCommand = new RelayCommand<Object>(x =>
-                   {
-                       Mediator.NotifyColleagues("ChangeView", x);
-                   }, () => { if (this.GetCurrentUser() != null) return true; else return false; }
-                ));
-            }
-        }
-        
-        void ChangeContent(object ViewModel )
-        {
-            CurrentContent = ViewModelsFactory.ViewModelType((ViewModelTypes)Enum.Parse(typeof(ViewModelTypes),ViewModel.ToString()));
-        }
+        #endregion
+
+        #region parameters
 
         public BaseViewModel CurrentContent
         {
@@ -50,7 +36,7 @@ namespace GamingReviews.ViewModels
                     return;
 
                 // enables the menu items after you log in
-                if((_currentContent is LoginPageViewModel)&&(value is HomePageViewModel))
+                if ((_currentContent is LoginPageViewModel) && (value is HomePageViewModel))
                 {
                     (UpdateViewCommand as RelayCommand<Object>).RaiseCanExecuteChanged();
                 }
@@ -58,6 +44,53 @@ namespace GamingReviews.ViewModels
                 NotifyPropertyChanged("CurrentContent");
             }
         }
-        
+
+        #endregion
+
+        public MainViewModel()
+        {
+            Mediator.Register("ChangeView", ChangeContent);
+        }
+
+        #region commands
+
+        public ICommand UpdateViewCommand {
+            get
+            {
+                return updateViewCommand ?? (updateViewCommand = new RelayCommand<Object>(x =>
+                   {
+                       Mediator.NotifyColleagues("ChangeView", x);
+                   }, () => { if (this.GetCurrentUser() != null) return true; else return false; }
+                ));
+            }
+        }
+
+        public ICommand SignOut
+        {
+            get
+            {
+                return signOut ?? (signOut = new RelayCommand<Object>(x =>
+                {
+                    Mediator.NotifyColleagues("ChangeView", x);
+                    this.SetCurrentUser(null);
+
+                    // disables menu
+                    (UpdateViewCommand as RelayCommand<Object>).RaiseCanExecuteChanged();
+                }, () => { return true; }
+                ));
+            }
+        }
+
+        #endregion
+
+        #region methods
+
+        void ChangeContent(object ViewModel )
+        {
+            // this is ugly
+            CurrentContent = ViewModelsFactory.ViewModelType((ViewModelTypes)Enum.Parse(typeof(ViewModelTypes),ViewModel.ToString()));
+        }
+
+        #endregion
     }
 }

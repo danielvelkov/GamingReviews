@@ -30,14 +30,14 @@
 
 
         <Label Content="Register" Grid.Column="1" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30" Foreground="Black"/>
-        <Label Content="Email:" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="Red"/>
-        <TextBox Text="{Binding Email}" Grid.Column="1" Grid.Row="2" Height="40" Width="200" Background="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"/>
-        <Label Content="Username:" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="Black"/>
-        <TextBox Text="{Binding UserName}" Grid.Column="1" Grid.Row="4" Height="40" Width="200" Background="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"/>
-        <Label Content="Password:" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="Red"/>
-        <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" Grid.Column="1" Grid.Row="6" Height="40" Width="200" Background="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"/>
-        <Label Content="Confirm password:" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="Black"/>
-        <PasswordBox PasswordChanged="PasswordBox_ConfirmPasswordChanged" Grid.Column="1" Grid.Row="8" Height="40" Width="200" Background="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"/>
+        <Label Content="_Email:" Target="{Binding ElementName=txtEmail}" Grid.Column="1" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="Red"/>
+        <TextBox Text="{Binding Email}" Name="txtEmail" Grid.Column="1" Grid.Row="2" Height="40" Width="200" Background="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"/>
+        <Label Content="_Username:" Target="{Binding ElementName=txtName}" Grid.Column="1" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="Black"/>
+        <TextBox Text="{Binding UserName}" Name="txtName" Grid.Column="1" Grid.Row="4" Height="40" Width="200" Background="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"/>
+        <Label Content="_Password:" Target="{Binding ElementName=txtPassword}" Grid.Column="1" Grid.Row="5" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="Red"/>
+        <PasswordBox PasswordChanged="PasswordBox_PasswordChanged" Name="txtPassword" Grid.Column="1" Grid.Row="6" Height="40" Width="200" Background="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"/>
+        <Label Content="_Confirm password:" Target="{Binding ElementName=txtConfirmPassword}" Grid.Column="1" Grid.Row="7" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="20" Foreground="Black"/>
+        <PasswordBox PasswordChanged="PasswordBox_ConfirmPasswordChanged" Name="txtConfirmPassword" Grid.Column="1" Grid.Row="8" Height="40" Width="200" Background="WhiteSmoke" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="25"/>
         <Label Content="{Binding ErrorMsg,Mode=TwoWay}" Grid.Row="9" Grid.Column="1" Height="40" Foreground="Red" ></Label>
         <Button Command="{Binding RegisterUser}" Grid.Column="1" Grid.Row="10" Content="Register" FontSize="25" Margin="10" Background="Black" Foreground="Red"/>
 

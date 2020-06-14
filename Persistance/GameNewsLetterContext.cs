@@ -33,7 +33,7 @@ namespace GamingReviews.Models
         // NOTE: you need to change the model classes first
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-          
+          // for specific stuff if you dont want to migrate
         }
     }
 }

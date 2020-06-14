@@ -13,14 +13,14 @@ namespace GamingReviews.Persistance.Repositories
 
         public GamesRepository(GameNewsLetterContext context) : base(context) { }
 
-        public GameNewsLetterContext PlutoContext
+        public GameNewsLetterContext GamesContext
         {
             get { return Context as GameNewsLetterContext; }
         }
 
         public bool Any()
         {
-            Games game = PlutoContext.Games.SingleOrDefault(g => g.Entity_id > 0);
+            Games game = GamesContext.Games.SingleOrDefault(g => g.Entity_id > 0);
             if (game == null)
             {
                 return false;

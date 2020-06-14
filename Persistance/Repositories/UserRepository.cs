@@ -11,7 +11,7 @@ namespace GamingReviews.Models
     {
         public UserRepository(GameNewsLetterContext context) : base(context) { }
 
-        public GameNewsLetterContext PlutoContext
+        public GameNewsLetterContext UsersContext
         {
             get { return Context as GameNewsLetterContext; }
         }
@@ -19,7 +19,7 @@ namespace GamingReviews.Models
         // implement the methods from the used interface
         public bool DoesUserExist(string Username)
         {
-            Users user =PlutoContext.Users.SingleOrDefault(a => a.UserName == Username);
+            Users user =UsersContext.Users.SingleOrDefault(a => a.UserName == Username);
             if (user == null)
             {
                 return false;
@@ -28,7 +28,7 @@ namespace GamingReviews.Models
         }
         public bool DoesEmailExist(string Email)
         {
-            Users user = PlutoContext.Users.SingleOrDefault(a => a.Email == Email);
+            Users user = UsersContext.Users.SingleOrDefault(a => a.Email == Email);
             if (user == null)
             {
                 return false;
@@ -37,16 +37,16 @@ namespace GamingReviews.Models
         }
         public void UpdatePassword(int id,string newPassword)
         {
-            Users user = PlutoContext.Users.SingleOrDefault(a => a.Id == id);
+            Users user = UsersContext.Users.SingleOrDefault(a => a.Id == id);
             user.Password = newPassword;
-            PlutoContext.SaveChanges();
+            UsersContext.SaveChanges();
         }
 
         public void UpdateImage(int id, byte[] image)
         {
-            Users user = PlutoContext.Users.SingleOrDefault(a => a.Id == id);
+            Users user = UsersContext.Users.SingleOrDefault(a => a.Id == id);
             user.Image = image.ToArray();
-            PlutoContext.SaveChanges();
+            UsersContext.SaveChanges();
         }
     }
 }

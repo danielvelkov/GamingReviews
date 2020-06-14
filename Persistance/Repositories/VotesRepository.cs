@@ -13,7 +13,7 @@ namespace GamingReviews.Persistance.Repositories
         public VotesRepository(GameNewsLetterContext context) : base(context)
         {
         }
-        public GameNewsLetterContext PlutoContext
+        public GameNewsLetterContext VotesContext
         {
             get { return Context as GameNewsLetterContext; }
         }
