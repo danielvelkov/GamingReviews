@@ -7,6 +7,7 @@ namespace GamingReviews.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Linq;
 
     public partial class Comments
     {
@@ -68,27 +69,30 @@ namespace GamingReviews.Models
                 }
             }
         }
+
+        ObservableCollection<Comments> commentDiscussion=new ObservableCollection<Comments>();
+
         [NotMapped]
         public ObservableCollection<Comments> CommentDiscussion
         {
             get
             {
-                ObservableCollection<Comments> commentDiscussion;
+                if (!commentDiscussion.Any())
+                {
+                    using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                    {
+                        Entities entity = unitOfWork.Entities.Get(Entity_Id);
 
-                //using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
-                //{
-                //    Entities entity = unitOfWork.Entities.Get(Entity_Id);
+                        //with lazy loading
 
-                //    //with lazy loading
-                //    commentDiscussion = new ObservableCollection<Comments>();
-                //    foreach (var comment in entity.Target_Comment)
-                //        commentDiscussion.Add(comment);
-                //}
-                commentDiscussion = new ObservableCollection<Comments>();
-                commentDiscussion.Add(new Comments(this.Entity_Id, "tests", 1));
+                        foreach (var comment in entity.Target_Comment)
+                            commentDiscussion.Add(comment);
+                    }
+                }
                 return commentDiscussion;
             }
         }
+        
 
         [NotMapped]
         public byte[] ProfilePic

@@ -12,7 +12,7 @@ namespace GamingReviews.ViewModels
 
         static Users currentUser;
         static Articles selectedArticle;
-
+        
         public Users GetCurrentUser()
         {
             return currentUser;
@@ -32,7 +32,7 @@ namespace GamingReviews.ViewModels
         {
             selectedArticle = value;
         }
-
+        
         protected ICommand goToUserProfile;
         protected ICommand goToHomePage;
         protected ICommand goToGamePage;

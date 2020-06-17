@@ -58,21 +58,19 @@
             <Button Command="{Binding AddComment}" ToolTip="Remember: don't be toxic!" ToolTipService.ShowDuration="5000" Content="Post" Foreground="Black" Background="Red"></Button>
         </StackPanel>
 
-        <TreeView Grid.Row="7" ItemsSource="{Binding CommentSection}">
-            <TreeView.ItemTemplate>
+        <!--<TreeView Grid.Row="7" ItemsSource="{Binding CommentSection}" >
+            
+            <TreeView.ItemContainerStyle>
+                <Style TargetType="{x:Type TreeViewItem}">
+                    <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}"></Setter>
+                </Style>
+                
+            </TreeView.ItemContainerStyle>
+            
+            <TreeView.Resources>
+               
                 <HierarchicalDataTemplate DataType="{x:Type  models:Comments }" ItemsSource="{Binding CommentDiscussion}" >
-                    
-                    <HierarchicalDataTemplate.ItemContainerStyle>
-                        <Style TargetType="{x:Type TreeViewItem}">
-                            <Setter Property="IsExpanded" Value="False"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ElementName=toggleButton,Path=IsChecked}" Value="True">
-                                    <Setter Property="Foreground" Value="Red"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </HierarchicalDataTemplate.ItemContainerStyle>
-                    
+
                     <Border BorderBrush="Red" BorderThickness="1" CornerRadius="8,8,3,3">
                         <Border.Background>
                             <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
@@ -82,37 +80,139 @@
                             </LinearGradientBrush>
                         </Border.Background>
                         <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.7*"></ColumnDefinition>
-                            <ColumnDefinition Width="150"></ColumnDefinition>
-                            <ColumnDefinition Width="150"></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                                <ColumnDefinition Width="150"></ColumnDefinition>
+                                <ColumnDefinition Width="150"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
 
-                        <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition></RowDefinition>
-                        </Grid.RowDefinitions>
-                        
-                        <Ellipse Grid.RowSpan="2" Width="80" Height="80">
-                            <Ellipse.Fill>
-                                <ImageBrush ImageSource="{Binding ProfilePic}"></ImageBrush>
-                            </Ellipse.Fill>
-                        </Ellipse>
-                        <TextBlock Text="{Binding Author}" Grid.Row="0" Grid.Column="1" ></TextBlock>
-                       
-                        <TextBlock Text="{Binding Date}"  Grid.Row="0" Grid.Column="2" ></TextBlock>
-                            
-                        <TextBlock Text="{Binding Content}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" ></TextBlock>
-                          
-                        <ToggleButton x:Name="toggleButton" Grid.Row="2" Grid.Column="1" Foreground="Black" Background="Red" IsChecked="False">
-                            <TextBlock Text="View replies"></TextBlock>
-                        </ToggleButton>
-                    </Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Ellipse Grid.RowSpan="2" Width="80" Height="80">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding ProfilePic}"></ImageBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Text="{Binding Author}" Grid.Row="0" Grid.Column="1" ></TextBlock>
+
+                            <TextBlock Text="{Binding Date}"  Grid.Row="0" Grid.Column="2" ></TextBlock>
+
+                            <TextBlock Text="{Binding Content}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" ></TextBlock>
+--><!--it can only go 255 levels so we need to check that (see visual msdn)--><!--
+                            <ToggleButton  x:Name="toggleButton" Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsExpanded,Mode=TwoWay}" Foreground="Black" Background="Red">
+                                <TextBlock Text="View replies"></TextBlock>
+                            </ToggleButton>
+                        </Grid>
                     </Border>
                 </HierarchicalDataTemplate>
-            </TreeView.ItemTemplate>
+            </TreeView.Resources>
             
-        </TreeView>
+        </TreeView>-->
+
+
+        <ListBox Grid.Row="7" ItemsSource="{Binding CommentSection}" >
+
+            <ListBox.ItemTemplate >
+                <DataTemplate DataType="{x:Type  models:Comments }">
+                    <Border BorderBrush="Red" BorderThickness="1" CornerRadius="8,8,3,3">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Color="WhiteSmoke" Offset="0.0" />
+                                <GradientStop Color="DarkRed" Offset="0.5" />
+                                <GradientStop Color="Red" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                                <ColumnDefinition Width="150"></ColumnDefinition>
+                                <ColumnDefinition Width="300"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Ellipse Grid.RowSpan="2" Width="80" Height="80">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding ProfilePic}"></ImageBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Text="{Binding Author}" Grid.Row="0" Grid.Column="1" ></TextBlock>
+
+                            <TextBlock Text="{Binding Date}"  Grid.Row="0" Grid.Column="2" ></TextBlock>
+
+                            <TextBlock Text="{Binding Content}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" ></TextBlock>
+                            <!--it can only go 255 levels so we need to check that (see visual msdn)-->
+                            <Expander Visibility="Visible" Header="View Replies" Grid.Row="3" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" >
+                                <ListBox ItemsSource="{Binding CommentDiscussion}"  >
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate  DataType="{x:Type  models:Comments }">
+                                            <Border BorderBrush="Red" BorderThickness="1" CornerRadius="8,8,3,3">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                        <GradientStop Color="WhiteSmoke" Offset="0.0" />
+                                                        <GradientStop Color="DarkRed" Offset="0.5" />
+                                                        <GradientStop Color="Red" Offset="1.0" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                                                        <ColumnDefinition Width="150"></ColumnDefinition>
+                                                        <ColumnDefinition Width="190"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+
+                                                    <Ellipse Grid.RowSpan="2" Width="80" Height="80">
+                                                        <Ellipse.Fill>
+                                                            <ImageBrush ImageSource="{Binding ProfilePic}"></ImageBrush>
+                                                        </Ellipse.Fill>
+                                                    </Ellipse>
+                                                    <TextBlock Text="{Binding Author}" Grid.Row="0" Grid.Column="1" ></TextBlock>
+
+                                                    <TextBlock Text="{Binding Date}"  Grid.Row="0" Grid.Column="2" ></TextBlock>
+
+                                                    <TextBlock Text="{Binding Content}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" ></TextBlock>
+
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+                            </Expander>
+                            <Expander Header="Post reply"  Grid.Row="3" Grid.RowSpan="2" Grid.Column="2" Panel.ZIndex="1">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ArticleView}
+                                        },Path=DataContext.ReplyCommentText}"  MaxLength="1000" SpellCheck.IsEnabled="True" Language="en-US" AcceptsReturn="True" TextWrapping="Wrap" Width="200" MaxHeight="140" MinHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+                                    <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ArticleView}
+                                        },Path=DataContext.AddReply}" CommandParameter="{Binding}" ToolTip="Remember: don't be toxic!" ToolTipService.ShowDuration="5000" Content="Post Reply" Foreground="Black" Background="Red"></Button>
+                                </StackPanel>
+                            </Expander>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+           
+
+        </ListBox>
+
+
     </Grid>
 </UserControl>

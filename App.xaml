@@ -25,8 +25,8 @@
             <DataTemplate DataType="{x:Type vm:ArticleViewModel}">
                 <v:ArticleView></v:ArticleView>
             </DataTemplate>
-        
-            <!--how a style is added
+
+        <!--how a style is added
         <Style TargetType="{x:Type Button}">
             <Setter Property="Margin" Value="20" ></Setter>
             <Setter Property="FontSize" Value="20"></Setter>

@@ -17,7 +17,8 @@ namespace GamingReviews.ViewModels
     public class ArticleViewModel:BaseViewModel
     {
         string commentText;
-        ObservableCollection<Comments> commentSection;
+        string replyCommentText;
+        ObservableCollection<Comments> commentSection = new ObservableCollection<Comments>();
 
         #region parameters
        
@@ -42,22 +43,17 @@ namespace GamingReviews.ViewModels
         {
             get
             {
-                if (commentSection == null)
+                if (!commentSection.Any())
                 {
                     using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                     {
                         Entities entity = unitOfWork.Entities.Get(GetSelectedArticle().Entity_Id);
 
-                        //with lazy loading
-                        commentSection = new ObservableCollection<Comments>();
+                        //lazy loading
                         foreach (var comment in entity.Target_Comment)
                         {
                             commentSection.Add(comment);
                         }
-
-                        
-                        //without
-                        //commentSection.AddRange(unitOfWork.Comments.FindAllComments(this.GetSelectedArticle().Entity_Id));
                     }
                 }
                 return commentSection;
@@ -89,12 +85,33 @@ namespace GamingReviews.ViewModels
                 }
             }
         }
+
+        public string ReplyCommentText
+        {
+            get
+            {
+                if (replyCommentText == null)
+                    replyCommentText = "Add comment...";
+
+
+                return replyCommentText;
+            }
+            set
+            {
+                if(replyCommentText!=value)
+                {
+                    replyCommentText = value;
+                    NotifyPropertyChanged("ReplyCommentText");
+                }
+            }
+        }
         #endregion
 
         #region commands
         
         ICommand addComment;
         ICommand viewReplies;
+        ICommand addReply;
         
         public ICommand AddComment
         {
@@ -135,6 +152,31 @@ namespace GamingReviews.ViewModels
 
                     }, () => { return true; });
                 return viewReplies;
+            }
+        }
+
+        public ICommand AddReply
+        {
+            get
+            {
+                if (addReply == null)
+                    addReply = new RelayCommand<Comments>(x =>
+                      {
+                          using (var unitofwork = new UnitOfWork(new GameNewsLetterContext()))
+                          {
+                              var Entity = new Entities();
+                              unitofwork.Entities.Add(Entity);
+                              unitofwork.Complete();
+                              var Comment = new Comments(x.Entity_Id,
+                                  ReplyCommentText, GetCurrentUser().Id);
+                              unitofwork.Comments.Add(Comment);
+                              Comment.Entity = Entity;
+                              unitofwork.Complete();
+                              CommentSection.Where(y=>y.Entity_Id== x.Entity_Id ).First().CommentDiscussion.Add(Comment);
+                              NotifyPropertyChanged("CommentDiscussion");
+                          }
+                      }, () => { return true; });
+                return addReply;
             }
         }
         #endregion
