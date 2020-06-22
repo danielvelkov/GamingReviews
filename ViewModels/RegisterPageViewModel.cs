@@ -186,7 +186,7 @@ namespace GamingReviews.ViewModels
                         }
 
                     }
-                    , () => { return true; });
+                    );
                 return registerUser;
             }
         }
@@ -218,7 +218,7 @@ namespace GamingReviews.ViewModels
                              }
                              else ErrorMsg = "wrong picture size!";
                          }
-                     },()=> { return true; });
+                     });
                 }
                 return selectImage;
             }

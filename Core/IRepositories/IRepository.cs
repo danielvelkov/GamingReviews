@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace GamingReviews.Interfaces
 {
-    public interface IRepository<TEntity> where TEntity : class
+    public interface IRepository<TEntity>: IDisposable where TEntity:class
+
     {
         // methods for finding objects
         TEntity Get(int id);

@@ -72,5 +72,10 @@ namespace GamingReviews.Models
         {
             Context.Set<TEntity>().RemoveRange(entities);
         }
+
+        public void Dispose()
+        {
+            Context.Dispose();
+        }
     }
 }

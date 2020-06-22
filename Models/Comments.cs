@@ -62,9 +62,9 @@ namespace GamingReviews.Models
         {
             get
             {
-                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                using (var UsersRepo = new UserRepository(new GameNewsLetterContext()))
                 {
-                    var author = unitOfWork.Users.Get(User_id).UserName;
+                    var author = UsersRepo.Get(this.User_id).UserName;
                     return author;
                 }
             }

@@ -16,7 +16,12 @@ namespace GamingReviews.Models
             get { return Context as GameNewsLetterContext; }
         }
 
+        public IEnumerable<Reviews> GetLatestReviews()
+        {
+            return ReviewsContext.Reviews.OrderBy(a => a.Date).Take(1).ToList();
+        }
+
         // implement the methods from the used interface
-        
+
     }
 }

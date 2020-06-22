@@ -50,7 +50,20 @@
         <Border Grid.Row="3" Grid.RowSpan="3" Grid.ColumnSpan="2" MinHeight="250" BorderBrush="Black" BorderThickness="4">
             <TextBlock Text="{Binding Article.Content}"  FontSize="15" Foreground="Black"/>
         </Border>
-        
+
+        <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Command="{Binding VoteArticle}" CommandParameter="{x:Static models:Reaction.Liked}" >
+                <Image Source="/res/Icons/VoteUpIcon.png" Width="20"></Image>
+            </Button>
+            <TextBlock Text="{Binding Article.Votes}" MinWidth="30" FontSize="30" VerticalAlignment="Center"></TextBlock>
+            <Button Command="{Binding VoteArticle}" CommandParameter="{x:Static models:Reaction.Disliked}">
+                <Image Source="/res/Icons/VoteUpIcon.png" Margin="0,40,0,0" Width="20">
+                    <Image.RenderTransform>
+                        <ScaleTransform ScaleY="-1"/>
+                    </Image.RenderTransform>
+                </Image>
+            </Button>
+        </StackPanel>
 
         <StackPanel Grid.Row="6" Orientation="Horizontal">
 

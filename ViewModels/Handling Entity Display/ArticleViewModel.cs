@@ -110,8 +110,10 @@ namespace GamingReviews.ViewModels
         #region commands
         
         ICommand addComment;
-        ICommand viewReplies;
+        //ICommand viewReplies;
         ICommand addReply;
+        ICommand voteArticle;
+        //ICommand voteComment;
         
         public ICommand AddComment
         {
@@ -120,6 +122,7 @@ namespace GamingReviews.ViewModels
                 if (addComment == null)
                     addComment = new RelayCommand<Object>(x =>
                       {
+                          // we use unit of work instead of repo so we can batch both adds together
                           using (var unitofwork = new UnitOfWork(new GameNewsLetterContext()))
                           {
                               var Entity = new Entities();
@@ -130,55 +133,105 @@ namespace GamingReviews.ViewModels
                               unitofwork.Comments.Add(Comment);
                               Comment.Entity = Entity;
                               unitofwork.Complete();
-                              Debug.WriteLine(Entity.Entity_Id);
-                              Debug.WriteLine(Comment.Entity_Id);
                               CommentSection.Add(Comment);
                           }
-                      }, () => { return true; });
+                      });
                 return addComment;
             }
         }
-        public ICommand ViewReplies
-        {
-            get
-            {
-                if (viewReplies == null)
-                    viewReplies = new RelayCommand<Comments>(x =>
-                    {
-                        using (var unitofwork = new UnitOfWork(new GameNewsLetterContext()))
-                        {
+        //public ICommand ViewReplies
+        //{
+        //    get
+        //    {
+        //        if (viewReplies == null)
+        //            viewReplies = new RelayCommand<Comments>(x =>
+        //            {
+        //                using (var unitofwork = new UnitOfWork(new GameNewsLetterContext()))
+        //                {
 
-                        }
+        //                }
 
-                    }, () => { return true; });
-                return viewReplies;
-            }
-        }
-
+        //            }, x => { return true; });
+        //        return viewReplies;
+        //    }
+        //}
         public ICommand AddReply
         {
             get
             {
                 if (addReply == null)
                     addReply = new RelayCommand<Comments>(x =>
-                      {
-                          using (var unitofwork = new UnitOfWork(new GameNewsLetterContext()))
-                          {
-                              var Entity = new Entities();
-                              unitofwork.Entities.Add(Entity);
-                              unitofwork.Complete();
-                              var Comment = new Comments(x.Entity_Id,
-                                  ReplyCommentText, GetCurrentUser().Id);
-                              unitofwork.Comments.Add(Comment);
-                              Comment.Entity = Entity;
-                              unitofwork.Complete();
-                              CommentSection.Where(y=>y.Entity_Id== x.Entity_Id ).First().CommentDiscussion.Add(Comment);
-                              NotifyPropertyChanged("CommentDiscussion");
-                          }
-                      }, () => { return true; });
+                    {
+                        using (var unitofwork = new UnitOfWork(new GameNewsLetterContext()))
+                        {
+                            var Entity = new Entities();
+                            unitofwork.Entities.Add(Entity);
+                            unitofwork.Complete();
+                            var Comment = new Comments(x.Entity_Id,
+                                ReplyCommentText, GetCurrentUser().Id);
+                            unitofwork.Comments.Add(Comment);
+                            Comment.Entity = Entity;
+                            unitofwork.Complete();
+                            CommentSection.Where(y => y.Entity_Id == x.Entity_Id).First().CommentDiscussion.Add(Comment);
+                            NotifyPropertyChanged("CommentDiscussion");
+                        }
+                    });
                 return addReply;
             }
         }
+        public ICommand VoteArticle
+        {
+            get
+            {
+                int ArticleId = GetSelectedArticle().Entity_Id;
+                int UserId = GetCurrentUser().Id;
+
+                if (voteArticle == null)
+                    voteArticle = new RelayCommand<object>(x =>
+                     {
+                         using (var unitofwork = new UnitOfWork(new GameNewsLetterContext()))
+                         {
+                             if(unitofwork.Votes.HasVoted(ArticleId, UserId))
+                             {
+                                 unitofwork.Votes.ChangeVote(ArticleId,UserId);
+                             }
+                             else
+                             {
+                                 Votes vote = new Votes(
+                                 ArticleId, UserId,
+                                 (Reaction)x);
+                                 unitofwork.Votes.Add(vote);
+
+                                 unitofwork.Complete();
+                                 (VoteArticle as RelayCommand<object>).RaiseCanExecuteChanged();
+                             }
+                             
+                         }
+                     }, () =>
+                     {
+                         using (var unitofwork = new UnitOfWork(new GameNewsLetterContext()))
+                         {
+                             if (unitofwork.Votes.HasVoted(ArticleId, UserId))
+                             {
+                                 if(unitofwork.Votes.SingleOrDefault(x=>(x.Entity_id==ArticleId && x.User_id == UserId)).Reaction==Reaction.Liked)
+                                 {
+                                     return false;
+                                 }
+                             }
+                             return true;
+                         }
+                     });
+                return voteArticle;
+            }
+        }
+        //public ICommand VoteComment
+        //{
+        //    get
+        //    {
+        //        return voteComment;
+        //    }
+        //}
+
         #endregion
 
     }

@@ -18,7 +18,7 @@ namespace GamingReviews.Helper
         {
             get
             {
-                var innerException = InnerException as DbEntityValidationException;
+                DbEntityValidationException innerException = InnerException as DbEntityValidationException;
                 if (innerException != null)
                 {
                     StringBuilder sb = new StringBuilder();

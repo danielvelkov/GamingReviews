@@ -13,11 +13,13 @@ using System.Threading.Tasks;
 
 namespace GamingReviews.Persistance
 {
+    // Unit of work is used to commit changes to multiple tables in one transaction
     public class UnitOfWork : IUnitOfWork
     {
         private readonly GameNewsLetterContext _context;
 
         // TODO: could be made for specific repositories so its not that bulky
+        // for example most of the cases i use are entities add then X type model with that entity ID 
         public UnitOfWork(GameNewsLetterContext context)
         {
             _context = context;

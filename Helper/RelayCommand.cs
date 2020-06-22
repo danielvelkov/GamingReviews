@@ -10,13 +10,20 @@ namespace GamingReviews.Helper
 
 
         private Action<T> method;
-        private Func<bool> methodNoParams;
+        private Func<bool> canExecute;
 
-        public RelayCommand(Action<T> methodToExecute,Func<bool> func)
+        public RelayCommand(Action<T> method)
         {
-            
+            this.method = method;
+            //always enabled
+            this.canExecute = ()=> { return true; } ;
+        }
+
+        public RelayCommand(Action<T> methodToExecute,
+            Func<bool> func)
+        {
             this.method = methodToExecute;
-            this.methodNoParams = func;
+            this.canExecute = func;
         }
 
         public void RaiseCanExecuteChanged()
@@ -26,8 +33,8 @@ namespace GamingReviews.Helper
         
         public bool CanExecute(object parameter)
         {
-            if (methodNoParams != null)
-                return methodNoParams();
+            if (canExecute != null)
+                return canExecute();
             return true;
         }
 
@@ -38,7 +45,7 @@ namespace GamingReviews.Helper
                 this.method.Invoke((T)parameter);
             }
             else
-                this.methodNoParams.Invoke();
+                this.canExecute.Invoke();
         }
     }
 }

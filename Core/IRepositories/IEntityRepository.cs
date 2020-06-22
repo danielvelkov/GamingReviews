@@ -10,5 +10,6 @@ namespace GamingReviews.Core.IRepositories
 {
     public interface IEntityRepository:IRepository<Entities>
     {
+
     }
 }

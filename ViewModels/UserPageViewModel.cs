@@ -194,7 +194,7 @@ namespace GamingReviews.ViewModels
                     
 
                     }
-                    ,()=> { return true; });
+                    );
                 return saveChanges;
             }
         }
@@ -230,7 +230,7 @@ namespace GamingReviews.ViewModels
                              }
                          }
                          
-                     },()=> { return true; });
+                     });
                     
                 }
                 return selectPicture;

@@ -10,10 +10,6 @@ namespace GamingReviews.Core
 {
     interface IUnitOfWork:IDisposable
     {
-
-        IReviewsRepository Reviews { get; }
-        IUserRepository Users { get; }
-        IArticlesRepository Articles { get; }
         
         int Complete();
     }

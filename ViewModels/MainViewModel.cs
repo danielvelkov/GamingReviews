@@ -76,7 +76,7 @@ namespace GamingReviews.ViewModels
 
                     // disables menu
                     (UpdateViewCommand as RelayCommand<Object>).RaiseCanExecuteChanged();
-                }, () => { return true; }
+                }
                 ));
             }
         }

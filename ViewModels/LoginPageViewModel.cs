@@ -88,7 +88,7 @@ namespace GamingReviews.ViewModels
                          
                       }
                      
-                  }), () => { return true; }
+                  })
                 ));
                
             }
@@ -103,7 +103,7 @@ namespace GamingReviews.ViewModels
                  {
                      Mediator.NotifyColleagues("ChangeView", ViewModelTypes.RegisterPageViewModel);
                  }
-                 , () => { return true; }
+                 
                 ));
             }
         }

@@ -21,6 +21,8 @@ namespace GamingReviews.Models
         }
 
         // these are all tables in the database
+        // we dont use dbset. instead we use repositories
+
         public virtual DbSet<Articles> Articles { get; set; }
         public virtual DbSet<Comments> Comments { get; set; }
         public virtual DbSet<Games> Games { get; set; }
@@ -34,6 +36,7 @@ namespace GamingReviews.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
           // for specific stuff if you dont want to migrate
+          
         }
     }
 }

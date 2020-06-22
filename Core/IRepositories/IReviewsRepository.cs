@@ -11,5 +11,6 @@ namespace GamingReviews.Core.Repositories
     public interface IReviewsRepository:IRepository<Reviews>
     {
         // methods concerning reviews
+        IEnumerable<Reviews> GetLatestReviews();
     }
 }

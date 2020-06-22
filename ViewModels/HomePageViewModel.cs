@@ -56,7 +56,7 @@ namespace GamingReviews.ViewModels
                         this.SetSelectedArticle(x);
                         Mediator.NotifyColleagues("ChangeView",
                             ViewModelTypes.ArticleViewModel);
-                    },()=> { return true; });
+                    });
                 return readArticle;
             }
         }

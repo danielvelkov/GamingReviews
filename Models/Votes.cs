@@ -16,6 +16,25 @@ namespace GamingReviews.Models
 
     public partial class Votes
     {
+        public Votes()
+        {
+
+        }
+
+        public Votes(int EntityId, int UserId,Reaction reaction)
+        {
+            this.Entity_id = EntityId;
+            this.User_id = UserId;
+            this.Reaction = reaction;
+        }
+
+        public Votes( int UserId, Reaction reaction)
+        {
+            this.User_id = UserId;
+            this.Reaction = reaction;
+        }
+
+
         [Key,ForeignKey("Entity"),Column(Order = 0)]
         public int Entity_id { get; set; }
 

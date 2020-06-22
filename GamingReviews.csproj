@@ -111,20 +111,29 @@
     <Compile Include="Persistance\Repositories\UserRepository.cs" />
     <Compile Include="Persistance\Repositories\VotesRepository.cs" />
     <Compile Include="Persistance\UnitOfWork.cs" />
-    <Compile Include="ViewModels\AddReviewViewModel.cs" />
-    <Compile Include="ViewModels\ArticleViewModel.cs" />
+    <Compile Include="ViewModels\Handling Entity Addition\AddArticleViewModel.cs" />
+    <Compile Include="ViewModels\Handling Entity Addition\AddGameViewModel.cs" />
+    <Compile Include="ViewModels\Handling Entity Addition\AddReviewViewModel.cs" />
+    <Compile Include="ViewModels\Handling Entity Display\ArticleViewModel.cs" />
     <Compile Include="ViewModels\BaseViewModel.cs" />
     <Compile Include="ViewModels\GamePageViewModel.cs" />
+    <Compile Include="ViewModels\Handling Entity Display\GameReviewsViewModel.cs" />
     <Compile Include="ViewModels\HomePageViewModel.cs" />
     <Compile Include="ViewModels\LoginPageViewModel.cs" />
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RegisterPageViewModel.cs" />
-    <Compile Include="ViewModels\ReviewViewModel.cs" />
+    <Compile Include="ViewModels\Handling Entity Display\ReviewViewModel.cs" />
     <Compile Include="ViewModels\UserPageViewModel.cs" />
-    <Compile Include="Views\AddReviewView.xaml.cs">
+    <Compile Include="Views\Views for Adding\AddArticleView.xaml.cs">
+      <DependentUpon>AddArticleView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Views for Adding\AddGameView.xaml.cs">
+      <DependentUpon>AddGameView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Views for Adding\AddReviewView.xaml.cs">
       <DependentUpon>AddReviewView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ArticleView.xaml.cs">
+    <Compile Include="Views\Views for Displaying\ArticleView.xaml.cs">
       <DependentUpon>ArticleView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\GamePageView.xaml.cs">
@@ -149,11 +158,25 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\AddReviewView.xaml">
+    <Compile Include="Views\Views for Displaying\GameReviewsView.xaml.cs">
+      <DependentUpon>GameReviewsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Views for Displaying\ReviewView.xaml.cs">
+      <DependentUpon>ReviewView.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\Views for Adding\AddArticleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ArticleView.xaml">
+    <Page Include="Views\Views for Adding\AddGameView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Views for Adding\AddReviewView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Views for Displaying\ArticleView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -178,6 +201,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UserPageView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Views for Displaying\GameReviewsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Views for Displaying\ReviewView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -242,6 +273,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Helper\Migrations tutorial.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="res\Icons\VoteUpIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

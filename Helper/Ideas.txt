@@ -19,3 +19,9 @@ passwordboxes could use binding if you use attached property
 search wpf passwordboxes and binding
 
 the above idea was super bad, try "nested set model", instead
+
+what if models like articles comments reviews and games inherited entity and the entity had notmapped properties 
+which loaded things like comments and votes of the given entity
+(*** EF support only one subtype per model. Check here:https://docs.microsoft.com/en-us/ef/core/modeling/inheritance ***)
+
+158 mb for now

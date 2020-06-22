@@ -113,5 +113,24 @@ namespace GamingReviews.Models
                 return image;
             }
         }
+        // its 0 by defaul... AND I DIDDNT KNOW THAT XD
+        int votes;
+        [NotMapped]
+        public int Votes
+        {
+            get
+            {
+                using (var UnitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                {
+                   votes= UnitOfWork.Votes.GetVotes(this.Entity_Id);
+                }
+                return votes;
+            }
+            set
+            {
+                if (votes != value)
+                    votes = value;
+            }
+        }
     }
 }

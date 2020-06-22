@@ -46,7 +46,7 @@ namespace GamingReviews.ViewModels
                     {
                         Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
 
-                    }, () => { return true; });
+                    });
                 return goToHomePage;
             }
         }
@@ -60,7 +60,7 @@ namespace GamingReviews.ViewModels
                     {
                         Mediator.NotifyColleagues("ChangeView", ViewModelTypes.UserPageViewModel);
 
-                    }, () => { return true; });
+                    });
                 return goToUserProfile;
             }
         }
@@ -74,7 +74,7 @@ namespace GamingReviews.ViewModels
                     {
                         Mediator.NotifyColleagues("ChangeView",
                             ViewModelTypes.GamePageViewModel);
-                    }, () => { return true; });
+                    });
                 return goToGamePage;
             }
         }
