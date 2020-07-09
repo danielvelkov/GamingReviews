@@ -12,16 +12,21 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
-namespace GamingReviews.ViewModels
+namespace GamingReviews.ViewModels.Handling_Entity_Display
 {
     public class ArticleViewModel:BaseViewModel
     {
+        #region variables
+
         string commentText;
         string replyCommentText;
         ObservableCollection<Comments> commentSection = new ObservableCollection<Comments>();
+        int votes;
+
+        #endregion
 
         #region parameters
-       
+
         public Articles Article
         {
             get
@@ -45,16 +50,8 @@ namespace GamingReviews.ViewModels
             {
                 if (!commentSection.Any())
                 {
-                    using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
-                    {
-                        Entities entity = unitOfWork.Entities.Get(GetSelectedArticle().Entity_Id);
-
-                        //lazy loading
-                        foreach (var comment in entity.Target_Comment)
-                        {
-                            commentSection.Add(comment);
-                        }
-                    }
+                    foreach (var comm in Article.CommentSection)
+                        commentSection.Add(comm);
                 }
                 return commentSection;
             }
@@ -67,13 +64,35 @@ namespace GamingReviews.ViewModels
                 }
             }
         }
+
+        public int Votes
+        {
+            get
+            {
+                votes = 0;
+                foreach(var vote in Article.Votes)
+                {
+                    if (vote.Reaction == Models.Reaction.Liked)
+                        votes++;
+                    else votes--;
+                    
+                }
+                return votes;
+            }
+            set
+            {
+                if (votes != value)
+                {
+                    votes = value;
+                    NotifyPropertyChanged("Votes");
+                }
+            }
+        }
         
         public string CommentText
         {
             get
             {
-                if (commentText == null)
-                    commentText = "Add comment...";
                 return commentText;
             }
             set
@@ -90,10 +109,6 @@ namespace GamingReviews.ViewModels
         {
             get
             {
-                if (replyCommentText == null)
-                    replyCommentText = "Add comment...";
-
-
                 return replyCommentText;
             }
             set
@@ -102,6 +117,32 @@ namespace GamingReviews.ViewModels
                 {
                     replyCommentText = value;
                     NotifyPropertyChanged("ReplyCommentText");
+                }
+            }
+        }
+        Reaction reaction;
+        public Reaction Reaction
+        {
+            get
+            {
+                using (var unitofwork = new UnitOfWork(new GameNewsLetterContext()))
+                {
+                    if (unitofwork.Votes.HasVoted(Article.Entity_Id, GetCurrentUser().Id))
+                    {
+                        reaction = unitofwork.Votes.GetReaction(Article.Entity_Id, GetCurrentUser().Id);
+                        return reaction;
+                    }
+                    
+                }
+                
+                return Reaction.None;
+                
+            }
+            set
+            {
+                if (reaction != value){
+                    reaction = value;
+                    (VoteArticle as RelayCommand<object>).RaiseCanExecuteChanged();
                 }
             }
         }
@@ -139,22 +180,7 @@ namespace GamingReviews.ViewModels
                 return addComment;
             }
         }
-        //public ICommand ViewReplies
-        //{
-        //    get
-        //    {
-        //        if (viewReplies == null)
-        //            viewReplies = new RelayCommand<Comments>(x =>
-        //            {
-        //                using (var unitofwork = new UnitOfWork(new GameNewsLetterContext()))
-        //                {
-
-        //                }
-
-        //            }, x => { return true; });
-        //        return viewReplies;
-        //    }
-        //}
+        
         public ICommand AddReply
         {
             get
@@ -183,6 +209,7 @@ namespace GamingReviews.ViewModels
         {
             get
             {
+                
                 int ArticleId = GetSelectedArticle().Entity_Id;
                 int UserId = GetCurrentUser().Id;
 
@@ -193,7 +220,7 @@ namespace GamingReviews.ViewModels
                          {
                              if(unitofwork.Votes.HasVoted(ArticleId, UserId))
                              {
-                                 unitofwork.Votes.ChangeVote(ArticleId,UserId);
+                                 unitofwork.Votes.ChangeVote(ArticleId,UserId,(Reaction)x);
                              }
                              else
                              {
@@ -201,25 +228,23 @@ namespace GamingReviews.ViewModels
                                  ArticleId, UserId,
                                  (Reaction)x);
                                  unitofwork.Votes.Add(vote);
-
+                                 
                                  unitofwork.Complete();
-                                 (VoteArticle as RelayCommand<object>).RaiseCanExecuteChanged();
+                                 
                              }
-                             
+                             NotifyPropertyChanged("Votes");
+                             Reaction = (Reaction)x;
                          }
-                     }, () =>
+                     },()=> 
                      {
-                         using (var unitofwork = new UnitOfWork(new GameNewsLetterContext()))
+                         //idk idk i just wanted to disable the option that was selected
+                         // how DO I DO THAT, do i need different command?
+                         if (Reaction != Models.Reaction.None)
                          {
-                             if (unitofwork.Votes.HasVoted(ArticleId, UserId))
-                             {
-                                 if(unitofwork.Votes.SingleOrDefault(x=>(x.Entity_id==ArticleId && x.User_id == UserId)).Reaction==Reaction.Liked)
-                                 {
-                                     return false;
-                                 }
-                             }
-                             return true;
+                             return false;
                          }
+
+                         return true;
                      });
                 return voteArticle;
             }

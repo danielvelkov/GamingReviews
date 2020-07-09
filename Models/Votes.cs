@@ -12,6 +12,7 @@ namespace GamingReviews.Models
     {
         Liked,
         Disliked,
+        None
     }
 
     public partial class Votes

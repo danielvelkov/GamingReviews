@@ -4,27 +4,46 @@
              xmlns:local="clr-namespace:GamingReviews"
              xmlns:v="clr-namespace:GamingReviews.Views"
              xmlns:vm="clr-namespace:GamingReviews.ViewModels"
+             xmlns:vmAdding="clr-namespace:GamingReviews.ViewModels.Handling_Entity_Addition"
+             xmlns:vmViewing="clr-namespace:GamingReviews.ViewModels.Handling_Entity_Display"
+             xmlns:vAdding="clr-namespace:GamingReviews.Views.Views_for_Adding"
+             xmlns:vViewing="clr-namespace:GamingReviews.Views.Views_for_Displaying"
              DispatcherUnhandledException="Application_DispatcherUnhandledException"
              >
     <Application.Resources>
         <DataTemplate DataType="{x:Type vm:RegisterPageViewModel}">
                 <v:RegisterPageView></v:RegisterPageView>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:HomePageViewModel}">
-                <v:HomePageView></v:HomePageView>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:LoginPageViewModel}">
-                <v:LoginPageView></v:LoginPageView>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:UserPageViewModel}">
-                <v:UserPageView></v:UserPageView>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:GamePageViewModel}">
-                <v:GamePageView></v:GamePageView>
-            </DataTemplate>
-            <DataTemplate DataType="{x:Type vm:ArticleViewModel}">
-                <v:ArticleView></v:ArticleView>
-            </DataTemplate>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:HomePageViewModel}">
+            <v:HomePageView></v:HomePageView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:LoginPageViewModel}">
+            <v:LoginPageView></v:LoginPageView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:UserPageViewModel}">
+            <v:UserPageView></v:UserPageView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vm:GamePageViewModel}">
+            <v:GamePageView></v:GamePageView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmAdding:AddGameViewModel}">
+            <vAdding:AddGameView></vAdding:AddGameView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmAdding:AddArticleViewModel}">
+            <vAdding:AddArticleView></vAdding:AddArticleView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmAdding:AddReviewViewModel}">
+            <vAdding:AddReviewView></vAdding:AddReviewView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmViewing:GameReviewsViewModel}">
+            <vViewing:GameReviewsView></vViewing:GameReviewsView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmViewing:ReviewViewModel}">
+            <vViewing:ReviewView></vViewing:ReviewView>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type vmViewing:ArticleViewModel}">
+            <vViewing:ArticleView></vViewing:ArticleView>
+        </DataTemplate>
 
         <!--how a style is added
         <Style TargetType="{x:Type Button}">

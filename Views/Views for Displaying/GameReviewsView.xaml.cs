@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GamingReviews.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace GamingReviews.Views.Views_for_Displaying
     /// <summary>
     /// Interaction logic for GameReviewsView.xaml
     /// </summary>
-    public partial class GameReviewsView : UserControl
+    public partial class GameReviewsView : UserControl,IView
     {
         public GameReviewsView()
         {

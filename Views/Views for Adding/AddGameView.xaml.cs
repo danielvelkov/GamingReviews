@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GamingReviews.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +19,7 @@ namespace GamingReviews.Views.Views_for_Adding
     /// <summary>
     /// Interaction logic for AddGameView.xaml
     /// </summary>
-    public partial class AddGameView : UserControl
+    public partial class AddGameView : UserControl,IView
     {
         public AddGameView()
         {

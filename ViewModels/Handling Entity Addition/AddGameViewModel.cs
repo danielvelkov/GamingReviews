@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace GamingReviews.ViewModels.Handling_Entity_Addition
 {
-    class AddGameViewModel
+    class AddGameViewModel:BaseViewModel
     {
     }
 }

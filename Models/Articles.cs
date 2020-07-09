@@ -1,17 +1,23 @@
 namespace GamingReviews.Models
 {
+    using GamingReviews.Interfaces;
     using GamingReviews.Persistance;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Diagnostics;
     using System.IO;
     using System.Windows.Media.Imaging;
 
-    public partial class Articles
+    public partial class Articles:IVoteable,ICommentable
     {
-        public Articles() { }
+        public Articles()
+        {
+            
+        }
 
         public Articles(int EntityId,string name, int user_id, 
             int game_id, string content,
@@ -113,24 +119,50 @@ namespace GamingReviews.Models
                 return image;
             }
         }
-        // its 0 by defaul... AND I DIDDNT KNOW THAT XD
-        int votes;
         [NotMapped]
-        public int Votes
+        public ObservableCollection<Votes> Votes
         {
             get
             {
-                using (var UnitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                 {
-                   votes= UnitOfWork.Votes.GetVotes(this.Entity_Id);
+                    IEnumerable<Votes> votes = unitOfWork.Entities.Get(this.Entity_Id).Votes;
+
+                    return new ObservableCollection<Votes>(votes);
                 }
-                return votes;
+
             }
             set
             {
-                if (votes != value)
-                    votes = value;
+                if (Votes != value)
+                {
+                    Votes = value;
+                }
             }
         }
+        [NotMapped]
+        public ObservableCollection<Comments> CommentSection
+        {
+            get
+            {
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                {
+                    IEnumerable<Comments> comments = unitOfWork.Entities.Get(this.Entity_Id).Target_Comment;
+
+                    return new ObservableCollection<Comments>(comments);
+                }
+                    
+            }
+            set
+            {
+                if (CommentSection != value)
+                {
+                    CommentSection = value;
+                }
+            }
+        }
+
+        
+
     }
 }

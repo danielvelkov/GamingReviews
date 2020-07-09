@@ -7,6 +7,56 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+
+        </Grid.RowDefinitions>
+
+        <Button Content="Home" Grid.Column="1" Width="200" Height="50"  FontSize="25"  Background="Red" Foreground="Black" ></Button>
+        <Button Content="Back" Grid.Column="2" Width="200" Height="50"  FontSize="25"  Background="Red" Foreground="Black"  ></Button>
+
+        <StackPanel Grid.Row="1" Grid.RowSpan="4">
+            <Label Content="Enter name of article:" HorizontalAlignment="Left" FontSize="20" Margin="20,0,0,0"></Label>
+            <TextBox Height="30" HorizontalAlignment="Stretch" FontSize="20" Margin="20,0,0,0"></TextBox>
+            <Label Content="Enter Header:" HorizontalAlignment="Left" FontSize="20" Margin="20,0,0,0"></Label>
+            <TextBox Height="30" HorizontalAlignment="Stretch" FontSize="20" Margin="20,0,0,0"></TextBox>
+            <Label Content="Enter article text:" HorizontalAlignment="Left" FontSize="20" Margin="20,0,0,0"></Label>
+            <TextBox Height="300" HorizontalAlignment="Stretch" FontSize="20" Margin="20,0,0,0"></TextBox>
+            <Label Content="Choose game:" HorizontalAlignment="Left" FontSize="20" Margin="20,0,0,0"></Label>
+            <ComboBox Height="250" FontSize="20" ItemsSource="{Binding GamesList}" Margin="20,0,0,0"></ComboBox>
+
+            <Button Content="Preview" 
+                    FontSize="20" Width="150" Margin="8" Background="Red" Foreground="Black" ></Button>
+            <Button Content="Add" 
+                    FontSize="20" Width="150" Margin="8" Background="Red" Foreground="Black" ></Button>
+
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1" Grid.RowSpan="4">
+            <Image Source="{Binding DisplayedImage}" Margin="20"></Image>
+            <Button Command="{Binding SelectImage}" Content="Choose article pic..." Width="260" FontSize="20" Margin="10" Background="Black" Foreground="Red"></Button>
+
+            <TextBlock Grid.Row="8" Grid.Column="2" Text="*must be 500x500 less than 1 mb. " Foreground="Red" FontSize="15" FontStyle="Italic" ></TextBlock>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Grid.Row="1" Grid.RowSpan="5">
+            <Image></Image>
+            <Label Content="Name:"></Label>
+            <Label Content="Header:"></Label>
+            <Label Content="Content:"></Label>
+            <Label Content="Game:"></Label>
+        </StackPanel>
+
     </Grid>
 </UserControl>

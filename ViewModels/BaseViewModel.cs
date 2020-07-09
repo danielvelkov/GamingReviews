@@ -12,7 +12,12 @@ namespace GamingReviews.ViewModels
 
         static Users currentUser;
         static Articles selectedArticle;
+        static Games selectedGame;
+        static Reviews selectedReview;
         
+
+        //TODO: could be optimised
+
         public Users GetCurrentUser()
         {
             return currentUser;
@@ -33,6 +38,28 @@ namespace GamingReviews.ViewModels
             selectedArticle = value;
         }
         
+        public Games GetCurrentGame()
+        {
+            return selectedGame;
+        }
+
+        public void SetSelectedGame(Games Game)
+        {
+            selectedGame = Game;
+        }
+
+        public Reviews GetCurrentReview()
+        {
+            return selectedReview;
+        }
+
+        public void SetSelectedReview(Reviews Review)
+        {
+            selectedReview = Review;
+
+        }
+
+
         protected ICommand goToUserProfile;
         protected ICommand goToHomePage;
         protected ICommand goToGamePage;

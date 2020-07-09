@@ -18,11 +18,22 @@ namespace GamingReviews.Persistance.Repositories
             get { return Context as GameNewsLetterContext; }
         }
 
+        public Reaction GetReaction(int Entity_id,int User_id)
+        {
+
+            Votes vote= VotesContext.Votes.First(x=>(x.Entity_id==Entity_id && x.User_id==User_id));
+            return vote.Reaction;
+        }
+
         public int GetVotes(int Entity_Id)
         {
-            IQueryable<Votes> allVotes= VotesContext.Votes.Where(x => (x.Entity_id == Entity_Id));
+            //IQueryable<Votes> allVotes= VotesContext.Votes.Where(x => (x.Entity_id == Entity_Id));
+            List<Votes> allvotes=new List<Votes>();
+            Entities entity = VotesContext.Entities.FirstOrDefault(x => (x.Entity_Id == Entity_Id));
+            foreach (var vote in entity.Votes)
+                allvotes.Add(vote);
             int result = 0;
-            foreach (Votes vote in allVotes)
+            foreach (Votes vote in allvotes)
                 if (vote.Reaction == Reaction.Liked)
                     result++;
                 else result--;
@@ -37,15 +48,12 @@ namespace GamingReviews.Persistance.Repositories
         }
 
         // ehh idk could be smarter 
-        public void ChangeVote(int Entity_Id, int User_Id)
+        public void ChangeVote(int Entity_Id, int User_Id,Reaction reac)
         {
             Votes vote = VotesContext.Votes.FirstOrDefault(x => (x.Entity_id == Entity_Id && x.User_id==User_Id));
             if (vote != null)
             {
-                if (vote.Reaction == 0)
-                    vote.Reaction = Reaction.Disliked;
-                else
-                    vote.Reaction = Reaction.Liked;
+                vote.Reaction = reac;
                 VotesContext.SaveChanges();
             }
         }

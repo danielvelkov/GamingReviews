@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GamingReviews.Views
+namespace GamingReviews.Views.Views_for_Displaying
 {
     /// <summary>
     /// Interaction logic for ArticleView.xaml
@@ -24,6 +24,24 @@ namespace GamingReviews.Views
         public ArticleView()
         {
             InitializeComponent();
+            commentTxtBox.Text = "Enter comment...";
+            commentTxtBox.GotFocus += new System.Windows.RoutedEventHandler(RemoveText);
+            commentTxtBox.LostFocus += new System.Windows.RoutedEventHandler(AddText);
         }
+
+        public void RemoveText(object sender, EventArgs e)
+        {
+            if (commentTxtBox.Text == "Enter comment...")
+            {
+                commentTxtBox.Text = "";
+            }
+        }
+
+        public void AddText(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(commentTxtBox.Text))
+                commentTxtBox.Text = "Enter comment...";
+        }
+        
     }
 }

@@ -1,15 +1,14 @@
-﻿<UserControl x:Class="GamingReviews.Views.ArticleView"
+﻿<UserControl x:Class="GamingReviews.Views.Views_for_Displaying.ArticleView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GamingReviews.Views"
+             xmlns:views="clr-namespace:GamingReviews.Views"
+             xmlns:viewsDisplay="clr-namespace:GamingReviews.Views.Views_for_Displaying"
              xmlns:models="clr-namespace:GamingReviews.Models"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
-    </UserControl.Resources>
+    
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition></ColumnDefinition>
@@ -55,7 +54,7 @@
             <Button Command="{Binding VoteArticle}" CommandParameter="{x:Static models:Reaction.Liked}" >
                 <Image Source="/res/Icons/VoteUpIcon.png" Width="20"></Image>
             </Button>
-            <TextBlock Text="{Binding Article.Votes}" MinWidth="30" FontSize="30" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Text="{Binding Votes}" MinWidth="30" FontSize="30" VerticalAlignment="Center"></TextBlock>
             <Button Command="{Binding VoteArticle}" CommandParameter="{x:Static models:Reaction.Disliked}">
                 <Image Source="/res/Icons/VoteUpIcon.png" Margin="0,40,0,0" Width="20">
                     <Image.RenderTransform>
@@ -64,69 +63,13 @@
                 </Image>
             </Button>
         </StackPanel>
-
+        
+        <!-- Comment section of article -->
         <StackPanel Grid.Row="6" Orientation="Horizontal">
-
-            <TextBox Text="{Binding CommentText}"  MaxLength="1000" SpellCheck.IsEnabled="True" Language="en-US" AcceptsReturn="True" TextWrapping="Wrap" Width="200" MaxHeight="140" MinHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+            <!-- I put some placeholder text in code behind -->
+            <TextBox Name="commentTxtBox" Text="{Binding CommentText}"  MaxLength="1000" SpellCheck.IsEnabled="True" Language="en-US" AcceptsReturn="True" TextWrapping="Wrap" Width="200" MaxHeight="140" MinHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
             <Button Command="{Binding AddComment}" ToolTip="Remember: don't be toxic!" ToolTipService.ShowDuration="5000" Content="Post" Foreground="Black" Background="Red"></Button>
         </StackPanel>
-
-        <!--<TreeView Grid.Row="7" ItemsSource="{Binding CommentSection}" >
-            
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="{x:Type TreeViewItem}">
-                    <Setter Property="IsExpanded" Value="{Binding IsExpanded,Mode=TwoWay}"></Setter>
-                </Style>
-                
-            </TreeView.ItemContainerStyle>
-            
-            <TreeView.Resources>
-               
-                <HierarchicalDataTemplate DataType="{x:Type  models:Comments }" ItemsSource="{Binding CommentDiscussion}" >
-
-                    <Border BorderBrush="Red" BorderThickness="1" CornerRadius="8,8,3,3">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
-                                <GradientStop Color="WhiteSmoke" Offset="0.0" />
-                                <GradientStop Color="DarkRed" Offset="0.5" />
-                                <GradientStop Color="Red" Offset="1.0" />
-                            </LinearGradientBrush>
-                        </Border.Background>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.7*"></ColumnDefinition>
-                                <ColumnDefinition Width="150"></ColumnDefinition>
-                                <ColumnDefinition Width="150"></ColumnDefinition>
-                            </Grid.ColumnDefinitions>
-
-                            <Grid.RowDefinitions>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                                <RowDefinition></RowDefinition>
-                            </Grid.RowDefinitions>
-
-                            <Ellipse Grid.RowSpan="2" Width="80" Height="80">
-                                <Ellipse.Fill>
-                                    <ImageBrush ImageSource="{Binding ProfilePic}"></ImageBrush>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                            <TextBlock Text="{Binding Author}" Grid.Row="0" Grid.Column="1" ></TextBlock>
-
-                            <TextBlock Text="{Binding Date}"  Grid.Row="0" Grid.Column="2" ></TextBlock>
-
-                            <TextBlock Text="{Binding Content}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" ></TextBlock>
---><!--it can only go 255 levels so we need to check that (see visual msdn)--><!--
-                            <ToggleButton  x:Name="toggleButton" Grid.Row="2" Grid.Column="1" IsChecked="{Binding IsExpanded,Mode=TwoWay}" Foreground="Black" Background="Red">
-                                <TextBlock Text="View replies"></TextBlock>
-                            </ToggleButton>
-                        </Grid>
-                    </Border>
-                </HierarchicalDataTemplate>
-            </TreeView.Resources>
-            
-        </TreeView>-->
-
-
         <ListBox Grid.Row="7" ItemsSource="{Binding CommentSection}" >
 
             <ListBox.ItemTemplate >
@@ -212,12 +155,27 @@
                             </Expander>
                             <Expander Header="Post reply"  Grid.Row="3" Grid.RowSpan="2" Grid.Column="2" Panel.ZIndex="1">
                                 <StackPanel Orientation="Horizontal">
-                                    <TextBox Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ArticleView}
+                                    <TextBox Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type viewsDisplay:ArticleView}
                                         },Path=DataContext.ReplyCommentText}"  MaxLength="1000" SpellCheck.IsEnabled="True" Language="en-US" AcceptsReturn="True" TextWrapping="Wrap" Width="200" MaxHeight="140" MinHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
-                                    <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:ArticleView}
+                                    <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type viewsDisplay:ArticleView}
                                         },Path=DataContext.AddReply}" CommandParameter="{Binding}" ToolTip="Remember: don't be toxic!" ToolTipService.ShowDuration="5000" Content="Post Reply" Foreground="Black" Background="Red"></Button>
                                 </StackPanel>
                             </Expander>
+                            <!--vote section-->
+                            <StackPanel Grid.Row="3" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Command="{Binding VoteArticle}" Width="20" Height="20" CommandParameter="{x:Static models:Reaction.Liked}" >
+                                    <Image Source="/res/Icons/VoteUpIcon.png" Width="20" Height="20"></Image>
+                                </Button>
+                                <TextBlock Text="{Binding Votes}" MinWidth="30" FontSize="30" VerticalAlignment="Center"></TextBlock>
+                                <Button Command="{Binding VoteArticle}" Width="20" Height="20" CommandParameter="{x:Static models:Reaction.Disliked}">
+                                    <Image Source="/res/Icons/VoteUpIcon.png" Margin="0,40,0,0" Width="20">
+                                        <Image.RenderTransform>
+                                            <ScaleTransform ScaleY="-1"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                </Button>
+                            </StackPanel>
+
                         </Grid>
                     </Border>
                 </DataTemplate>
@@ -225,7 +183,7 @@
            
 
         </ListBox>
-
+        <!-- /Comment section of article -->
 
     </Grid>
 </UserControl>

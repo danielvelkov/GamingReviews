@@ -36,6 +36,12 @@
                 <MenuItem Header="Games page" Command="{Binding UpdateViewCommand}" CommandParameter="GamePageViewModel"></MenuItem>
             </MenuItem>
 
+            <MenuItem Header="Add..">
+                <MenuItem Header="Add Article" Command="{Binding UpdateViewCommand}" CommandParameter="AddArticleViewModel"></MenuItem>
+                <MenuItem Header="Add Game" Command="{Binding UpdateViewCommand}" CommandParameter="AddGameViewModel"></MenuItem>
+                <MenuItem Header="Add Review" Command="{Binding UpdateViewCommand}" CommandParameter="AddReviewViewModel"></MenuItem>
+            </MenuItem>
+            
             <MenuItem Command="{Binding GoBack}" IsEnabled="True" Width="30" Height="30"  >
                 <MenuItem.Icon>
                     <Image Source="/res/Icons/previous_page.png"/>

@@ -86,7 +86,9 @@
     <Compile Include="Helper\RelayCommand.cs" />
     <Compile Include="Helper\ViewModelsFactory.cs" />
     <Compile Include="Core\IRepositories\IRepository.cs" />
+    <Compile Include="Interfaces\ICommentable.cs" />
     <Compile Include="Interfaces\IView.cs" />
+    <Compile Include="Interfaces\IVoteable.cs" />
     <Compile Include="Migrations\202005262216536_Initialise.cs" />
     <Compile Include="Migrations\202005262216536_Initialise.Designer.cs">
       <DependentUpon>202005262216536_Initialise.cs</DependentUpon>

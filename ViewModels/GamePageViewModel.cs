@@ -29,7 +29,24 @@ namespace GamingReviews.ViewModels
         }
 
         #region commands
-        
+
+        ICommand showGameReviews;
+
+        public ICommand ShowGameReviews
+        {
+            get
+            {
+                if (showGameReviews == null)
+                    showGameReviews = new RelayCommand<Games>(x =>
+                    {
+                        this.SetSelectedGame(x);
+                        Mediator.NotifyColleagues("ChangeView", ViewModelTypes.GameReviewsViewModel);
+
+                    });
+                return showGameReviews;
+            }
+        }
+
         #endregion
     }
 }

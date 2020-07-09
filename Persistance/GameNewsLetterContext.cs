@@ -30,6 +30,7 @@ namespace GamingReviews.Models
         public virtual DbSet<Users> Users { get; set; }
         public virtual DbSet<Logs> Logs { get; set; }
         public virtual DbSet<Votes> Votes { get; set; }
+        public virtual DbSet<Entities> Entities { get; set; }
 
         // set their properties and relations here 
         // NOTE: you need to change the model classes first

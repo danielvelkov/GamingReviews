@@ -10,7 +10,8 @@ namespace GamingReviews.Core.IRepositories
 {
     public interface IVotesRepository:IRepository<Votes>
     {
-        void ChangeVote(int Entity_Id,int User_Id);
+        Reaction GetReaction(int Entity_id, int User_id);
+        void ChangeVote(int Entity_Id,int User_Id,Reaction react);
         int GetVotes(int Entity_Id);
         bool HasVoted(int Entity_Id, int User_Id);
     }

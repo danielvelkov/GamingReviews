@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GamingReviews.ViewModels
+namespace GamingReviews.ViewModels.Handling_Entity_Addition
 {
     class AddReviewViewModel:BaseViewModel
     {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GamingReviews.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,12 +14,12 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace GamingReviews.Views
+namespace GamingReviews.Views.Views_for_Adding
 {
     /// <summary>
     /// Interaction logic for AddReviewView.xaml
     /// </summary>
-    public partial class AddReviewView : UserControl
+    public partial class AddReviewView : UserControl,IView
     {
         public AddReviewView()
         {
