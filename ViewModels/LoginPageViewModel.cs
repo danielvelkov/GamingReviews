@@ -19,13 +19,12 @@ namespace GamingReviews.ViewModels
         ICommand registerCommand;
         #endregion
 
-        public LoginPageViewModel(MainViewModel vm)
+        public LoginPageViewModel()
         {
-            
-            
         }
 
         #region Parameters
+        
         public string UserName
         {
             get { return userName; }

@@ -18,7 +18,7 @@ namespace GamingReviews.Models
 
         public IEnumerable<Reviews> GetLatestReviews()
         {
-            return ReviewsContext.Reviews.OrderBy(a => a.Date).Take(1).ToList();
+            return ReviewsContext.Reviews.OrderBy(a => a.Date).ToList();
         }
 
         // implement the methods from the used interface

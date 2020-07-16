@@ -24,23 +24,6 @@ namespace GamingReviews.Views.Views_for_Displaying
         public ArticleView()
         {
             InitializeComponent();
-            commentTxtBox.Text = "Enter comment...";
-            commentTxtBox.GotFocus += new System.Windows.RoutedEventHandler(RemoveText);
-            commentTxtBox.LostFocus += new System.Windows.RoutedEventHandler(AddText);
-        }
-
-        public void RemoveText(object sender, EventArgs e)
-        {
-            if (commentTxtBox.Text == "Enter comment...")
-            {
-                commentTxtBox.Text = "";
-            }
-        }
-
-        public void AddText(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(commentTxtBox.Text))
-                commentTxtBox.Text = "Enter comment...";
         }
         
     }

@@ -180,7 +180,6 @@ namespace GamingReviews.ViewModels.Handling_Entity_Display
                 return addComment;
             }
         }
-        
         public ICommand AddReply
         {
             get

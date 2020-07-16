@@ -119,7 +119,7 @@ namespace GamingReviews.ViewModels
                 }
                 else
                 {
-                    return displayedImage= new BitmapImage(new Uri(@"/GamingReviews;component/res/Images/no image.png", UriKind.Relative));
+                    return displayedImage= new BitmapImage(new Uri("pack://application:,,,/res/Images/no image.png"));
                 }
                 return displayedImage;
             }
@@ -158,8 +158,7 @@ namespace GamingReviews.ViewModels
                                     if (!unitOfWork.Users.DoesEmailExist(Email))
                                     {
                                         // Image conversion
-                                        BitMapToByteArray converter = new BitMapToByteArray();
-                                        byte[] imageData = converter.Convert(DisplayedImage);
+                                        byte[] imageData = BitMapToByteArray.Convert(DisplayedImage);
                                         Users newUser = new Users(UserName,
                                             UserType.ADMIN, Password, imageData, Email);
                                         unitOfWork.Users.Add(newUser);

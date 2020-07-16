@@ -87,6 +87,7 @@
     <Compile Include="Helper\ViewModelsFactory.cs" />
     <Compile Include="Core\IRepositories\IRepository.cs" />
     <Compile Include="Interfaces\ICommentable.cs" />
+    <Compile Include="Interfaces\IEntity.cs" />
     <Compile Include="Interfaces\IView.cs" />
     <Compile Include="Interfaces\IVoteable.cs" />
     <Compile Include="Migrations\202005262216536_Initialise.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Persistance\Repositories\UserRepository.cs" />
     <Compile Include="Persistance\Repositories\VotesRepository.cs" />
     <Compile Include="Persistance\UnitOfWork.cs" />
+    <Compile Include="Validation\TextValidation.cs" />
     <Compile Include="ViewModels\Handling Entity Addition\AddArticleViewModel.cs" />
     <Compile Include="ViewModels\Handling Entity Addition\AddGameViewModel.cs" />
     <Compile Include="ViewModels\Handling Entity Addition\AddReviewViewModel.cs" />
@@ -126,6 +128,7 @@
     <Compile Include="ViewModels\RegisterPageViewModel.cs" />
     <Compile Include="ViewModels\Handling Entity Display\ReviewViewModel.cs" />
     <Compile Include="ViewModels\UserPageViewModel.cs" />
+    <Compile Include="ViewModelTypes.cs" />
     <Compile Include="Views\Views for Adding\AddArticleView.xaml.cs">
       <DependentUpon>AddArticleView.xaml</DependentUpon>
     </Compile>

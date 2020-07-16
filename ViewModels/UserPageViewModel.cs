@@ -225,8 +225,7 @@ namespace GamingReviews.ViewModels
                              }
                              else
                              {
-                                 BitMapToByteArray conv = new BitMapToByteArray();
-                                 ProfilePic = conv.Convert(img);
+                                 ProfilePic = BitMapToByteArray.Convert(img);
                              }
                          }
                          

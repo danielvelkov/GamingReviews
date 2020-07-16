@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GamingReviews"
              xmlns:views="clr-namespace:GamingReviews.Views"
              xmlns:viewsDisplay="clr-namespace:GamingReviews.Views.Views_for_Displaying"
              xmlns:models="clr-namespace:GamingReviews.Models"
@@ -25,9 +26,12 @@
             <RowDefinition Height="auto"></RowDefinition>
             <RowDefinition ></RowDefinition>
         </Grid.RowDefinitions>
-        
-        <Button Command="{Binding GoToUserProfile}" Content="Profile" Grid.Row="0" Grid.Column="1" Margin="10" FontSize="25" Width="100" Background="Black" Foreground="Red"/>
-        <Button Command="{Binding GoToHomePage}" Content="News Feed"  Grid.Row="0" Grid.Column="0" FontSize="25" Width="150" Background="Black" Foreground="Red"/>
+
+        <!-- Change screen buttons -->
+        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+    AncestorType={x:Type Window}}, Path=DataContext.UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.UserPageViewModel}" Content="Profile" Grid.Row="0" Grid.Column="1" Margin="10" FontSize="25" Width="100" Background="Black" Foreground="Red"/>
+        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+    AncestorType={x:Type Window}}, Path=DataContext.UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.HomePageViewModel}" Content="News Feed"  Grid.Row="0" Grid.Column="0" FontSize="25" Width="150" Background="Black" Foreground="Red"/>
 
         <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
             <TextBlock Text="Game: " Margin="10"  FontSize="20" Foreground="Black" />
@@ -66,8 +70,8 @@
         
         <!-- Comment section of article -->
         <StackPanel Grid.Row="6" Orientation="Horizontal">
-            <!-- I put some placeholder text in code behind -->
-            <TextBox Name="commentTxtBox" Text="{Binding CommentText}"  MaxLength="1000" SpellCheck.IsEnabled="True" Language="en-US" AcceptsReturn="True" TextWrapping="Wrap" Width="200" MaxHeight="140" MinHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+            <!-- I put some placeholder text-->
+            <TextBox  Text="{Binding CommentText,TargetNullValue=Enter a comment ...}"  MaxLength="1000" SpellCheck.IsEnabled="True" Language="en-US" AcceptsReturn="True" TextWrapping="Wrap" Width="200" MaxHeight="140" MinHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
             <Button Command="{Binding AddComment}" ToolTip="Remember: don't be toxic!" ToolTipService.ShowDuration="5000" Content="Post" Foreground="Black" Background="Red"></Button>
         </StackPanel>
         <ListBox Grid.Row="7" ItemsSource="{Binding CommentSection}" >

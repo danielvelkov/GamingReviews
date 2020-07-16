@@ -1,13 +1,19 @@
 namespace GamingReviews.Models
 {
+    using GamingReviews.Interfaces;
+    using GamingReviews.Persistance;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Reviews
+    public partial class Reviews:IEntity
     {
+        public Reviews()
+        {
+
+        }
 
         public Reviews(int EntityId,int user_id, string name, 
             string content, int game_id)
@@ -44,6 +50,33 @@ namespace GamingReviews.Models
         public virtual Users User { get; set; }
 
         public virtual Games Game { get; set; }
+
+        // they reapeating in articles too
+        // TODO add them to abstract class?
+        [NotMapped]
+        public string Author
+        {
+            get
+            {
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                {
+                    var author = unitOfWork.Users.Get(User_id).UserName;
+                    return author;
+                }
+            }
+        }
+        [NotMapped]
+        public string GameName
+        {
+            get
+            {
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                {
+                    var gameName = unitOfWork.Games.Get(Game_id).Name;
+                    return gameName;
+                }
+            }
+        }
 
     }
 }

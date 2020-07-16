@@ -12,7 +12,7 @@ namespace GamingReviews.Models
     using System.IO;
     using System.Windows.Media.Imaging;
 
-    public partial class Articles:IVoteable,ICommentable
+    public partial class Articles:IVoteable,ICommentable,IEntity
     {
         public Articles()
         {

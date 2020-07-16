@@ -26,7 +26,7 @@ namespace GamingReviews.ViewModels
             {
                 if (_currentContent == null)
                 {
-                    _currentContent = new LoginPageViewModel(this);
+                    _currentContent = new LoginPageViewModel();
                 }
                 return _currentContent;
             }
@@ -72,6 +72,7 @@ namespace GamingReviews.ViewModels
                 return signOut ?? (signOut = new RelayCommand<Object>(x =>
                 {
                     Mediator.NotifyColleagues("ChangeView", x);
+                    // user is changed to null
                     this.SetCurrentUser(null);
 
                     // disables menu
@@ -87,8 +88,7 @@ namespace GamingReviews.ViewModels
 
         void ChangeContent(object ViewModel )
         {
-            // this is ugly
-            CurrentContent = ViewModelsFactory.ViewModelType((ViewModelTypes)Enum.Parse(typeof(ViewModelTypes),ViewModel.ToString()));
+            CurrentContent = ViewModelsFactory.ViewModelType((ViewModelTypes)ViewModel);
         }
 
         #endregion

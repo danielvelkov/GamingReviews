@@ -24,4 +24,8 @@ what if models like articles comments reviews and games inherited entity and the
 which loaded things like comments and votes of the given entity
 (*** EF support only one subtype per model. Check here:https://docs.microsoft.com/en-us/ef/core/modeling/inheritance ***)
 
+use field validation through services like this
+https://blog.magnusmontin.net/2013/08/26/data-validation-in-wpf/
+(multiple errors per property)
+
 158 mb for now

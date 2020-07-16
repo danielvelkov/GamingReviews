@@ -1,4 +1,5 @@
 ﻿using GamingReviews.Helper;
+using GamingReviews.Interfaces;
 using GamingReviews.Models;
 using GamingReviews.Persistance;
 using System;
@@ -10,34 +11,35 @@ namespace GamingReviews.ViewModels
 {
     class HomePageViewModel : BaseViewModel
     {
-        List<Articles> articles;
+        ObservableCollection<IEntity> articlesReviews=new ObservableCollection<IEntity>();
 
         #region parameters
-        public List<Articles> Articles
+        public ObservableCollection<IEntity> ArticlesReviews
         {
             get
             {
-                if (articles == null)
+                if (articlesReviews.Count==0)
                 {
                     using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                     {
-                        
-                        articles = unitOfWork.Articles.GetLatestArticles();
-                        if (articles.Count == 0)
-                        {
-                            
-                            // add a dummy article
-                           
-                        }
-                        else
-                        NotifyPropertyChanged("Articles");
-                        unitOfWork.Complete();
+                        foreach (Articles entity in unitOfWork.Articles.GetLatestArticles())
+                            articlesReviews.Add(entity);
+                        foreach (Reviews entity in unitOfWork.Reviews.GetLatestReviews())
+                            articlesReviews.Add(entity);
                         
                     }
                     
                 }
                 
-                return articles;
+                return articlesReviews;
+            }
+            set
+            {
+                if (articlesReviews != value)
+                {
+                    articlesReviews = value;
+                    NotifyPropertyChanged("ArticlesReviews");
+                }
             }
         }
         #endregion
@@ -45,6 +47,7 @@ namespace GamingReviews.ViewModels
         #region commands
 
         ICommand readArticle;
+        ICommand readReview;
 
         public ICommand ReadArticle
         {
@@ -60,6 +63,21 @@ namespace GamingReviews.ViewModels
                 return readArticle;
             }
         }
+        public ICommand ReadReview
+        {
+            get
+            {
+                if (readReview == null)
+                    readReview = new RelayCommand<Reviews>(x =>
+                    {
+                        this.SetSelectedReview(x);
+                        Mediator.NotifyColleagues("ChangeView",
+                            ViewModelTypes.ReviewViewModel);
+                    });
+                return readReview;
+            }
+        }
+
 
         #endregion
     }

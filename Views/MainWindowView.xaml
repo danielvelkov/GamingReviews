@@ -3,14 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GamingReviews.Views"
-        xmlns:enum="clr-namespace:GamingReviews"
-
-        
-        xmlns:vm="clr-namespace:GamingReviews.ViewModels"
-        xmlns:enums="clr-namespace:GamingReviews.Helper"
-        xmlns:v="clr-namespace:GamingReviews.Views"
-        
+        xmlns:local="clr-namespace:GamingReviews"
         mc:Ignorable="d"
         Title="Gaming Newsletter" Height="690" Width="900"
         ResizeMode="CanResize"
@@ -31,15 +24,15 @@
 
         <Menu Grid.Row="0">
             <MenuItem Header="Go to.." >
-                <MenuItem Header="User page" Command="{Binding UpdateViewCommand}" CommandParameter="UserPageViewModel"></MenuItem>
-                <MenuItem Header="Home" Command="{Binding UpdateViewCommand}" CommandParameter="HomePageViewModel"></MenuItem>
-                <MenuItem Header="Games page" Command="{Binding UpdateViewCommand}" CommandParameter="GamePageViewModel"></MenuItem>
+                <MenuItem Header="User page" Command="{Binding UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.UserPageViewModel}"></MenuItem>
+                <MenuItem Header="Home" Command="{Binding UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.HomePageViewModel}"></MenuItem>
+                <MenuItem Header="Games page" Command="{Binding UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.GamePageViewModel}"></MenuItem>
             </MenuItem>
 
             <MenuItem Header="Add..">
-                <MenuItem Header="Add Article" Command="{Binding UpdateViewCommand}" CommandParameter="AddArticleViewModel"></MenuItem>
-                <MenuItem Header="Add Game" Command="{Binding UpdateViewCommand}" CommandParameter="AddGameViewModel"></MenuItem>
-                <MenuItem Header="Add Review" Command="{Binding UpdateViewCommand}" CommandParameter="AddReviewViewModel"></MenuItem>
+                <MenuItem Header="Add Article" Command="{Binding UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.AddArticleViewModel}"></MenuItem>
+                <MenuItem Header="Add Game" Command="{Binding UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.AddGameViewModel}"></MenuItem>
+                <MenuItem Header="Add Review" Command="{Binding UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.AddArticleViewModel}"></MenuItem>
             </MenuItem>
             
             <MenuItem Command="{Binding GoBack}" IsEnabled="True" Width="30" Height="30"  >
@@ -52,7 +45,7 @@
                     <Image Source="/res/Icons/next_page.png"/>
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem   Header="Sign out" Command="{Binding SignOut}" CommandParameter="LoginPageViewModel"></MenuItem>
+            <MenuItem   Header="Sign out" Command="{Binding SignOut}" CommandParameter="{x:Static local:ViewModelTypes.LoginPageViewModel}"></MenuItem>
         </Menu>
 
     </Grid>

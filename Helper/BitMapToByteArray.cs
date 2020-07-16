@@ -8,9 +8,9 @@ using System.Windows.Media.Imaging;
 
 namespace GamingReviews.Helper
 {
-    public class BitMapToByteArray
+    public static class BitMapToByteArray
     {
-        public byte[] Convert(BitmapImage Image)
+        public static byte[] Convert(BitmapImage Image)
         {
             byte[] data;
             JpegBitmapEncoder encoder = new JpegBitmapEncoder();

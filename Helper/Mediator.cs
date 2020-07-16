@@ -8,10 +8,7 @@ namespace GamingReviews.Helper
 {
    static public class Mediator
     {
-
-
-        //TODO put some of the baseviewmodel methods here
-
+        
         static IDictionary<string, List<Action<object>>> pl_dict = new Dictionary<string, List<Action<object>>>();
 
         static public void Register(string token, Action<object> callback)

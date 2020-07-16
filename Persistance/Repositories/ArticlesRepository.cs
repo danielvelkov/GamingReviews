@@ -21,7 +21,7 @@ namespace GamingReviews.Models
 
         public List<Articles> GetLatestArticles()
         {
-           return ArticlesContext.Articles.OrderBy(a => a.Date).Take(1).ToList();
+           return ArticlesContext.Articles.OrderBy(a => a.Date).ToList();
         }
         
     }

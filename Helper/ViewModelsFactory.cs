@@ -23,7 +23,7 @@ namespace GamingReviews.Helper
                 case ViewModelTypes.LoginPageViewModel:
                     {
                         currentView = new LoginPageView();
-                        currentViewModel = new LoginPageViewModel(null);
+                        currentViewModel = new LoginPageViewModel();
                         currentView.DataContext = currentViewModel;
                        
 
@@ -114,7 +114,7 @@ namespace GamingReviews.Helper
 
                         return currentViewModel;
                     }
-                default:
+                default: // should throw exception
                     return new BaseViewModel();
             }
         }

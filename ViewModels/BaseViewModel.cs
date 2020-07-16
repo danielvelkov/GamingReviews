@@ -16,7 +16,8 @@ namespace GamingReviews.ViewModels
         static Reviews selectedReview;
         
 
-        //TODO: could be optimised
+        //TODO: could be optimised, maybe add them to the mediator where you need them
+        // so not everyone (and by everyone i mean all the viewmodel classes) has the method
 
         public Users GetCurrentUser()
         {
@@ -58,53 +59,7 @@ namespace GamingReviews.ViewModels
             selectedReview = Review;
 
         }
-
-
-        protected ICommand goToUserProfile;
-        protected ICommand goToHomePage;
-        protected ICommand goToGamePage;
-
-        public ICommand GoToHomePage
-        {
-            get
-            {
-                if (goToHomePage == null)
-                    goToHomePage = new RelayCommand<Object>(x =>
-                    {
-                        Mediator.NotifyColleagues("ChangeView", ViewModelTypes.HomePageViewModel);
-
-                    });
-                return goToHomePage;
-            }
-        }
-
-        public ICommand GoToUserProfile
-        {
-            get
-            {
-                if (goToUserProfile == null)
-                    goToUserProfile = new RelayCommand<Object>(x =>
-                    {
-                        Mediator.NotifyColleagues("ChangeView", ViewModelTypes.UserPageViewModel);
-
-                    });
-                return goToUserProfile;
-            }
-        }
-
-        public ICommand GoToGamePage
-        {
-            get
-            {
-                if (goToGamePage == null)
-                    goToGamePage = new RelayCommand<Object>(x =>
-                    {
-                        Mediator.NotifyColleagues("ChangeView",
-                            ViewModelTypes.GamePageViewModel);
-                    });
-                return goToGamePage;
-            }
-        }
+        
 
         #region propertyChanged implementation
 
