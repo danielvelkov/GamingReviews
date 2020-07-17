@@ -32,7 +32,7 @@
             <MenuItem Header="Add..">
                 <MenuItem Header="Add Article" Command="{Binding UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.AddArticleViewModel}"></MenuItem>
                 <MenuItem Header="Add Game" Command="{Binding UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.AddGameViewModel}"></MenuItem>
-                <MenuItem Header="Add Review" Command="{Binding UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.AddArticleViewModel}"></MenuItem>
+                <MenuItem Header="Add Review" Command="{Binding UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.AddReviewViewModel}"></MenuItem>
             </MenuItem>
             
             <MenuItem Command="{Binding GoBack}" IsEnabled="True" Width="30" Height="30"  >

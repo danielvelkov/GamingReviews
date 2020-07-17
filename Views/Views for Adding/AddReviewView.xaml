@@ -3,22 +3,67 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GamingReviews.Views"
+             xmlns:local="clr-namespace:GamingReviews"
+             xmlns:models="clr-namespace:GamingReviews.Models"
+             xmlns:validate="clr-namespace:GamingReviews.Validation"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <StackPanel Orientation="Vertical">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
 
-        
-        <TextBlock Text="Game:" FontSize="15" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red"/>
-        <TextBox Text="{Binding Game}" Background="WhiteSmoke" Width="300" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-        <TextBlock Text="Add review:" FontSize="20" Margin="10" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Red"/>
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
 
-        <TextBox Text="{Binding Review}" Width="500" Height="250" Background="WhiteSmoke" Margin="10" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="18" Foreground="Black"/>
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Content="Preview article" Width="150" Margin="10" Background="Black" Foreground="Red" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Button Content="Add" Width="100" Margin="10" Background="Black" Foreground="Red" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        </Grid.RowDefinitions>
+
+        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+    AncestorType={x:Type Window}}, Path=DataContext.UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.HomePageViewModel}" Content="Home" Margin="5" FontSize="25" Width="100" Background="Black" Foreground="Red"/>
+
+
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="4">
+            <Label Content="Enter name of Review:" HorizontalAlignment="Left" FontSize="20" Margin="20,0,0,0"></Label>
+            <TextBox Validation.ErrorTemplate="{StaticResource validationTemplate}"  Height="30" HorizontalAlignment="Stretch" FontSize="20" Margin="20,0,0,0">
+                <TextBox.Text>
+                    <Binding Path="Review.Name">
+                        <Binding.ValidationRules>
+                            <validate:TextValidation Type="Header"></validate:TextValidation>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            
+            <Label Content="Enter Review text:" HorizontalAlignment="Left" FontSize="20" Margin="20,0,0,0"></Label>
+            <TextBox  Validation.ErrorTemplate="{StaticResource validationTemplate}" TextWrapping="Wrap" Height="300" HorizontalAlignment="Stretch" FontSize="20" Margin="20,0,0,0">
+                <TextBox.Text>
+                    <Binding Path="Review.Content">
+                        <Binding.ValidationRules>
+                            <validate:TextValidation Type="Content"></validate:TextValidation>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Label Content="Choose game:" HorizontalAlignment="Left" FontSize="20" Margin="20,0,0,0"></Label>
+            <ComboBox SelectedItem="{Binding SelectedGame}" SelectedIndex="0" Height="50" FontSize="20" ItemsSource="{Binding GamesList}" Margin="20,0,0,0">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate DataType="{x:Type  models:Games }">
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Button Content="Add" Command="{Binding AddReview}"
+                    FontSize="20" Width="150" Margin="8" Background="Red" Foreground="Black" ></Button>
 
         </StackPanel>
-        <Button Content="Add" Width="100" Margin="10" Background="Black" Foreground="Red" FontSize="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-    </StackPanel>
+
+    </Grid>
 </UserControl>
