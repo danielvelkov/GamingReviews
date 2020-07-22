@@ -10,6 +10,6 @@ namespace GamingReviews.Interfaces
 {
     public interface ICommentable
     {
-        ObservableCollection<Comments> CommentSection { get; set; }
+        ObservableCollection<Comments> CommentSection { get; }
     }
 }

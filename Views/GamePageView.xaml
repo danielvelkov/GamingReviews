@@ -9,19 +9,28 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type models:Games}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="2">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition MaxWidth="200"/>
+                        <ColumnDefinition MaxWidth="200"/>
+                        <ColumnDefinition MaxWidth="200"/>
+                        <ColumnDefinition MaxWidth="200"/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
 
-                <Image Grid.Column="2" Grid.Row="0"/>
-                <TextBlock Text="{Binding Name}" Height="100" Grid.Column="1" FontSize="20" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Text="{Binding Summary}" Grid.Column="2" FontSize="15" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Button Command="{Binding DataContext.ShowGameReviews,RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}}" CommandParameter="{Binding}"  Content="Check Reviews" Grid.Column="3" Width="100" Background="Black" Foreground="Red" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Grid>
+                    <TextBlock Text="{Binding Name}" Grid.Column="0" Grid.Row="0" FontSize="20" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Image Source="{Binding Image}" Grid.Column="1" Grid.Row="1" MaxWidth="100"/>
+                    <Border Grid.Column="2" Grid.Row="1" MinHeight="50" BorderBrush="Black" Margin="20" >
+                        <TextBlock Text="{Binding Summary}" FontSize="16" TextTrimming="WordEllipsis" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <Button Command="{Binding DataContext.ShowGameReviews,RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}}" CommandParameter="{Binding}"  Content="Check Reviews" Grid.Column="3" Width="140" Background="Black" Foreground="Red" FontSize="16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
         </DataTemplate>
     </UserControl.Resources>
 
@@ -31,7 +40,7 @@
         <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
     AncestorType={x:Type Window}}, Path=DataContext.UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.UserPageViewModel}" Content="Profile" Margin="5" FontSize="25" Width="100" Background="Black" Foreground="Red"/>
         <Label Content="Games" HorizontalAlignment="Center" FontSize="20" Foreground="Red"/>
-        <ListBox ItemsSource="{Binding Games,Mode=OneTime}"/>
+        <ListBox ItemsSource="{Binding Games,Mode=OneTime}" HorizontalContentAlignment="Left"/>
     </StackPanel>
     
 </UserControl>

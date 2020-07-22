@@ -10,6 +10,6 @@ namespace GamingReviews.Interfaces
 {
     public interface IVoteable
     {
-        ObservableCollection<Votes> Votes { get; set; }
+        ObservableCollection<Votes> Votes { get; }
     }
 }

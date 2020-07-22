@@ -4,11 +4,12 @@ namespace GamingReviews.Models
     using GamingReviews.Persistance;
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Reviews:IEntity
+    public partial class Reviews: IVoteable, IEntity,ICommentable
     {
         public Reviews()
         {
@@ -78,5 +79,32 @@ namespace GamingReviews.Models
             }
         }
 
+        [NotMapped]
+        public ObservableCollection<Votes> Votes
+        {
+            get
+            {
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                {
+                    ObservableCollection<Votes> votes = unitOfWork.Entities.Get(this.Entity_id).Votes;
+
+                    return new ObservableCollection<Votes>(votes);
+                }
+
+            }
+        }
+        [NotMapped]
+        public ObservableCollection<Comments> CommentSection
+        {
+            get
+            {
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                {
+                    ObservableCollection<Comments> comments = unitOfWork.Entities.Get(this.Entity_id).Target_Comment;
+
+                    return new ObservableCollection<Comments>(comments);
+                }
+            }
+        }
     }
 }

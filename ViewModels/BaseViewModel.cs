@@ -39,7 +39,7 @@ namespace GamingReviews.ViewModels
             selectedArticle = value;
         }
         
-        public Games GetCurrentGame()
+        public Games GetSelectedGame()
         {
             return selectedGame;
         }
@@ -49,7 +49,7 @@ namespace GamingReviews.ViewModels
             selectedGame = Game;
         }
 
-        public Reviews GetCurrentReview()
+        public Reviews GetSelectedReview()
         {
             return selectedReview;
         }

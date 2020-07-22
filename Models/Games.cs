@@ -19,8 +19,8 @@ namespace GamingReviews.Models
             int user_id, byte[] image)
         {
             this.Entity_id = id;
-            this.Summary = summary;
             this.Name = name;
+            this.Summary = summary;
             this.User_id = user_id;
             Image = image;
             Date = DateTime.Now;

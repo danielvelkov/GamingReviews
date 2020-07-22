@@ -9,20 +9,36 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <DataTemplate DataType="{x:Type models:Reviews}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+            <Border BorderBrush="Black" BorderThickness="4">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-                <Image Grid.Column="2" Grid.Row="0"/>
-                <TextBlock Text="{Binding Name}" Height="100" Grid.Column="1" FontSize="20" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <TextBlock Text="{Binding Content}" Grid.Column="2" FontSize="15" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                <Button Command="{Binding DataContext.ReadReview,RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}}" CommandParameter="{Binding}"  Content="Read more.." Grid.Column="3" Width="100" Background="Black" Foreground="Red" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-            </Grid>
+                    <Image Grid.Column="2" Grid.Row="0"/>
+                    <TextBlock Text="{Binding Name}" Height="100" Grid.Column="1" FontSize="20" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Content}" Grid.Column="2" FontSize="15" Foreground="Black" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Button Command="{Binding DataContext.ReadReview,RelativeSource={RelativeSource AncestorType={x:Type StackPanel}}}" CommandParameter="{Binding}"  Content="Read more.." Grid.Column="3" Width="100" Background="Black" Foreground="Red" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </Grid>
+            </Border>
+          
         </DataTemplate>
+        <Style TargetType="ListBox" x:Key="ListStyle" BasedOn="{StaticResource {x:Type ListBox}}">
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding RelativeSource={x:Static RelativeSource.Self}, Path=Items.Count}" Value="0">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <TextBlock HorizontalAlignment="Center" FontSize="30">No reviews as of yet :(</TextBlock>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <StackPanel Orientation="Vertical">
         <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
@@ -30,7 +46,7 @@
         <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
     AncestorType={x:Type Window}}, Path=DataContext.UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.UserPageViewModel}" Content="Profile" FontSize="25" Width="100" Background="Black" Foreground="Red"/>
         <Label Content="Reviews" HorizontalAlignment="Center" FontSize="20" Foreground="Red"/>
-        <ListBox ItemsSource="{Binding Reviews,Mode=OneTime}"/>
+        <ListBox ItemsSource="{Binding Reviews,Mode=OneTime}" Style="{StaticResource ListStyle}"/>
     </StackPanel>
     
 </UserControl>

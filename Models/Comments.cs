@@ -1,5 +1,6 @@
 namespace GamingReviews.Models
 {
+    using GamingReviews.Interfaces;
     using GamingReviews.Persistance;
     using System;
     using System.Collections.Generic;
@@ -9,7 +10,7 @@ namespace GamingReviews.Models
     using System.Data.Entity.Spatial;
     using System.Linq;
 
-    public partial class Comments
+    public partial class Comments 
     {
         public Comments()
         {
@@ -70,29 +71,27 @@ namespace GamingReviews.Models
             }
         }
 
-        ObservableCollection<Comments> commentDiscussion=new ObservableCollection<Comments>();
+        ObservableCollection<Comments> commentDiscussion = new ObservableCollection<Comments>();
+        ObservableCollection<Votes> commentVotes = new ObservableCollection<Votes>();
 
         [NotMapped]
         public ObservableCollection<Comments> CommentDiscussion
         {
             get
             {
-                if (!commentDiscussion.Any())
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                 {
-                    using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                    // fills with comments if there is any
+                    if (!commentDiscussion.Any())
                     {
-                        Entities entity = unitOfWork.Entities.Get(Entity_Id);
-
-                        //with lazy loading
-
-                        foreach (var comment in entity.Target_Comment)
-                            commentDiscussion.Add(comment);
+                        commentDiscussion = unitOfWork.Entities.Get(this.Entity_Id).Target_Comment;
                     }
+                    unitOfWork.Complete();
                 }
                 return commentDiscussion;
             }
         }
-        
+
 
         [NotMapped]
         public byte[] ProfilePic
@@ -106,6 +105,38 @@ namespace GamingReviews.Models
                 }
             }
         }
+        [NotMapped]
+        public ObservableCollection<Votes> CommentVotes
+        {
+            get
+            {
+                using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
+                {
+                    if (!commentVotes.Any())
+                    {
+                        commentVotes = unitOfWork.Entities.Get(this.Entity_Id).Votes;
+                        
+                    }
+                    unitOfWork.Complete();
+                }
+                return commentVotes;
+            }
+        }
+        [NotMapped]
+        public int VotesCount
+        {
+            get
+            {
+                var votes = 0;
+                foreach (var vote in CommentVotes)
+                {
+                    if (vote.Reaction == Models.Reaction.Liked)
+                        votes++;
+                    else votes--;
 
+                }
+                return votes;
+            }
+        }
     }
 }

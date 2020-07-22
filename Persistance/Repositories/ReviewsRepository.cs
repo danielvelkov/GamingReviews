@@ -16,9 +16,14 @@ namespace GamingReviews.Models
             get { return Context as GameNewsLetterContext; }
         }
 
-        public IEnumerable<Reviews> GetLatestReviews()
+        public List<Reviews> GetLatestReviews()
         {
             return ReviewsContext.Reviews.OrderBy(a => a.Date).ToList();
+        }
+
+        public List<Reviews> GetReviewsByGameId(int Entity_id)
+        {
+            return ReviewsContext.Reviews.Where(x => x.Game_id == Entity_id).ToList();
         }
 
         // implement the methods from the used interface

@@ -31,6 +31,7 @@ namespace GamingReviews.ViewModels.Handling_Entity_Addition
         int game_id;
         byte[] articlePic;
         #endregion
+
         #region parameters
         public Articles Article
         {

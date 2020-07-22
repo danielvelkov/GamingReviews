@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -12,8 +13,8 @@ namespace GamingReviews.Models
     {
         public Entities()
         {
-            Target_Comment = new HashSet<Comments>();
-            Votes = new HashSet<Votes>();
+            Target_Comment = new ObservableCollection<Comments>();
+            Votes = new ObservableCollection<Votes>();
         }
 
         // unique and autoincremented
@@ -33,8 +34,8 @@ namespace GamingReviews.Models
         public virtual Comments Comment { get; set; }
 
         [InverseProperty("TargetEntity")]
-        public virtual HashSet<Comments> Target_Comment { get; set; }
+        public virtual ObservableCollection<Comments> Target_Comment { get; set; }
 
-        public virtual HashSet<Votes> Votes { get; set; }
+        public virtual ObservableCollection<Votes> Votes { get; set; }
     }
 }

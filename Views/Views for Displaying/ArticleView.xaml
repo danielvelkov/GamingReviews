@@ -7,6 +7,7 @@
              xmlns:views="clr-namespace:GamingReviews.Views"
              xmlns:viewsDisplay="clr-namespace:GamingReviews.Views.Views_for_Displaying"
              xmlns:models="clr-namespace:GamingReviews.Models"
+             xmlns:validate="clr-namespace:GamingReviews.Validation"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     
@@ -71,7 +72,18 @@
         <!-- Comment section of article -->
         <StackPanel Grid.Row="6" Orientation="Horizontal">
             <!-- I put some placeholder text-->
-            <TextBox  Text="{Binding CommentText,TargetNullValue=Enter a comment ...}"  MaxLength="1000" SpellCheck.IsEnabled="True" Language="en-US" AcceptsReturn="True" TextWrapping="Wrap" Width="200" MaxHeight="140" MinHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+            <TextBox MaxLength="1000" SpellCheck.IsEnabled="True" Language="en-US" AcceptsReturn="True" 
+                      TextWrapping="Wrap" Width="200" MaxHeight="140" MinHeight="40" 
+                      ScrollViewer.VerticalScrollBarVisibility="Auto" Validation.ErrorTemplate="{StaticResource validationTemplate}">
+                <TextBox.Text>
+                    <Binding Path="CommentText">
+                        <Binding.ValidationRules>
+                            <validate:TextValidation Type="Content"></validate:TextValidation>
+                        </Binding.ValidationRules>
+                        <Binding.TargetNullValue>Enter a comment</Binding.TargetNullValue>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
             <Button Command="{Binding AddComment}" ToolTip="Remember: don't be toxic!" ToolTipService.ShowDuration="5000" Content="Post" Foreground="Black" Background="Red"></Button>
         </StackPanel>
         <ListBox Grid.Row="7" ItemsSource="{Binding CommentSection}" >
@@ -166,13 +178,13 @@
                                 </StackPanel>
                             </Expander>
                             <!--vote section-->
-                            <StackPanel Grid.Row="3" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
-                                <Button Command="{Binding VoteArticle}" Width="20" Height="20" CommandParameter="{x:Static models:Reaction.Liked}" >
-                                    <Image Source="/res/Icons/VoteUpIcon.png" Width="20" Height="20"></Image>
+                            <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Command="{Binding VoteComment}" Width="20" Height="20" CommandParameter="{x:Static models:Reaction.Liked}" >
+                                    <Image Source="/res/Icons/VoteUpIcon.png" ></Image>
                                 </Button>
                                 <TextBlock Text="{Binding Votes}" MinWidth="30" FontSize="30" VerticalAlignment="Center"></TextBlock>
-                                <Button Command="{Binding VoteArticle}" Width="20" Height="20" CommandParameter="{x:Static models:Reaction.Disliked}">
-                                    <Image Source="/res/Icons/VoteUpIcon.png" Margin="0,40,0,0" Width="20">
+                                <Button Command="{Binding VoteComment}" Width="20" Height="20" CommandParameter="{x:Static models:Reaction.Disliked}">
+                                    <Image Source="/res/Icons/VoteUpIcon.png" RenderTransformOrigin="0.5,0.5" >
                                         <Image.RenderTransform>
                                             <ScaleTransform ScaleY="-1"/>
                                         </Image.RenderTransform>

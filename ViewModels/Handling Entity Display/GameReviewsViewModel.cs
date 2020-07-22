@@ -3,6 +3,7 @@ using GamingReviews.Models;
 using GamingReviews.Persistance;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -47,10 +48,11 @@ namespace GamingReviews.ViewModels.Handling_Entity_Display
 
         public GameReviewsViewModel()
         {
-            Game = this.GetCurrentGame();
+            Game = this.GetSelectedGame();
+            Reviews = new List<Reviews>();
             using(var unitOfWork= new UnitOfWork(new GameNewsLetterContext()))
             {
-                reviews = unitOfWork.Reviews.Find(x => x.Game_id == Game.Entity_id) as List<Reviews>;
+                reviews= unitOfWork.Reviews.GetReviewsByGameId(Game.Entity_id);
             }
         }
 

@@ -16,11 +16,18 @@ namespace GamingReviews.ViewModels.Handling_Entity_Display
 {
     public class ArticleViewModel:BaseViewModel
     {
+
+        public ArticleViewModel()
+        {
+            commentSection = new ObservableCollection<Comments>();
+            commentSection = Article.CommentSection;
+        }
+
         #region variables
 
         string commentText;
         string replyCommentText;
-        ObservableCollection<Comments> commentSection = new ObservableCollection<Comments>();
+        ObservableCollection<Comments> commentSection;
         int votes;
 
         #endregion
@@ -48,20 +55,7 @@ namespace GamingReviews.ViewModels.Handling_Entity_Display
         {
             get
             {
-                if (!commentSection.Any())
-                {
-                    foreach (var comm in Article.CommentSection)
-                        commentSection.Add(comm);
-                }
                 return commentSection;
-            }
-            set
-            {
-                if (commentSection != value)
-                {
-                    commentSection = value;
-                    NotifyPropertyChanged("CommentSection");
-                }
             }
         }
 
@@ -151,7 +145,6 @@ namespace GamingReviews.ViewModels.Handling_Entity_Display
         #region commands
         
         ICommand addComment;
-        //ICommand viewReplies;
         ICommand addReply;
         ICommand voteArticle;
         //ICommand voteComment;
@@ -175,6 +168,7 @@ namespace GamingReviews.ViewModels.Handling_Entity_Display
                               Comment.Entity = Entity;
                               unitofwork.Complete();
                               CommentSection.Add(Comment);
+                              CommentText = "";
                           }
                       });
                 return addComment;
@@ -198,7 +192,7 @@ namespace GamingReviews.ViewModels.Handling_Entity_Display
                             Comment.Entity = Entity;
                             unitofwork.Complete();
                             CommentSection.Where(y => y.Entity_Id == x.Entity_Id).First().CommentDiscussion.Add(Comment);
-                            NotifyPropertyChanged("CommentDiscussion");
+                            ReplyCommentText = "";
                         }
                     });
                 return addReply;

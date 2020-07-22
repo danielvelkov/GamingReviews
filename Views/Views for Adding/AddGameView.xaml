@@ -3,10 +3,63 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GamingReviews.Views.Views_for_Adding"
+             xmlns:local="clr-namespace:GamingReviews"
+             xmlns:validate="clr-namespace:GamingReviews.Validation"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition></RowDefinition>
+
+        </Grid.RowDefinitions>
+
+        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+    AncestorType={x:Type Window}}, Path=DataContext.UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.HomePageViewModel}" Content="Home" Margin="5" FontSize="25" Width="100" Background="Black" Foreground="Red"/>
+
+
+        <StackPanel Grid.Row="1" Grid.ColumnSpan="2" Grid.RowSpan="4">
+            <Label Content="Enter name of game:" HorizontalAlignment="Left" FontSize="20" Margin="20,0,0,0"></Label>
+            <TextBox Validation.ErrorTemplate="{StaticResource validationTemplate}"  Height="30" HorizontalAlignment="Stretch" FontSize="20" Margin="20,0,0,0">
+                <TextBox.Text>
+                    <Binding Path="Game.Name">
+                        <Binding.ValidationRules>
+                            <validate:TextValidation Type="Header"></validate:TextValidation>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+
+            <Label Content="Enter game summary:" HorizontalAlignment="Left" FontSize="20" Margin="20,0,0,0"></Label>
+            <TextBox  Validation.ErrorTemplate="{StaticResource validationTemplate}" TextWrapping="Wrap" Height="300" HorizontalAlignment="Stretch" FontSize="20" Margin="20,0,0,0">
+                <TextBox.Text>
+                    <Binding Path="Game.Summary">
+                        <Binding.ValidationRules>
+                            <validate:TextValidation Type="Content"></validate:TextValidation>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Button Content="Add" Command="{Binding AddGame}"
+                    FontSize="20" Width="150" Margin="8" Background="Red" Foreground="Black" ></Button>
+
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Grid.Row="1" Grid.RowSpan="4">
+            <Image Source="{Binding GamePic}" Margin="20"></Image>
+            <Button Command="{Binding SelectPicture}" Content="Choose game pic..." Width="260" FontSize="20" Margin="10" Background="Black" Foreground="Red"></Button>
+            <TextBlock Text="*must be 500x500 less than 1 mb. " Foreground="Red" FontSize="15" FontStyle="Italic" ></TextBlock>
+        </StackPanel>
+
     </Grid>
 </UserControl>

@@ -3,10 +3,209 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GamingReviews.Views.Views_for_Displaying"
+              xmlns:local="clr-namespace:GamingReviews"
+             xmlns:views="clr-namespace:GamingReviews.Views"
+             xmlns:viewsDisplay="clr-namespace:GamingReviews.Views.Views_for_Displaying"
+             xmlns:models="clr-namespace:GamingReviews.Models"
+             xmlns:validate="clr-namespace:GamingReviews.Validation"
+             xmlns:converters="clr-namespace:GamingReviews.Converters"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:VotesToInt x:Key="VotesToInt"></converters:VotesToInt>
+
+    </UserControl.Resources>
     <Grid>
-            
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition Width="0.5*"></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.7*" ></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition ></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition Height="auto"></RowDefinition>
+            <RowDefinition ></RowDefinition>
+        </Grid.RowDefinitions>
+
+        <!-- Change screen buttons -->
+        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+    AncestorType={x:Type Window}}, Path=DataContext.UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.UserPageViewModel}" Content="Profile" Grid.Row="0" Grid.Column="1" Margin="10" FontSize="25" Width="100" Background="Black" Foreground="Red"/>
+        <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, 
+    AncestorType={x:Type Window}}, Path=DataContext.UpdateViewCommand}" CommandParameter="{x:Static local:ViewModelTypes.HomePageViewModel}" Content="News Feed"  Grid.Row="0" Grid.Column="0" FontSize="25" Width="150" Background="Black" Foreground="Red"/>
+
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center">
+            <TextBlock Text="Game: " Margin="10"  FontSize="20" Foreground="Black" />
+            <TextBlock Text="{Binding Review.GameName}" Margin="10"  FontSize="20" Foreground="Black" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="2" Grid.Column="0" HorizontalAlignment="Right" VerticalAlignment="Center">
+            <TextBlock Text="Author: " Margin="10"  FontSize="20" Foreground="Black" />
+            <TextBlock Text="{Binding Review.Author}" Margin="10"  FontSize="20" Foreground="Black" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+            <TextBlock Text="Date created: " FontSize="20" Foreground="Black"></TextBlock>
+            <TextBlock Text="{Binding Review.Date}" Margin="10" FontSize="20" Foreground="Black" />
+        </StackPanel>
+
+        
+        <TextBlock Text="{Binding Review.Name}" Margin="10" Grid.Row="1" Grid.Column="0" TextWrapping="Wrap" FontSize="30" Foreground="Red" HorizontalAlignment="Center" VerticalAlignment="Bottom"/>
+
+        <Border Grid.Row="4" Grid.RowSpan="3" Grid.ColumnSpan="2" MinHeight="250" BorderBrush="Black" BorderThickness="4">
+            <TextBlock Text="{Binding Review.Content}"  FontSize="15" Foreground="Black"/>
+        </Border>
+
+        <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Command="{Binding VoteReview}" CommandParameter="{x:Static models:Reaction.Liked}" >
+                <Image Source="/res/Icons/VoteUpIcon.png" Width="20"></Image>
+            </Button>
+            <Label Content="{Binding ReviewVotes}" MinWidth="30" FontSize="30" VerticalAlignment="Center"></Label>
+            <Button Command="{Binding VoteReview}" CommandParameter="{x:Static models:Reaction.Disliked}">
+                <Image Source="/res/Icons/VoteUpIcon.png" Margin="0,40,0,0" Width="20">
+                    <Image.RenderTransform>
+                        <ScaleTransform ScaleY="-1"/>
+                    </Image.RenderTransform>
+                </Image>
+            </Button>
+        </StackPanel>
+
+        <!-- Comment section of Review -->
+        <StackPanel Grid.Row="7" Orientation="Horizontal">
+            <!-- I put some placeholder text-->
+            <TextBox MaxLength="1000" SpellCheck.IsEnabled="True" Language="en-US" AcceptsReturn="True" 
+                      TextWrapping="Wrap" Width="200" MaxHeight="140" MinHeight="40" 
+                      ScrollViewer.VerticalScrollBarVisibility="Auto" Validation.ErrorTemplate="{StaticResource validationTemplate}">
+                <TextBox.Text>
+                    <Binding Path="CommentText">
+                        <Binding.ValidationRules>
+                            <validate:TextValidation Type="Content"></validate:TextValidation>
+                        </Binding.ValidationRules>
+                        <Binding.TargetNullValue>Enter a comment</Binding.TargetNullValue>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <Button Command="{Binding AddComment}" ToolTip="Remember: don't be toxic!" ToolTipService.ShowDuration="5000" Content="Post" Foreground="Black" Background="Red"></Button>
+        </StackPanel>
+        <ListBox Grid.Row="8" ItemsSource="{Binding CommentSection}" >
+
+            <ListBox.ItemTemplate >
+                <DataTemplate DataType="{x:Type  models:Comments }">
+                    <Border BorderBrush="Red" BorderThickness="1" CornerRadius="8,8,3,3">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                <GradientStop Color="WhiteSmoke" Offset="0.0" />
+                                <GradientStop Color="DarkRed" Offset="0.5" />
+                                <GradientStop Color="Red" Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                                <ColumnDefinition Width="150"></ColumnDefinition>
+                                <ColumnDefinition Width="300"></ColumnDefinition>
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition></RowDefinition>
+                            </Grid.RowDefinitions>
+
+                            <Ellipse Grid.RowSpan="2" Width="80" Height="80">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding ProfilePic}"></ImageBrush>
+                                </Ellipse.Fill>
+                            </Ellipse>
+                            <TextBlock Text="{Binding Author}" Grid.Row="0" Grid.Column="1" ></TextBlock>
+
+                            <TextBlock Text="{Binding Date}"  Grid.Row="0" Grid.Column="2" ></TextBlock>
+
+                            <TextBlock Text="{Binding Content}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" ></TextBlock>
+                            <!--it can only go 255 levels so we need to check that (see visual msdn)-->
+                            <Expander Visibility="Visible" Header="View Replies" Grid.Row="3" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" >
+                                <ListBox ItemsSource="{Binding CommentDiscussion}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate  DataType="{x:Type  models:Comments }">
+                                            <Border BorderBrush="Red" BorderThickness="1" CornerRadius="8,8,3,3">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                                        <GradientStop Color="WhiteSmoke" Offset="0.0" />
+                                                        <GradientStop Color="DarkRed" Offset="0.5" />
+                                                        <GradientStop Color="Red" Offset="1.0" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="0.7*"></ColumnDefinition>
+                                                        <ColumnDefinition Width="150"></ColumnDefinition>
+                                                        <ColumnDefinition Width="190"></ColumnDefinition>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <Grid.RowDefinitions>
+                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                        <RowDefinition></RowDefinition>
+                                                    </Grid.RowDefinitions>
+
+                                                    <Ellipse Grid.RowSpan="2" Width="80" Height="80">
+                                                        <Ellipse.Fill>
+                                                            <ImageBrush ImageSource="{Binding ProfilePic}"></ImageBrush>
+                                                        </Ellipse.Fill>
+                                                    </Ellipse>
+                                                    <TextBlock Text="{Binding Author}" Grid.Row="0" Grid.Column="1" ></TextBlock>
+
+                                                    <TextBlock Text="{Binding Date}"  Grid.Row="0" Grid.Column="2" ></TextBlock>
+
+                                                    <TextBlock Text="{Binding Content}" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2" TextWrapping="Wrap" ScrollViewer.VerticalScrollBarVisibility="Auto" ></TextBlock>
+
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+
+                            </Expander>
+                            <Expander Header="Post reply"  Grid.Row="3" Grid.RowSpan="2" Grid.Column="2" Panel.ZIndex="1">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type viewsDisplay:ReviewView}
+                                        },Path=DataContext.ReplyCommentText}"  MaxLength="1000" SpellCheck.IsEnabled="True" Language="en-US" AcceptsReturn="True" TextWrapping="Wrap" Width="200" MaxHeight="140" MinHeight="40" ScrollViewer.VerticalScrollBarVisibility="Auto"></TextBox>
+                                    <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type viewsDisplay:ReviewView}
+                                        },Path=DataContext.AddReply}" CommandParameter="{Binding}" ToolTip="Remember: don't be toxic!" ToolTipService.ShowDuration="5000" Content="Post Reply" Foreground="Black" Background="Red"></Button>
+                                </StackPanel>
+                            </Expander>
+                            <!--vote section-->
+                            <StackPanel Grid.Row="2" Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type viewsDisplay:ReviewView}
+                                        },Path=DataContext.LikeComment}" Width="20" Height="20" CommandParameter="{Binding}" >
+                                    <Image Source="/res/Icons/VoteUpIcon.png" Width="20" Height="20"></Image>
+                                </Button>
+                                <Label Content="{Binding CommentVotes,Converter={StaticResource VotesToInt}}" MinWidth="30" FontSize="18" VerticalAlignment="Center"></Label>
+                                <Button Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type viewsDisplay:ReviewView}
+                                        },Path=DataContext.DislikeComment}" Width="20" Height="20" CommandParameter="{Binding}">
+                                    <Image Source="/res/Icons/VoteUpIcon.png" RenderTransformOrigin="0.5,0.5" >
+                                        <Image.RenderTransform>
+                                            <ScaleTransform ScaleY="-1"/>
+                                        </Image.RenderTransform>
+                                    </Image>
+                                </Button>
+                            </StackPanel>
+
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+
+        </ListBox>
+        <!-- /Comment section of Review -->
+
     </Grid>
 </UserControl>

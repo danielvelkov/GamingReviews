@@ -126,18 +126,11 @@ namespace GamingReviews.Models
             {
                 using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                 {
-                    IEnumerable<Votes> votes = unitOfWork.Entities.Get(this.Entity_Id).Votes;
+                    ObservableCollection<Votes> votes = unitOfWork.Entities.Get(this.Entity_Id).Votes;
 
                     return new ObservableCollection<Votes>(votes);
                 }
 
-            }
-            set
-            {
-                if (Votes != value)
-                {
-                    Votes = value;
-                }
             }
         }
         [NotMapped]
@@ -147,22 +140,11 @@ namespace GamingReviews.Models
             {
                 using (var unitOfWork = new UnitOfWork(new GameNewsLetterContext()))
                 {
-                    IEnumerable<Comments> comments = unitOfWork.Entities.Get(this.Entity_Id).Target_Comment;
+                    ObservableCollection<Comments> comments = unitOfWork.Entities.Get(this.Entity_Id).Target_Comment;
 
                     return new ObservableCollection<Comments>(comments);
                 }
-                    
-            }
-            set
-            {
-                if (CommentSection != value)
-                {
-                    CommentSection = value;
-                }
             }
         }
-
-        
-
     }
 }
